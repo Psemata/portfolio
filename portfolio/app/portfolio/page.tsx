@@ -1,17 +1,29 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import me from "@/public/Me.jpg";
 
 const Page = () => {
   return (
     <>
-      <main className="bg-primary">
+      <main className="bg-primary overflow-x-hidden">
         {/* Ma présentation */}
-        <section id="myself" className="min-h-screen">
-          <div>Hi ! My name is Bruno Alexandre Da Cruz Costa</div>
-          <div>
-            I&apos;m a game/web fullstack/desktop developer based in Switzerland
+        <section id="myself" className="relative h-[150vh]">
+          {/* Image de moi */}
+          <Image
+            src={me}
+            width={500}
+            alt="Picture of me"
+            className="z-0"
+          />
+          <div className="z-50">
+            <div>Hi ! My name is Bruno Alexandre Da Cruz Costa</div>
+            <div>
+              I&apos;m a game/web fullstack/desktop developer based in
+              Switzerland
+            </div>
           </div>
         </section>
 
@@ -47,15 +59,19 @@ const Page = () => {
               <div>
                 <Link
                   className={cn(
-                    "md:h-20 md:text-lg text-destructive",
-                    buttonVariants({ variant: "secondary" })
+                    "md:h-20 md:text-lg text-destructive shadow-lg",
+                    buttonVariants({ variant: "destructive" })
                   )}
                   href="mailto:bruno@dacruzcosta.ch"
                 >
                   Write me an email !
                 </Link>
               </div>
-              <div className="text-xl">or</div>
+              {/* <div className="text-xl">or</div> */}
+              <div className="relative flex flex-col justify-center items-center w-16 h-4 text-center text-destructive text-xl font-bold">
+                <span className="z-50 bg-accent p-2">or</span>
+                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-destructive z-0"></div>
+              </div>
               <div className="flex flex-row gap-4">
                 <Link href="https://github.com/Psemata">
                   <Github className="md:h-10 md:w-10 hover:text-secondary" />
@@ -66,7 +82,7 @@ const Page = () => {
               </div>
             </div>
             <div>
-              <div className="text-sm">
+              <div className="text-xs md:text-sm">
                 Designed & built by{" "}
                 <Link
                   href="https://github.com/Psemata"
