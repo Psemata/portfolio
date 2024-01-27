@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import me from "@/public/Me.jpg";
 
 const Page = () => {
   return (
@@ -11,13 +10,6 @@ const Page = () => {
       <main className="bg-primary overflow-x-hidden">
         {/* Ma présentation */}
         <section id="myself" className="relative h-[150vh]">
-          {/* Image de moi */}
-          <Image
-            src={me}
-            width={500}
-            alt="Picture of me"
-            className="z-0"
-          />
           <div className="z-50">
             <div>Hi ! My name is Bruno Alexandre Da Cruz Costa</div>
             <div>

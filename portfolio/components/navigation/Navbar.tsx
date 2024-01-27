@@ -28,12 +28,12 @@ const Navbar = () => {
   const dicesClass =
     "relative left-14 font-semibold h-5 w-5 ml-auto mr-0 animate-throwDice";
   const dicesList: ReactNode[] = [
-    <Dice1 className={dicesClass} />,
-    <Dice2 className={dicesClass} />,
-    <Dice3 className={dicesClass} />,
-    <Dice4 className={dicesClass} />,
-    <Dice5 className={dicesClass} />,
-    <Dice6 className={dicesClass} />,
+    <Dice1 key={0} className={dicesClass} />,
+    <Dice2 key={1} className={dicesClass} />,
+    <Dice3 key={2} className={dicesClass} />,
+    <Dice4 key={3} className={dicesClass} />,
+    <Dice5 key={4} className={dicesClass} />,
+    <Dice6 key={5} className={dicesClass} />,
   ];
 
   return (
