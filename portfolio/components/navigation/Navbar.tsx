@@ -24,6 +24,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 const Navbar = () => {
+  // TODO : Animer avec gsap
   // Dices icons definition
   const dicesClass =
     "relative left-14 font-semibold h-5 w-5 ml-auto mr-0 animate-throwDice";
