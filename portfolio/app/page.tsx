@@ -16,9 +16,9 @@ import Hand from "@/components/3d/Hand";
 
 const Scene = () => {
   // Board animation
-  // Rotation
   const boardRef = useRef<Mesh>(null);
-
+  
+  // Rotation
   // useFrame((state, delta) => {
   //   boardRef.current!.rotation.y = THREE.MathUtils.lerp(
   //     boardRef.current!.rotation.y,
