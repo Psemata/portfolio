@@ -1,36 +1,55 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { Mesh } from "three";
 
-{
-  /* Used to check if the element are placed correctly */
-}
+// Used to check if the element are placed correctly
 import { OrbitControls } from "@react-three/drei";
 
 // Custom mesh
 import Board from "@/components/3d/Board";
-import Hand from "@/components/3d/Hand";
+import Hand, { CardInfo } from "@/components/3d/Hand";
+import { CARD_BASE, CARD_CONFIG } from "@/lib/cardconfig";
+
+// This component is used as the Game Controller of the app => all the game logic will depart from here
+
+// Generating a number between 1 and 5 (for the card configuration)
+const generateRandomCardConfig = () => {
+  return Math.floor(Math.random() * 6);
+};
+
+// Generate a hand and their refs
+const generateRandomHand = (): CardInfo[] => {
+  const handInfos: CardInfo[] = [
+    {
+      cardBase: CARD_BASE,
+      cardConfig: CARD_CONFIG[generateRandomCardConfig()],
+    },
+    {
+      cardBase: CARD_BASE,
+      cardConfig: CARD_CONFIG[generateRandomCardConfig()],
+    },
+    {
+      cardBase: CARD_BASE,
+      cardConfig: CARD_CONFIG[generateRandomCardConfig()],
+    },
+    {
+      cardBase: CARD_BASE,
+      cardConfig: CARD_CONFIG[generateRandomCardConfig()],
+    },
+  ];
+
+  return handInfos;
+};
 
 const Scene = () => {
   // Board animation
   const boardRef = useRef<Mesh>(null);
-  
-  // Rotation
-  // useFrame((state, delta) => {
-  //   boardRef.current!.rotation.y = THREE.MathUtils.lerp(
-  //     boardRef.current!.rotation.y,
-  //     (state.pointer.x * Math.PI) / 200,
-  //     0.05
-  //   );
-  //   boardRef.current!.rotation.x = THREE.MathUtils.lerp(
-  //     boardRef.current!.rotation.x,
-  //     (state.pointer.y * Math.PI) / 200,
-  //     0.05
-  //   );
-  // });
+
+  // Hand of cards
+  const hand = generateRandomHand();
 
   // Movement
   useFrame((state, delta) => {
@@ -49,7 +68,7 @@ const Scene = () => {
   return (
     <>
       <Board ref={boardRef} />
-      <Hand />
+      <Hand handInfos={hand} />
     </>
   );
 };
