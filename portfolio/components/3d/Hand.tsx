@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Mesh } from "three";
+import React, { useEffect, useLayoutEffect } from "react";
+import { Mesh, BufferGeometry, NormalBufferAttributes } from "three";
 import Card from "./Card";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -16,6 +16,8 @@ export interface CardInfo {
 
 export interface HandProp {
   handInfos: CardInfo[];
+  handRefs: React.RefObject<Mesh>[];
+  onHandChange: (index: number) => void;
 }
 
 // Interface for the positions of the cards depending of their numbers
@@ -37,33 +39,33 @@ const CardsPositions: CardsPosition[] = [
   // 1 Card
   {
     BasePos: [
-      [-0.24, 3.95, 3.06], // Only card
+      [0, 3.95, 3.06], // Only card
     ],
     BaseRot: [
-      [-1, 0, 0.05], // Only card
+      [-1, 0, 0], // Only card
     ],
     HoverPos: [
-      [-0.25, 4, 3], // Only card
+      [0, 4, 3], // Only card
     ],
     HoverRot: [
       [-1, 0, 0], // Only card
     ],
     MoveHoverPos: [
-      [-0.25, 3.95, 3.06], // Only card
+      [0, 3.95, 3.06], // Only card
     ],
   },
   // 2 Cards
   {
     BasePos: [
-      [-0.24, 3.95, 3.06], // Left
-      [0.24, 3.95, 3.06], // Right
+      [-0.085, 3.95, 3.06], // Left
+      [0.085, 3.95, 3.06], // Right
     ],
     BaseRot: [
-      [-1, 0, 0.05], // Left
-      [-1, 0, 0], // Right
+      [-1, 0, 0.03], // Left
+      [-1, 0, -0.03], // Right
     ],
     HoverPos: [
-      [-0.25, 4, 3], // Left
+      [-0.085, 4, 3], // Left
       [0.085, 4, 3], // Right
     ],
     HoverRot: [
@@ -71,26 +73,26 @@ const CardsPositions: CardsPosition[] = [
       [-1, 0, 0], // Right
     ],
     MoveHoverPos: [
-      [-0.25, 3.95, 3.06], // Left
+      [-0.083, 3.95, 3.06], // Left
       [0.083, 3.95, 3.056], // Right
     ],
   },
   // 3 Cards
   {
     BasePos: [
-      [-0.1, 3.95, 3.06], // Left
-      [0, 3.95, 3.056], // Middle
-      [0.1, 3.95, 3.06], // Right
+      [-0.16, 3.95, 3.06], // Left
+      [0, 3.95, 3.0565], // Middle
+      [0.16, 3.95, 3.06], // Right
     ],
     BaseRot: [
       [-1, 0, 0.05], // Left
       [-1, 0, 0], // Middle
-      [-1, 0, 0.05], // Right
+      [-1, 0, -0.05], // Right
     ],
     HoverPos: [
-      [-0.25, 4, 3], // Left
-      [-0.085, 4, 3], // Middle
-      [0.085, 4, 3], // Right
+      [-0.18, 4, 3], // Left
+      [0, 4, 3], // Middle
+      [0.18, 4, 3], // Right
     ],
     HoverRot: [
       [-1, 0, 0], // Left
@@ -98,9 +100,9 @@ const CardsPositions: CardsPosition[] = [
       [-1, 0, 0], // Right
     ],
     MoveHoverPos: [
-      [-0.25, 3.95, 3.06], // Left
-      [-0.083, 3.95, 3.056], // Middle
-      [0.083, 3.95, 3.056], // Right
+      [-0.19, 3.95, 3.06], // Left
+      [0, 3.95, 3.0565], // Middle
+      [0.19, 3.95, 3.06], // Right
     ],
   },
   // 4 Cards
@@ -141,136 +143,131 @@ const CardsPositions: CardsPosition[] = [
 const UsePos: [number, number, number] = [0, 4.2, 2.8];
 const UseRot: [number, number, number] = [-1, 0, 0];
 
-const Hand = ({ handInfos }: HandProp) => {
+const Hand = ({ handInfos, handRefs, onHandChange }: HandProp) => {
   // GSAP
   const { contextSafe } = useGSAP();
 
-  // Refs of the cards
-  const refs = [
-    useRef<Mesh>(null),
-    useRef<Mesh>(null),
-    useRef<Mesh>(null),
-    useRef<Mesh>(null),
-  ];
+  // How many card left
+  const cardQuantityIndex = handInfos.length - 1;
 
-  // State of the cards, if they were used or not
-  const lives = [
-    useState<boolean>(true),
-    useState<boolean>(true),
-    useState<boolean>(true),
-    useState<boolean>(true),
-  ];
-
-  // Return the number of usable cards
-  const checkCards = (): number => {
-    let quantityAlive = 0;
-    lives.forEach((life) => {
-      if (life[0]) quantityAlive++;
-    });
-    return quantityAlive - 1;
-  };
+  let isClicked = false;
 
   // Animation when the card is hovered in by the mouse
   const HoverIn = contextSafe((index: number) => {
-    const quantityAlive = checkCards();
+    if (!isClicked) {
+      // Move the hovered card
+      gsap.to(handRefs[index].current?.position!, {
+        x: CardsPositions[cardQuantityIndex].HoverPos[index][0],
+        y: CardsPositions[cardQuantityIndex].HoverPos[index][1],
+        z: CardsPositions[cardQuantityIndex].HoverPos[index][2],
+      });
+      // Rotate the hovered card
+      gsap.to(handRefs[index].current?.rotation!, {
+        x: CardsPositions[cardQuantityIndex].HoverRot[index][0],
+        y: CardsPositions[cardQuantityIndex].HoverRot[index][1],
+        z: CardsPositions[cardQuantityIndex].HoverRot[index][2],
+      });
 
-    // Move the hovered card
-    gsap.to(refs[index].current?.position!, {
-      x: CardsPositions[quantityAlive].HoverPos[index][0],
-      y: CardsPositions[quantityAlive].HoverPos[index][1],
-      z: CardsPositions[quantityAlive].HoverPos[index][2],
-    });
-    // Rotate the hovered card
-    gsap.to(refs[index].current?.rotation!, {
-      x: CardsPositions[quantityAlive].HoverRot[index][0],
-      y: CardsPositions[quantityAlive].HoverRot[index][1],
-      z: CardsPositions[quantityAlive].HoverRot[index][2],
-    });
-
-    // Move the other cards to move them apart from the hovered one
-    for (let i = 0; i < 4; i++) {
-      // If the card exist and is not the hovered one, move it to the correct position
-      if (lives[i][0] && i != index) {
-        gsap.to(refs[i].current?.position!, {
-          x: CardsPositions[quantityAlive].MoveHoverPos[i][0],
-          y: CardsPositions[quantityAlive].MoveHoverPos[i][1],
-          z: CardsPositions[quantityAlive].MoveHoverPos[i][2],
-        });
+      // Move the other cards to move them apart from the hovered one
+      for (let i = 0; i <= cardQuantityIndex; i++) {
+        // If the card exist and is not the hovered one, move it to the correct position
+        if (handRefs[i].current && i != index) {
+          gsap.to(handRefs[i].current?.position!, {
+            x: CardsPositions[cardQuantityIndex].MoveHoverPos[i][0],
+            y: CardsPositions[cardQuantityIndex].MoveHoverPos[i][1],
+            z: CardsPositions[cardQuantityIndex].MoveHoverPos[i][2],
+          });
+        }
       }
     }
   });
 
   // Animation when the card is hovered out by the mouse
   const HoverOut = contextSafe((index: number) => {
-    const quantityAlive = checkCards();
+    if (!isClicked) {
+      // Move the hovered card to its base position
+      gsap.to(handRefs[index].current?.position!, {
+        x: CardsPositions[cardQuantityIndex].BasePos[index][0],
+        y: CardsPositions[cardQuantityIndex].BasePos[index][1],
+        z: CardsPositions[cardQuantityIndex].BasePos[index][2],
+      });
+      // Rotate the hovered card to it base rotation
+      gsap.to(handRefs[index].current?.rotation!, {
+        x: CardsPositions[cardQuantityIndex].BaseRot[index][0],
+        y: CardsPositions[cardQuantityIndex].BaseRot[index][1],
+        z: CardsPositions[cardQuantityIndex].BaseRot[index][2],
+      });
 
-    // Move the hovered card to its base position
-    gsap.to(refs[index].current?.position!, {
-      x: CardsPositions[quantityAlive].BasePos[index][0],
-      y: CardsPositions[quantityAlive].BasePos[index][1],
-      z: CardsPositions[quantityAlive].BasePos[index][2],
-    });
-    // Rotate the hovered card to it base rotation
-    gsap.to(refs[index].current?.rotation!, {
-      x: CardsPositions[quantityAlive].BaseRot[index][0],
-      y: CardsPositions[quantityAlive].BaseRot[index][1],
-      z: CardsPositions[quantityAlive].BaseRot[index][2],
-    });
-
-    // Move the other cards to move them apart from the hovered one
-    for (let i = 0; i < 4; i++) {
-      // If the card exist and is not the hovered one, move it to the correct position
-      if (lives[i][0] && i != index) {
-        gsap.to(refs[i].current?.position!, {
-          x: CardsPositions[quantityAlive].BasePos[i][0],
-          y: CardsPositions[quantityAlive].BasePos[i][1],
-          z: CardsPositions[quantityAlive].BasePos[i][2],
-        });
+      // Move the other cards to move them apart from the hovered one
+      for (let i = 0; i <= cardQuantityIndex; i++) {
+        // If the card exist and is not the hovered one, move it to the correct position
+        if (handRefs[i].current && i != index) {
+          gsap.to(handRefs[i].current?.position!, {
+            x: CardsPositions[cardQuantityIndex].BasePos[i][0],
+            y: CardsPositions[cardQuantityIndex].BasePos[i][1],
+            z: CardsPositions[cardQuantityIndex].BasePos[i][2],
+          });
+        }
       }
     }
   });
 
   // Animation and use of the card when the card is clicked
   const ClickOn = contextSafe((index: number) => {
-    gsap.to(refs[index].current?.position!, {
+    isClicked = true;
+    let nextPos = cardQuantityIndex - 1;
+    console.log(nextPos);
+    console.log(CardsPositions[nextPos])
+    console.log(handRefs)
+
+    gsap.to(handRefs[index].current?.position!, {
       x: UsePos[0],
       y: UsePos[1],
       z: UsePos[2],
     });
-    gsap.to(refs[index].current?.rotation!, {
+    
+    /// MAKE THIS WORK
+
+    // Move the other cards to move them apart from the hovered one
+    for (let i = 0; i <= cardQuantityIndex; i++) {
+      // If the card exist and is not the hovered one, move it to the correct position
+      if (handRefs[i].current && i != index) {
+        gsap.to(handRefs[i].current?.position!, {
+          x: CardsPositions[nextPos].BasePos[i][0],
+          y: CardsPositions[nextPos].BasePos[i][1],
+          z: CardsPositions[nextPos].BasePos[i][2],
+        });
+      }
+    }
+    gsap.to(handRefs[index].current?.rotation!, {
       x: UseRot[0],
       y: UseRot[1],
       z: UseRot[2],
       onComplete: () => {
         // Destroy the card
-        lives[index][1](false);
+        onHandChange(index);
 
-        // REMOVE CARD FROM PARENT, THIS WILL ALLOW THE DIFFERENT ARRAYS TO WORK AND THE LIVES ARRAY WILL BE DISCARDED
+        // TODO : Shader animation, finally do card action, animate the remaining cards to their new places
       },
     });
-
-    // TODO : Delete the card and its ref, shader animation, wait on animation before deleting component, finally do card action, reorganize hand
   });
 
   return (
     <>
-      {handInfos.map(
-        (ci, index) =>
-          lives[index][0] && (
-            <Card
-              ref={refs[index]}
-              key={index}
-              index={index}
-              cardBase={ci.cardBase}
-              cardConfig={ci.cardConfig}
-              position={CardsPositions[checkCards()].BasePos[index]}
-              rotation={CardsPositions[checkCards()].BaseRot[index]}
-              hoverIn={HoverIn}
-              hoverOut={HoverOut}
-              clickOn={ClickOn}
-            />
-          )
-      )}
+      {handInfos.map((ci, index) => (
+        <Card
+          ref={handRefs[index]}
+          key={index}
+          index={index}
+          cardBase={ci.cardBase}
+          cardConfig={ci.cardConfig}
+          position={CardsPositions[cardQuantityIndex].BasePos[index]}
+          rotation={CardsPositions[cardQuantityIndex].BaseRot[index]}
+          hoverIn={HoverIn}
+          hoverOut={HoverOut}
+          clickOn={ClickOn}
+        />
+      ))}
     </>
   );
 };

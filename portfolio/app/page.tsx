@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { Mesh } from "three";
@@ -48,8 +48,20 @@ const Scene = () => {
   // Board animation
   const boardRef = useRef<Mesh>(null);
 
-  // Hand of cards
-  const hand = generateRandomHand();
+  // Hand of cards and their refs
+  const [hand, setHand] = useState(generateRandomHand());
+  const [refs, setRefs] = useState([
+    useRef<Mesh>(null),
+    useRef<Mesh>(null),
+    useRef<Mesh>(null),
+    useRef<Mesh>(null),
+  ]);
+
+  // When a card is used, remove the card from the hand
+  const onHandChange = (index: number) => {
+    setHand(hand.filter((_, i) => i != index));
+    setRefs(refs.filter((_, i) => _ != null));
+  };
 
   // Movement
   useFrame((state, delta) => {
@@ -68,7 +80,7 @@ const Scene = () => {
   return (
     <>
       <Board ref={boardRef} />
-      <Hand handInfos={hand} />
+      <Hand handInfos={hand} handRefs={refs} onHandChange={onHandChange} />
     </>
   );
 };
