@@ -1,28 +1,31 @@
-import { buttonVariants } from "@/components/ui/button";
+"use client";
+
 import { cn } from "@/lib/utils";
-import { Github, Linkedin } from "lucide-react";
+
 import Link from "next/link";
-import Image from "next/image";
+import { buttonVariants } from "@/components/ui/button";
+
+import { Github, Linkedin } from "lucide-react";
+
+import Presentation from "@/components/3d/Presentation";
+import TimeLine from "@/components/common/TimeLine";
 
 const Page = () => {
   return (
     <>
       <main className="bg-primary overflow-x-hidden">
-        {/* Ma présentation */}
-        <section id="myself" className="relative h-[150vh]">
-          <div className="z-50">
-            <div>Hi ! My name is Bruno Alexandre Da Cruz Costa</div>
-            <div>
-              I&apos;m a game/web fullstack/desktop developer based in
-              Switzerland
-            </div>
-          </div>
+        {/* My presentation */}
+        <section id="myself" className="relative h-[145vh]">
+          <Presentation />
         </section>
 
-        {/* Mon parcours */}
-        <section id="path" className="min-h-screen">
-          <div>Sup 2</div>
-          <div>Sup 2</div>
+        {/* Mon parcours bg-[#C0AE8F] */}
+        <section
+          id="path"
+          className="min-h-screen bg-gradient-to-b from-[#C0AE8F] to-primary"
+        >
+          To better understand me, here's my path and where I am in life today
+          <TimeLine></TimeLine>
         </section>
 
         {/* Mes passions */}
@@ -59,7 +62,6 @@ const Page = () => {
                   Write me an email !
                 </Link>
               </div>
-              {/* <div className="text-xl">or</div> */}
               <div className="relative flex flex-col justify-center items-center w-16 h-4 text-center text-destructive text-xl font-bold">
                 <span className="z-50 bg-accent p-2">or</span>
                 <div className="absolute top-1/2 left-0 w-full h-0.5 bg-destructive z-0"></div>

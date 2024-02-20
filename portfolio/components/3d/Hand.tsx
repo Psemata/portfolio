@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect } from "react";
-import { Mesh, BufferGeometry, NormalBufferAttributes } from "three";
+import React from "react";
+import { Mesh } from "three";
 import Card from "./Card";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -17,7 +17,7 @@ export interface CardInfo {
 export interface HandProp {
   handInfos: CardInfo[];
   handRefs: React.RefObject<Mesh>[];
-  onHandChange: (index: number) => void;
+  onCardUsed: (index: number) => void;
 }
 
 // Interface for the positions of the cards depending of their numbers
@@ -74,7 +74,7 @@ const CardsPositions: CardsPosition[] = [
     ],
     MoveHoverPos: [
       [-0.083, 3.95, 3.06], // Left
-      [0.083, 3.95, 3.056], // Right
+      [0.083, 3.95, 3.06], // Right
     ],
   },
   // 3 Cards
@@ -143,7 +143,7 @@ const CardsPositions: CardsPosition[] = [
 const UsePos: [number, number, number] = [0, 4.2, 2.8];
 const UseRot: [number, number, number] = [-1, 0, 0];
 
-const Hand = ({ handInfos, handRefs, onHandChange }: HandProp) => {
+const Hand = ({ handInfos, handRefs, onCardUsed }: HandProp) => {
   // GSAP
   const { contextSafe } = useGSAP();
 
@@ -216,38 +216,44 @@ const Hand = ({ handInfos, handRefs, onHandChange }: HandProp) => {
   const ClickOn = contextSafe((index: number) => {
     isClicked = true;
     let nextPos = cardQuantityIndex - 1;
-    console.log(nextPos);
-    console.log(CardsPositions[nextPos])
-    console.log(handRefs)
 
     gsap.to(handRefs[index].current?.position!, {
       x: UsePos[0],
       y: UsePos[1],
       z: UsePos[2],
     });
-    
-    /// MAKE THIS WORK
 
-    // Move the other cards to move them apart from the hovered one
+    // TODO : Bug lors de l'utilisation de la première carte => les rotations ne sont pas bien appliquées
+
+    // Move the other cards to their next base position
+    let count = 0;
+
     for (let i = 0; i <= cardQuantityIndex; i++) {
-      // If the card exist and is not the hovered one, move it to the correct position
       if (handRefs[i].current && i != index) {
         gsap.to(handRefs[i].current?.position!, {
-          x: CardsPositions[nextPos].BasePos[i][0],
-          y: CardsPositions[nextPos].BasePos[i][1],
-          z: CardsPositions[nextPos].BasePos[i][2],
+          x: CardsPositions[nextPos].BasePos[count][0],
+          y: CardsPositions[nextPos].BasePos[count][1],
+          z: CardsPositions[nextPos].BasePos[count][2],
         });
+        gsap.to(handRefs[i].current?.rotation!, {
+          x: CardsPositions[nextPos].BaseRot[count][0],
+          y: CardsPositions[nextPos].BaseRot[count][1],
+          z: CardsPositions[nextPos].BaseRot[count][2],
+        });
+        count++;
       }
     }
+
     gsap.to(handRefs[index].current?.rotation!, {
       x: UseRot[0],
       y: UseRot[1],
       z: UseRot[2],
       onComplete: () => {
+        // TODO : Shader animation, finally do card action
+        
         // Destroy the card
-        onHandChange(index);
-
-        // TODO : Shader animation, finally do card action, animate the remaining cards to their new places
+        onCardUsed(index);
+        isClicked = false;
       },
     });
   });

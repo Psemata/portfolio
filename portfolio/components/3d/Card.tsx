@@ -20,10 +20,10 @@ interface CardProp {
 
 const Card = React.forwardRef<Mesh, CardProp>((props, ref) => (
   <mesh
+    ref={ref}
+    scale={0.4}
     position={props.position}
     rotation={props.rotation}
-    scale={0.4}
-    ref={ref}
     onPointerEnter={(e) => props.hoverIn(props.index)}
     onPointerLeave={(e) => props.hoverOut(props.index)}
     onClick={(e) => props.clickOn(props.index)}
