@@ -34,6 +34,7 @@ interface CardsPosition {
   MoveHoverPos: [number, number, number][];
 }
 
+// INTO A CONFIG FILE
 // All the cards positions
 const CardsPositions: CardsPosition[] = [
   // 1 Card
