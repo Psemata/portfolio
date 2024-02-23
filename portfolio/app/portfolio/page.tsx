@@ -19,7 +19,7 @@ const Page = () => {
           <Presentation />
         </section>
 
-        {/* Mon parcours bg-[#C0AE8F] */}
+        {/* Mon parcours */}
         <section
           id="path"
           className="min-h-screen bg-gradient-to-b from-[#C0AE8F] to-primary"

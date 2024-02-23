@@ -3,15 +3,10 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-import { Circle, LucideProps } from "lucide-react";
+import { Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface TimeEventProp {
-  order: number;
-  side: boolean;
-  title: string;
-  content: string;
-}
+import { TimeEventProp } from "@/types/path";
 
 const TimeEvent = ({ order, side, title, content }: TimeEventProp) => {
   // GSAP & animations

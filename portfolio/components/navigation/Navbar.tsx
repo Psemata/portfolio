@@ -18,7 +18,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { PORTFOLIO_NAV } from "@/lib/navigationconfig";
+import { PORTFOLIO_NAV } from "@/config/navigationconfig";
 import NavigationLink from "./NavigationLink";
 import Link from "next/link";
 import { ReactNode } from "react";

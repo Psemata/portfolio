@@ -2,22 +2,9 @@ import React from "react";
 import { Mesh } from "three";
 import { Text } from "@react-three/drei";
 
-import { CARD_BASE, CARD_CONFIG } from "@/lib/cardconfig";
+import { CardProp } from "@/types/hand";
 
-type CardBase = typeof CARD_BASE;
-type CardConfig = (typeof CARD_CONFIG)[number];
-
-interface CardProp {
-  index: number;
-  position: [number, number, number];
-  rotation: [number, number, number];
-  cardBase: CardBase;
-  cardConfig: CardConfig;
-  hoverIn: (index: number) => void;
-  hoverOut: (index: number) => void;
-  clickOn: (index: number) => void;
-}
-
+// A card to be used in the game
 const Card = React.forwardRef<Mesh, CardProp>((props, ref) => (
   <mesh
     ref={ref}
