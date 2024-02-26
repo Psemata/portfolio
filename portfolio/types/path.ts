@@ -1,6 +1,8 @@
+// Type for the timeline path
 export interface TimeEventProp {
   order: number;
-  side: boolean;
   title: string;
   content: string;
+  current: number;
+  changePathText: (newPathText: string, order: number) => void;
 }

@@ -14,8 +14,8 @@ import { BoardAnimationHandle, Cell, Maze } from "@/types/board";
 import { CardInfo } from "@/types/hand";
 
 // Custom component - 3D Meshes
-import Board from "@/components/3d/Board";
-import Hand from "@/components/3d/Hand";
+import Board from "@/components/game/3d/Board";
+import Hand from "@/components/game/3d/Hand";
 
 // This component is used as the Game Controller of the app => all the game logic will depart from here
 
@@ -373,11 +373,7 @@ const Scene = () => {
         playerHeal={playerHeal}
         ref={boardRef}
       />
-      <Hand
-        handInfos={hand}
-        onCardUsed={onCardUsed}
-        handRefs={refs}
-      />
+      <Hand handInfos={hand} onCardUsed={onCardUsed} handRefs={refs} />
     </>
   );
 };
@@ -391,7 +387,7 @@ const Page = () => {
         shadows={true}
       >
         {/* Used to check if the element are placed correctly */}
-        <OrbitControls />
+        {/* <OrbitControls /> */}
 
         {/* Lights */}
         <ambientLight intensity={0.3} color={0xa3a3a3}></ambientLight>

@@ -55,6 +55,12 @@ const config = {
       },
       fontFamily: {
         portfolio: ["Monaco", "Menlo", "Consolas", "Courier New", "monospace"],
+        portfolio_satoshi_M: [
+          "SatoshiM",
+        ],
+        portfolio_satoshi_R: [
+          "SatoshiR",
+        ],
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -3,7 +3,6 @@ import { CARD_BASE, CARD_CONFIG } from "@/config/cardconfig";
 
 // Hand Config
 // All hand and cards types for the Hand and Card components
-
 type CardBase = typeof CARD_BASE;
 type CardConfig = (typeof CARD_CONFIG)[number];
 
@@ -25,6 +24,7 @@ export interface CardInfo {
   cardConfig: CardConfig;
 }
 
+// Hand props given to the hand
 export interface HandProp {
   handInfos: CardInfo[];
   handRefs: React.RefObject<Mesh>[];

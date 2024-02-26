@@ -1,3 +1,5 @@
+// Card config
+// Type of the card
 export enum CardType {
   Attack,
   Shield,
@@ -8,11 +10,13 @@ export enum CardType {
   Right,
 }
 
+// Base of the card
 export const CARD_BASE = {
   mesh: "",
   backTexture: "",
 };
 
+// Config of the card type
 export const CARD_CONFIG = [
   {
     cardType: CardType.Attack,

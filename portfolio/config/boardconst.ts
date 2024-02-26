@@ -1,4 +1,3 @@
-
 // Const values for the board and the maze
 
 // Width and height of the board

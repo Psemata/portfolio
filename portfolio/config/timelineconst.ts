@@ -2,38 +2,36 @@
 export const TimeLineInfo = [
   {
     order: 0,
-    side: false,
-    title: "École secondaire",
-    content: "Ceci est du contenu",
+    title: "Secondary School",
+    content:
+      "I attended St-Imier secondary school in Bernese Jura, Switzerland. Since childhood, I've been passionate about video games, sparking my curiosity about future career paths. Initially torn between Character Designer, Video Game Creator, Cook, Historian, or Archaeologist, I ultimately chose computer science.",
   },
   {
     order: 1,
-    side: true,
-    title: "CEFF Industrie",
-    content: "Ceci est du contenu",
+    title: "CEFF Industry",
+    content:
+      "Driven by my passion for video games, I chose to study computer science to develop games and programs, my aim being to create. Despite my lack of fascination with computer theory, I persevered with my studies. That's how I got my first degree in computer science.",
   },
   {
     order: 2,
-    side: false,
     title: "HE-Arc",
-    content: "Ceci est du contenu",
+    content:
+      "To complete my education, I pursued a bachelor's degree in computer science. However, it was during my time at HE-Arc that I discovered my passion lay not in computers themselves, but in the creative possibilities they offered. Through programming, I found the ability to craft various projects such as video games, interactive platforms, and websites. This joy of creation became evident throughout my bachelor's final work.",
   },
   {
     order: 3,
-    side: true,
-    title: "Service Civil",
-    content: "Ceci est du contenu",
+    title: "Civil Service",
+    content:
+      "As a Swiss citizen, I fulfilled my mandatory military or civil service obligation, opting to contribute to the country through beneficial work upon completing my bachelor's degree. Divided into two parts, my civil service involved serving as a webmaster for 9 months at the non-profit foundation ISSKA, followed by a 3-month stint as a receptionist at the Dürrenmatt Center in Neuchâtel. These experiences provided valuable insights into the type of future I desired.",
   },
   {
     order: 4,
-    side: false,
     title: "CDM",
-    content: "Ceci est du contenu",
+    content: "Following my civil service, I joined my father's company, CDM, as a web developer. In this role, I developed an application designed to handle various aspects of business management, including employee management, time tracking, estimating, and invoicing.",
   },
   {
     order: 5,
-    side: true,
-    title: "?",
-    content: "Ceci est du contenu",
+    title: "Next Adventures",
+    content: "I am now seeking to enhance my skill set and evolve into a proficient creator capable of bringing my visions to life and sharing them with the world. I'm waiting to see what next steps will take me forward.",
   },
 ];

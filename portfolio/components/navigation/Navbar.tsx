@@ -24,7 +24,6 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 const Navbar = () => {
-  // TODO : Animer avec gsap
   // Dices icons definition
   const dicesClass =
     "relative left-14 font-semibold h-5 w-5 ml-auto mr-0 animate-throwDice";
@@ -48,7 +47,6 @@ const Navbar = () => {
               </SheetTrigger>
               <SheetContent className="flex flex-col h-full bg-primary text-accent">
                 <SheetHeader className="flex items-center justify-center sm:text-center text-destructive">
-                  {/* TODO : Remplacer par ma propre icone */}
                   <SheetTitle>
                     <Dices className="w-14 h-14" />
                   </SheetTitle>

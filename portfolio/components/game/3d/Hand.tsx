@@ -90,6 +90,7 @@ const Hand = ({ handInfos, handRefs, onCardUsed }: HandProp) => {
     });
 
     // TODO : Bug lors de l'utilisation de la première carte => les rotations ne sont pas bien appliquées
+    // TODO : Double click sur une carte de temps en temps
 
     // Move the other cards to their next base position
     let count = 0;

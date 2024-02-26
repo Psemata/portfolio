@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 
 import { Github, Linkedin } from "lucide-react";
 
-import Presentation from "@/components/3d/Presentation";
+import Presentation from "@/components/common/3d/Presentation";
 import TimeLine from "@/components/common/TimeLine";
 
 const Page = () => {
@@ -24,7 +24,9 @@ const Page = () => {
           id="path"
           className="min-h-screen bg-gradient-to-b from-[#C0AE8F] to-primary"
         >
-          To better understand me, here's my path and where I am in life today
+          <div className="text-5xl font-medium font-portfolio_satoshi_M text-destructive ml-8">
+            To better understand me, here's my path and where I am in life today
+          </div>
           <TimeLine></TimeLine>
         </section>
 
