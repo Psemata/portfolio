@@ -2,25 +2,55 @@ import { useRef } from "react";
 
 import * as THREE from "three";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Mesh } from "three";
 import { Text } from "@react-three/drei";
 
 const PresentationText = () => {
+  const { viewport } = useThree();
+
+  // Function calculated to put to 0.2 at 1920, and at 0.1 with an iphone pro max
+  const scale = viewport.width * 0.012 + 0.07;
+  // Font of the text
+  let font = "/fonts/Satoshi-Medium.ttf";
+  // Positions of the text
+  let positionFirst: THREE.Vector3 = new THREE.Vector3(-1.3, 1, 1);
+  // Change the font of the text to make it more visible
+  if (viewport.width < 8) {
+    font = "/fonts/Satoshi-Bold.ttf";
+    if (viewport.width < 3) {
+      positionFirst = new THREE.Vector3(-1.1, 1, 1);
+    }
+  }
+
   return (
     <>
       {/* Content of the scene */}
-      <Text position={[-1.8, 1.4, 1]} scale={0.2} anchorX="left" color="white">
-        Hi ! My name is Bruno Alexandre Da Cruz Costa.
-      </Text>
-      <Text position={[-1.8, 1, 1]} scale={0.2} anchorX="left" color="white">
-        I&apos;m a game/web fullstack/desktop developer based in Switzerland.
+      <Text
+        position={positionFirst}
+        scale={scale}
+        anchorX="left"
+        color="#113946"
+        font={font}
+      >
+        Hi ! My name is {viewport.width < 3 ? "\n" : ""}Bruno Alexandre Da Cruz
+        Costa.{"\n"}I&apos;m a game/web fullstack/desktop developer{" "}
+        {viewport.width < 3 ? "\n" : ""}based{" "}
+        {viewport.width < 9 && viewport.width > 3 ? "\n" : ""}in Switzerland.
       </Text>
     </>
   );
 };
 
 const CardPhoto = () => {
+  const { viewport } = useThree();
+
+  // X coordinates function for the Card and the decorations
+  const cardPositioningX = viewport.width * -0.2535 - 0.2545;
+  const playerPositioningX = viewport.width * -0.3347 - 0.216;
+  const treasurePositioningX = viewport.width * -0.2231 + 0.856;
+  const ennemyPositioningX = viewport.width * -0.2231 + 1.156;
+
   // Photo card animation
   const photoCard = useRef<Mesh>(null);
 
@@ -41,27 +71,34 @@ const CardPhoto = () => {
   return (
     <>
       {/* Myself in a card */}
-      <mesh ref={photoCard} position={[-3.5, 1.2, 0]}>
+      <mesh ref={photoCard} position={[cardPositioningX, 1.2, 0]}>
         <boxGeometry args={[2.4, 4, 0.001]} />
         <meshStandardMaterial color={"tan"} />
       </mesh>
+
       {/* All the elements from the board game, decorating the exterior of the card */}
-      <mesh position={[-4.5, -0.6, 0.5]} rotation={[0, 0.5, 0]}>
+      {/* Player */}
+      <mesh position={[playerPositioningX, -0.6, 0.5]} rotation={[0, 0.5, 0]}>
         <boxGeometry args={[0.5, 0.5, 0.5]} />
         <meshStandardMaterial color={"white"} />
       </mesh>
-      <mesh position={[-2, -0.6, 0.5]}>
+
+      {/* Treasure */}
+      <mesh position={[treasurePositioningX, -0.6, 0.5]}>
         <sphereGeometry args={[0.25, 16, 16]} />
         <meshStandardMaterial color={"white"} />
       </mesh>
-      <mesh position={[-1.7, -0.5, 0.3]}>
+
+      {/* Ennemy */}
+      <mesh position={[ennemyPositioningX, -0.5, 0.3]}>
         <coneGeometry args={[0.2, 0.5, 16]} />
         <meshStandardMaterial color={"white"} />
       </mesh>
+
       {/* Ground for shadows and into a shading */}
       <mesh position={[0, -1, 0]}>
-        <boxGeometry args={[50, 0.0001, 50]} />
-        <meshStandardMaterial color={0xBCA380} />
+        <boxGeometry args={[60, 0.0001, 60]} />
+        <meshStandardMaterial color={0xbca380} />
       </mesh>
     </>
   );

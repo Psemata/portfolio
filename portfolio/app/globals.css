@@ -6,52 +6,52 @@
 /* Satoshi fonts */
 @font-face {
   font-family: "SatoshiBl";
-  src: url("../public/fonts/Satoshi-Black.otf") format("opentype");
+  src: url("../public/fonts/Satoshi-Black.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SatoshiBlI";
-  src: url("../public/fonts/Satoshi-BlackItalic.otf") format("opentype");
+  src: url("../public/fonts/Satoshi-BlackItalic.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SatoshiB";
-  src: url("../public/fonts/Satoshi-Bold.otf") format("opentype");
+  src: url("../public/fonts/Satoshi-Bold.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SatoshiBI";
-  src: url("../public/fonts/Satoshi-BoldItalic.otf") format("opentype");
+  src: url("../public/fonts/Satoshi-BoldItalic.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SatoshiI";
-  src: url("../public/fonts/Satoshi-Italic.otf") format("opentype");
+  src: url("../public/fonts/Satoshi-Italic.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SatoshiL";
-  src: url("../public/fonts/Satoshi-Light.otf") format("opentype");
+  src: url("../public/fonts/Satoshi-Light.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SatoshiLI";
-  src: url("../public/fonts/Satoshi-LightItalic.otf") format("opentype");
+  src: url("../public/fonts/Satoshi-LightItalic.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SatoshiM";
-  src: url("../public/fonts/Satoshi-Medium.otf") format("opentype");
+  src: url("../public/fonts/Satoshi-Medium.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SatoshiMI";
-  src: url("../public/fonts/Satoshi-MediumItalic.otf") format("opentype");
+  src: url("../public/fonts/Satoshi-MediumItalic.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SatoshiR";
-  src: url("../public/fonts/Satoshi-Regular.otf") format("opentype");
+  src: url("../public/fonts/Satoshi-Regular.ttf") format("truetype");
 }
 
 @layer base {
