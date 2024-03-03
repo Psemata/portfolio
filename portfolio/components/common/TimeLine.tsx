@@ -20,10 +20,10 @@ const TimeLine = () => {
   // States for the current path step
   const [pathText, setPathText] = useState<React.JSX.Element[]>([]);
   const [current, setCurrent] = useState(-1);
-  const [topPositionClass, setTopPositionClass] =
-    useState<string>("top-[-9%]");
+  const [topPositionClass, setTopPositionClass] = useState<string>("top-[-9%]");
 
   // Top position class
+  // TODO : Changer cette horreur
   const responsivePositionCalc = (step: number) => {
     switch (step) {
       case 0: {
@@ -101,7 +101,7 @@ const TimeLine = () => {
       <div
         ref={textRef}
         className={cn(
-          "w-[55%] mb-auto mr-5 ml-auto py-5 relative flex flex-col justify-start items-center bg-destructive rounded-xl shadow-2xl text-white text-sm invisible opacity-0 md:top-0 md:justify-center md:items-center md:mb-32 md:ml-0 md:mr-0 md:py-0 md:w-[50%] md:h-2/3 md:text-lg lg:text-xl",
+          "w-[55%] mb-auto mr-5 ml-auto py-5 relative flex flex-col justify-start items-center bg-destructive rounded-xl shadow-2xl text-white text-sm invisible opacity-0 md:top-0 md:justify-center md:items-center md:mb-32 md:ml-0 md:mr-0 md:py-10 md:w-[50%] md:text-base",
           topPositionClass
         )}
       >
@@ -120,6 +120,7 @@ const TimeLine = () => {
             />
           );
         })}
+        {/* TODO : Changer le positionnement des rectangles faisant la transparence */}
         <div className="absolute z-10  top-0 w-1 h-20 bg-gradient-to-b from-[#C0AE8F] to-transparent md:hidden" />
         <div className="absolute z-0 top-0 bg-destructive w-1 h-full md:top-1/2 md:w-full md:h-1 md:flex-grow" />
         <div className="absolute z-10 top-[92%] w-1 h-20 bg-gradient-to-b from-transparent to-primary md:hidden" />
