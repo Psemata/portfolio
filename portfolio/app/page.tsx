@@ -192,7 +192,7 @@ const Scene = () => {
   const playerHeal = (maze: Maze): void => {};
 
   // Hand configs
-  // Generating a number between 1 and 7 (for the card configuration)
+  // Generating a number between 1 and 7 (for the card configuration) (1 and 7 compris)
   const generateRandomCardConfig = () => {
     return Math.floor(Math.random() * 7);
   };
@@ -228,7 +228,6 @@ const Scene = () => {
   let mainMaze = useRef(generateMaze(5, 5, 3, 3));
 
   // Hand of cards and their refs
-  // const [hand, setHand] = useState(generateRandomHand());
   let hand = useRef(generateRandomHand());
   let refs = [
     useRef<Mesh>(null),
@@ -238,11 +237,11 @@ const Scene = () => {
   ];
 
   // Play a card
-  const playCard = (actionType: CardType, maze: Maze) => {
+  const playCard = (actionType: CardType, maze: Maze, index: number) => {
     // Position of the player (x is 1st and y is 2nd)
     const playerPosition = findPlayer(maze);
 
-    // TODO : Dice throw here
+    // TODO : Show dice result
     const diceThrow = Math.floor(Math.random() * 4 + 1);
 
     switch (actionType) {
@@ -336,22 +335,16 @@ const Scene = () => {
         break;
       }
     }
+
+    // Use the card and update the hand
+    hand.current = hand.current.filter((_, i) => i != index);
+    refs = refs.filter((_, i) => i != index);
   };
 
   // When a card is used, remove the card from the hand
   const onCardUsed = (index: number) => {
-    console.log(refs);
-    console.log(hand);
     // Use the card on the board
-    playCard(hand.current[index].cardConfig.cardType, mainMaze.current);
-
-    // Use the card and update the hand
-    // setHand(hand.filter((_, i) => i != index));
-    hand.current = hand.current.filter((_, i) => i != index);
-    refs = refs.filter((_, i) => i != index);
-
-    console.log(refs);
-    console.log(hand);
+    playCard(hand.current[index].cardConfig.cardType, mainMaze.current, index);
   };
 
   // Movement of the board on the mouse movements

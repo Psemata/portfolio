@@ -277,7 +277,6 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 </mesh>
               );
             }
-
             // Treasures
             if (cell.treasure) {
               cells.push(
@@ -290,7 +289,6 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 </mesh>
               );
             }
-
             // Ennemies
             if (cell.ennemy) {
               cells.push(

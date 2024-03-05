@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { useMutex } from "react-context-mutex";
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 import Card from "./Card";
-import { HandProp } from "@/types/hand";
+import { CardVisibility, HandProp } from "@/types/hand";
 
 import { CardsPositions, UsePos, UseRot } from "@/config/handconst";
 
 const Hand = ({ handInfos, handRefs, onCardUsed }: HandProp) => {
+  // Mutex
+  const MutexRunner = useMutex();
+  const mutex = new MutexRunner("clickOnCard");
+
   // GSAP
   const { contextSafe } = useGSAP();
+
+  const generateVisibility = (): CardVisibility[] => {
+    return handInfos.map((card, i) => {
+      return { card: card, visibility: true };
+    });
+  };
+
+  // Visibility state
+  const [cardVis, setCardVis] = useState(generateVisibility());
 
   // How many card left
   const cardQuantityIndex = handInfos.length - 1;
@@ -80,54 +95,75 @@ const Hand = ({ handInfos, handRefs, onCardUsed }: HandProp) => {
 
   // Animation and use of the card when the card is clicked
   const ClickOn = contextSafe((index: number) => {
-    isClicked = true;
-    let nextPos = cardQuantityIndex - 1;
+    mutex.run(async () => {
+      mutex.lock();
+      try {
+        if (!isClicked) {
+          isClicked = true;
+          let nextPos = cardQuantityIndex - 1;
 
-    gsap.to(handRefs[index].current?.position!, {
-      x: UsePos[0],
-      y: UsePos[1],
-      z: UsePos[2],
-    });
+          gsap.to(handRefs[index].current?.position!, {
+            x: UsePos[0],
+            y: UsePos[1],
+            z: UsePos[2],
+          });
 
-    // TODO : Bug lors de l'utilisation de la première carte => les rotations ne sont pas bien appliquées
-    // TODO : Double click sur une carte de temps en temps
+          // TODO : Bug lors de l'utilisation de la première carte => les rotations ne sont pas bien appliquées
+          // TODO : Double click sur une carte de temps en temps
 
-    // Move the other cards to their next base position
-    let count = 0;
+          // Move the other cards to their next base position
+          let count = 0;
 
-    for (let i = 0; i <= cardQuantityIndex; i++) {
-      if (handRefs[i].current && i != index) {
-        gsap.to(handRefs[i].current?.position!, {
-          x: CardsPositions[nextPos].BasePos[count][0],
-          y: CardsPositions[nextPos].BasePos[count][1],
-          z: CardsPositions[nextPos].BasePos[count][2],
-        });
-        gsap.to(handRefs[i].current?.rotation!, {
-          x: CardsPositions[nextPos].BaseRot[count][0],
-          y: CardsPositions[nextPos].BaseRot[count][1],
-          z: CardsPositions[nextPos].BaseRot[count][2],
-        });
-        count++;
+          for (let i = 0; i <= cardQuantityIndex; i++) {
+            if (handRefs[i].current && i != index) {
+              gsap.to(handRefs[i].current?.position!, {
+                x: CardsPositions[nextPos].BasePos[count][0],
+                y: CardsPositions[nextPos].BasePos[count][1],
+                z: CardsPositions[nextPos].BasePos[count][2],
+              });
+              gsap.to(handRefs[i].current?.rotation!, {
+                x: CardsPositions[nextPos].BaseRot[count][0],
+                y: CardsPositions[nextPos].BaseRot[count][1],
+                z: CardsPositions[nextPos].BaseRot[count][2],
+              });
+              count++;
+            }
+          }
+
+          gsap.to(handRefs[index].current?.rotation!, {
+            x: UseRot[0],
+            y: UseRot[1],
+            z: UseRot[2],
+            onComplete: () => {
+              // TODO : Shader animation, finally do card action
+
+              // Destroy the card
+              onCardUsed(index);
+
+              // TODO : Problème d'index
+              const updateCardVis = cardVis.map((cardV, i) => {
+                if (i == index) {
+                  return { ...cardV, visibility: false };
+                }
+                return cardV;
+              });
+
+              setCardVis(updateCardVis);
+
+              isClicked = false;
+            },
+          });
+        }
+        mutex.unlock();
+      } catch (e) {
+        mutex.unlock();
       }
-    }
-
-    gsap.to(handRefs[index].current?.rotation!, {
-      x: UseRot[0],
-      y: UseRot[1],
-      z: UseRot[2],
-      onComplete: () => {
-        // TODO : Shader animation, finally do card action
-
-        // Destroy the card
-        onCardUsed(index);
-        isClicked = false;
-      },
     });
   });
 
   return (
     <>
-      {handInfos.map((ci, index) => (
+      {/* {handInfos.map((ci, index) => (
         <Card
           ref={handRefs[index]}
           key={index}
@@ -140,7 +176,24 @@ const Hand = ({ handInfos, handRefs, onCardUsed }: HandProp) => {
           hoverOut={HoverOut}
           clickOn={ClickOn}
         />
-      ))}
+      ))} */}
+      {cardVis.map(
+        (cv, index) =>
+          cv.visibility && (
+            <Card
+              ref={handRefs[index]}
+              key={index}
+              index={index}
+              cardBase={cv.card.cardBase}
+              cardConfig={cv.card.cardConfig}
+              position={CardsPositions[cardQuantityIndex].BasePos[index]}
+              rotation={CardsPositions[cardQuantityIndex].BaseRot[index]}
+              hoverIn={HoverIn}
+              hoverOut={HoverOut}
+              clickOn={ClickOn}
+            />
+          )
+      )}
     </>
   );
 };
