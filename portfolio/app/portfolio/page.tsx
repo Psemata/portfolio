@@ -1,12 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-
-import { Github, Linkedin } from "lucide-react";
-
 import Presentation from "@/components/common/3d/Presentation";
 import TimeLine from "@/components/common/TimeLine";
 import PassionList from "@/components/common/PassionList";
@@ -31,7 +24,7 @@ const Page = () => {
         {/* My path */}
         <section
           id="path"
-          className="min-h-screen bg-gradient-to-b from-[#C0AE8F] to-primary md:h-[50vh]"
+          className="min-h-screen bg-gradient-to-b from-[#C0AE8F] to-primary md:h-[95vh] md:min-h-max md:mb-36"
         >
           <div className="text-xl ml-1 font-medium font-portfolio_satoshi_Bl text-destructive md:ml-3 md:text-5xl">
             To better understand me, here's my path and where I am in life today
@@ -40,7 +33,7 @@ const Page = () => {
         </section>
 
         {/* My passions */}
-        <section id="passions" className="min-h-screen mb-20">
+        <section id="passions" className="min-h-screen mb-28">
           <div className="text-xl ml-1 mb-20 font-medium font-portfolio_satoshi_Bl text-destructive md:ml-3 md:text-5xl">
             And this is what I am passionate about
           </div>
@@ -49,7 +42,7 @@ const Page = () => {
 
         {/* My projects */}
         <section id="projects" className="min-h-screen">
-          <div className="text-xl ml-1 mb-20 font-medium font-portfolio_satoshi_Bl text-destructive md:ml-3 md:text-5xl">
+          <div className="text-xl mb-12 ml-1 font-medium font-portfolio_satoshi_Bl text-destructive md:ml-3 md:text-5xl md:mb-20">
             Here are my projects
           </div>
           <ProjectList />

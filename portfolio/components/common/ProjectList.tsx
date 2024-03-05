@@ -7,6 +7,9 @@ import { ProjectListInfo } from "@/config/projectconst";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { CSSPlugin } from "gsap/CSSPlugin";
+
+gsap.registerPlugin(CSSPlugin);
 
 const ProjectList = () => {
   // Arrow animation ref

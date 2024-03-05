@@ -9,9 +9,11 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
   // GSAP
   const { contextSafe } = useGSAP();
 
+  // Width of the viewport
   const [width, setWidth] = useState(0);
   let isOpen = false;
 
+  // Listen to the viewport changes and reanimate the element if it is opened
   useLayoutEffect(() => {
     window.addEventListener("resize", () => {
       setWidth(window.innerWidth);
@@ -34,8 +36,9 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
     let position = 0;
     let margin = 15;
 
+    // If the parent exists, then get the width and animate the growth of the element
     if (parentRef.current) {
-      parentWidth = parentRef.current.offsetWidth / 1.3;
+      parentWidth = parentRef.current.offsetWidth / 1.2;
       position = parentWidth / 2;
       if (!side) {
         position = position * -1;
@@ -43,7 +46,6 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
     }
 
     const timelinePassion = gsap.timeline();
-
     // Moving the arrow
     timelinePassion.to(
       arrowRef.current,

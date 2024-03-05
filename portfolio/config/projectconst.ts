@@ -22,14 +22,7 @@ export const ProjectListInfo = [
     video: null,
     photo: null,
     title: "Arc-au-cou",
-    tags: [
-      "Django",
-      "Django Rest Framework API",
-      "VueJS",
-      "NuxtJS",
-      "TailwindCSS",
-      "Game",
-    ],
+    tags: ["Django", "Django RF API", "VueJS", "NuxtJS", "TailwindCSS", "Game"],
     description:
       "Every day, a new sudoku is proposed, and you have to solve it as quickly as possible. An overall ranking shows the best players of the day on Arc Au Cou.",
     link: "https://github.com/HE-Arc/arc-au-cou",

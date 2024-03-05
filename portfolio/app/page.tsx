@@ -183,8 +183,6 @@ const Scene = () => {
 
     // y is the row, y is the col
     maze.paths[newPos[1]][newPos[0]].player = true;
-
-    setMaze(maze);
   };
 
   const playerAttack = (maze: Maze): void => {};
@@ -227,16 +225,17 @@ const Scene = () => {
   const boardRef = useRef<BoardAnimationHandle>(null);
 
   // Maze
-  const [maze, setMaze] = useState(generateMaze(5, 5, 3, 3));
+  let mainMaze = useRef(generateMaze(5, 5, 3, 3));
 
   // Hand of cards and their refs
-  const [hand, setHand] = useState(generateRandomHand());
-  const [refs, setRefs] = useState([
+  // const [hand, setHand] = useState(generateRandomHand());
+  let hand = useRef(generateRandomHand());
+  let refs = [
     useRef<Mesh>(null),
     useRef<Mesh>(null),
     useRef<Mesh>(null),
     useRef<Mesh>(null),
-  ]);
+  ];
 
   // Play a card
   const playCard = (actionType: CardType, maze: Maze) => {
@@ -341,12 +340,18 @@ const Scene = () => {
 
   // When a card is used, remove the card from the hand
   const onCardUsed = (index: number) => {
-    // Use the card and update the hand
-    setHand(hand.filter((_, i) => i != index));
-    setRefs(refs.filter((_) => _ != null));
-
+    console.log(refs);
+    console.log(hand);
     // Use the card on the board
-    playCard(hand[index].cardConfig.cardType, maze);
+    playCard(hand.current[index].cardConfig.cardType, mainMaze.current);
+
+    // Use the card and update the hand
+    // setHand(hand.filter((_, i) => i != index));
+    hand.current = hand.current.filter((_, i) => i != index);
+    refs = refs.filter((_, i) => i != index);
+
+    console.log(refs);
+    console.log(hand);
   };
 
   // Movement of the board on the mouse movements
@@ -366,14 +371,14 @@ const Scene = () => {
   return (
     <>
       <Board
-        maze={maze}
+        maze={mainMaze.current}
         playerMovement={playerMovement}
         playerAttack={playerAttack}
         playerShield={playerShield}
         playerHeal={playerHeal}
         ref={boardRef}
       />
-      <Hand handInfos={hand} onCardUsed={onCardUsed} handRefs={refs} />
+      <Hand handInfos={hand.current} onCardUsed={onCardUsed} handRefs={refs} />
     </>
   );
 };
