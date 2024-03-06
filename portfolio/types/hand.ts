@@ -25,16 +25,9 @@ export interface CardInfo {
   cardConfig: CardConfig;
 }
 
-// Hand visibility
-export interface CardVisibility {
-  card: CardInfo;
-  visibility: boolean;
-}
-
 // Hand props given to the hand
 export interface HandProp {
   mutex: Mutex;
-  handInfos: CardInfo[];
   onCardUsed: (actionType: CardType, index: number) => void;
 }
 

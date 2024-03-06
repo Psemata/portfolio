@@ -175,43 +175,12 @@ const Scene = () => {
     return playerPos;
   };
 
-  // Hand configs
-  // Generating a number between 1 and 5 (for the card configuration) (1 and 5 included)
-  const generateRandomCardConfig = () => {
-    return Math.floor(Math.random() * 5);
-  };
-
-  // Generate a hand and their refs
-  const generateRandomHand = (): CardInfo[] => {
-    return [
-      {
-        cardBase: CARD_BASE,
-        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
-      },
-      {
-        cardBase: CARD_BASE,
-        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
-      },
-      {
-        cardBase: CARD_BASE,
-        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
-      },
-      {
-        cardBase: CARD_BASE,
-        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
-      },
-    ];
-  };
-
   // Refs
   // Board ref
   const boardRef = useRef<BoardAnimationHandle>(null);
 
   // Maze
   const maze = useRef(generateMaze(5, 5, 3, 3));
-
-  // Hand of cards and their refs
-  const hand = useRef(generateRandomHand());
 
   // Animation
   // Movement of the board on the mouse movements
@@ -236,10 +205,6 @@ const Scene = () => {
 
     // TODO : Show dice result
     const diceThrow = Math.floor(Math.random() * 4 + 1);
-
-    console.log(playerPosition);
-    console.log(maze.current.paths);
-    console.log(diceThrow);
 
     switch (actionType) {
       // TODO : CHECK FOR TREASURE INTERACTION, ENNEMY, EXIT
@@ -362,9 +327,6 @@ const Scene = () => {
         break;
       }
     }
-
-    // Use the card and update the hand
-    hand.current = hand.current.filter((_, i) => i != index);
   };
 
   // Change the position of the player in the maze and update the maze
@@ -400,7 +362,7 @@ const Scene = () => {
         playerShield={playerShield}
         playerHeal={playerHeal}
       />
-      <Hand mutex={mutex} handInfos={hand.current} onCardUsed={onCardUsed} />
+      <Hand mutex={mutex} onCardUsed={onCardUsed} />
     </>
   );
 };

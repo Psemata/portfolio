@@ -5,19 +5,40 @@ import { useGSAP } from "@gsap/react";
 
 import { Mesh } from "three";
 import Card from "./Card";
-import { CardVisibility, HandProp } from "@/types/hand";
+import { CardInfo, HandProp } from "@/types/hand";
 
 import { CardsPositions, UsePos, UseRot } from "@/config/handconst";
+import { CARD_BASE, CARD_CONFIG } from "@/config/cardconfig";
 
-const Hand = ({ mutex, handInfos, onCardUsed }: HandProp) => {
+const Hand = ({ mutex, onCardUsed }: HandProp) => {
   // GSAP
   const { contextSafe } = useGSAP();
 
-  // Create an array of objects which manage which card is shown or not
-  const generateVisibility = (): CardVisibility[] => {
-    return handInfos.map((card, i) => {
-      return { card: card, visibility: true };
-    });
+  // Generating a number between 1 and 5 (for the card configuration) (1 and 5 included)
+  const generateRandomCardConfig = () => {
+    return Math.floor(Math.random() * 5);
+  };
+
+  // Generate a hand and their refs
+  const generateRandomHand = (): CardInfo[] => {
+    return [
+      {
+        cardBase: CARD_BASE,
+        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
+      },
+      {
+        cardBase: CARD_BASE,
+        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
+      },
+      {
+        cardBase: CARD_BASE,
+        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
+      },
+      {
+        cardBase: CARD_BASE,
+        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
+      },
+    ];
   };
 
   // Generate and array of refs for the card meshes
@@ -30,20 +51,20 @@ const Hand = ({ mutex, handInfos, onCardUsed }: HandProp) => {
     ];
   };
 
-  // Visibility state
-  const [cardsVis, setCardVis] = useState(generateVisibility());
+  // Hand of cards and their refs
+  const [hand, setHand] = useState(generateRandomHand());
   // Refs on the cards
   const cardsRefs = useRef(generateHandRef());
 
   // How many card left
-  const cardQuantityIndex = cardsVis.length - 1;
+  const cardQuantityIndex = hand.length - 1;
 
   // If a card has been clicked
-  const isClicked = useRef(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   // Animation when the card is hovered in by the mouse
   const HoverIn = contextSafe((index: number) => {
-    if (!isClicked.current) {
+    if (!isClicked) {
       // Move the hovered card
       gsap.to(cardsRefs.current[index]?.current?.position!, {
         x: CardsPositions[cardQuantityIndex].HoverPos[index][0],
@@ -73,7 +94,7 @@ const Hand = ({ mutex, handInfos, onCardUsed }: HandProp) => {
 
   // Animation when the card is hovered out by the mouse
   const HoverOut = contextSafe((index: number) => {
-    if (!isClicked.current) {
+    if (!isClicked) {
       // Move the hovered card to its base position
       gsap.to(cardsRefs.current[index]?.current?.position!, {
         x: CardsPositions[cardQuantityIndex].BasePos[index][0],
@@ -104,8 +125,8 @@ const Hand = ({ mutex, handInfos, onCardUsed }: HandProp) => {
   // Animation and use of the card when the card is clicked
   const ClickOn = contextSafe((index: number) => {
     mutex.acquire().then(() => {
-      if (!isClicked.current) {
-        isClicked.current = true;
+      if (!isClicked) {
+        setIsClicked(true);
 
         let nextPos = cardQuantityIndex - 1;
 
@@ -143,16 +164,16 @@ const Hand = ({ mutex, handInfos, onCardUsed }: HandProp) => {
           onComplete: () => {
             // TODO : Shader animation
             // Play the card
-            onCardUsed(cardsVis[index].card.cardConfig.cardType, index);
+            onCardUsed(hand[index].cardConfig.cardType, index);
 
-            // Update the cards visibility
-            setCardVis(cardsVis.filter((_, i) => i != index));
+            // Use the card and update the hand
+            setHand(hand.filter((_, i) => i != index));
 
             // Update the cards references
             cardsRefs.current = cardsRefs.current?.filter((_, i) => i != index);
 
             // Allow the possibility to click again
-            isClicked.current = false;
+            setIsClicked(false);
           },
         });
       }
@@ -161,23 +182,20 @@ const Hand = ({ mutex, handInfos, onCardUsed }: HandProp) => {
 
   return (
     <>
-      {cardsVis.map(
-        (cv, index) =>
-          cv.visibility && (
-            <Card
-              ref={cardsRefs.current[index]}
-              key={index}
-              index={index}
-              cardBase={cv.card.cardBase}
-              cardConfig={cv.card.cardConfig}
-              position={CardsPositions[cardQuantityIndex].BasePos[index]}
-              rotation={CardsPositions[cardQuantityIndex].BaseRot[index]}
-              hoverIn={HoverIn}
-              hoverOut={HoverOut}
-              clickOn={ClickOn}
-            />
-          )
-      )}
+      {hand.map((card, index) => (
+        <Card
+          ref={cardsRefs.current[index]}
+          key={index}
+          index={index}
+          cardBase={card.cardBase}
+          cardConfig={card.cardConfig}
+          position={CardsPositions[cardQuantityIndex].BasePos[index]}
+          rotation={CardsPositions[cardQuantityIndex].BaseRot[index]}
+          hoverIn={HoverIn}
+          hoverOut={HoverOut}
+          clickOn={ClickOn}
+        />
+      ))}
     </>
   );
 };
