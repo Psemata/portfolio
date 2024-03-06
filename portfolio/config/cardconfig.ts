@@ -2,8 +2,6 @@
 // Type of the card
 export enum CardType {
   Attack,
-  Shield,
-  Heal,
   Forward,
   Backward,
   Left,
@@ -22,16 +20,6 @@ export const CARD_CONFIG = [
     cardType: CardType.Attack,
     frontTexture: "red",
     text: "You attack your ennemy with 1d4 damage.",
-  },
-  {
-    cardType: CardType.Shield,
-    frontTexture: "blue",
-    text: "You shield yourself from 1d4 damage.",
-  },
-  {
-    cardType: CardType.Heal,
-    frontTexture: "green",
-    text: "You heal yourself from 1d4 damage",
   },
   {
     cardType: CardType.Forward,

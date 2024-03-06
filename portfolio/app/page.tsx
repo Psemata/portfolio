@@ -3,7 +3,8 @@
 import React, { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { Mesh } from "three";
+
+import { Mutex } from "async-mutex";
 
 // Used to check if the element are placed correctly
 import { OrbitControls } from "@react-three/drei";
@@ -20,6 +21,9 @@ import Hand from "@/components/game/3d/Hand";
 // This component is used as the Game Controller of the app => all the game logic will depart from here
 
 const Scene = () => {
+  // Mutex
+  const [mutex, setMutex] = useState(new Mutex());
+
   // Maze configs
   // Generate the maze of the board
   const generateMaze = (
@@ -159,9 +163,9 @@ const Scene = () => {
   };
 
   // Find the player in the maze
-  const findPlayer = (maze: Maze): number[] => {
+  const findPlayer = (): number[] => {
     let playerPos = [-1, -1];
-    maze.paths.map((row) => {
+    maze.current.paths.map((row) => {
       row.map((cell) => {
         if (cell.player) {
           playerPos = [cell.x, cell.y];
@@ -171,35 +175,15 @@ const Scene = () => {
     return playerPos;
   };
 
-  // Change the position of the player in the maze and update the maze
-  const playerMovement = (maze: Maze, newPos: number[]): void => {
-    maze.paths.map((row) => {
-      row.map((cell) => {
-        if (cell.player) {
-          cell.player = false;
-        }
-      });
-    });
-
-    // y is the row, y is the col
-    maze.paths[newPos[1]][newPos[0]].player = true;
-  };
-
-  const playerAttack = (maze: Maze): void => {};
-
-  const playerShield = (maze: Maze): void => {};
-
-  const playerHeal = (maze: Maze): void => {};
-
   // Hand configs
-  // Generating a number between 1 and 7 (for the card configuration) (1 and 7 compris)
+  // Generating a number between 1 and 5 (for the card configuration) (1 and 5 included)
   const generateRandomCardConfig = () => {
-    return Math.floor(Math.random() * 7);
+    return Math.floor(Math.random() * 5);
   };
 
   // Generate a hand and their refs
   const generateRandomHand = (): CardInfo[] => {
-    const handInfos: CardInfo[] = [
+    return [
       {
         cardBase: CARD_BASE,
         cardConfig: CARD_CONFIG[generateRandomCardConfig()],
@@ -217,136 +201,19 @@ const Scene = () => {
         cardConfig: CARD_CONFIG[generateRandomCardConfig()],
       },
     ];
-
-    return handInfos;
   };
 
+  // Refs
   // Board ref
   const boardRef = useRef<BoardAnimationHandle>(null);
 
   // Maze
-  let mainMaze = useRef(generateMaze(5, 5, 3, 3));
+  const maze = useRef(generateMaze(5, 5, 3, 3));
 
   // Hand of cards and their refs
-  let hand = useRef(generateRandomHand());
-  let refs = [
-    useRef<Mesh>(null),
-    useRef<Mesh>(null),
-    useRef<Mesh>(null),
-    useRef<Mesh>(null),
-  ];
+  const hand = useRef(generateRandomHand());
 
-  // Play a card
-  const playCard = (actionType: CardType, maze: Maze, index: number) => {
-    // Position of the player (x is 1st and y is 2nd)
-    const playerPosition = findPlayer(maze);
-
-    // TODO : Show dice result
-    const diceThrow = Math.floor(Math.random() * 4 + 1);
-
-    switch (actionType) {
-      // TODO : CHECK FOR TREASURE INTERACTION, ENNEMY, EXIT
-      case CardType.Forward: {
-        let steps = 0;
-        for (let i = 1; i <= diceThrow; i++) {
-          // Check if there is a wall => y is the row, x is the col
-          if (playerPosition[1] - i >= 0) {
-            if (
-              maze.paths[playerPosition[1]][playerPosition[0]].top ||
-              maze.paths[playerPosition[1] - i][playerPosition[0]].bottom
-            ) {
-              break;
-            }
-            steps++;
-          } else {
-            break;
-          }
-        }
-        boardRef.current?.moveForward(steps, playerPosition);
-        break;
-      }
-      case CardType.Backward: {
-        let steps = 0;
-        for (let i = 1; i <= diceThrow; i++) {
-          // Check if there is a wall => y is the row, x is the col
-          if (playerPosition[1] + i <= maze.paths.length - 1) {
-            if (
-              maze.paths[playerPosition[1]][playerPosition[0]].bottom ||
-              maze.paths[playerPosition[1] + i][playerPosition[0]].top
-            ) {
-              break;
-            }
-            steps++;
-          } else {
-            break;
-          }
-        }
-        boardRef.current?.moveBackward(steps, playerPosition);
-        break;
-      }
-      case CardType.Left: {
-        let steps = 0;
-        for (let i = 1; i <= diceThrow; i++) {
-          // Check if there is a wall => y is the row, x is the col
-          if (playerPosition[0] - i >= 0) {
-            if (
-              maze.paths[playerPosition[1]][playerPosition[0]].left ||
-              maze.paths[playerPosition[1]][playerPosition[0] - i].right
-            ) {
-              break;
-            }
-            steps++;
-          } else {
-            break;
-          }
-        }
-        boardRef.current?.moveLeft(steps, playerPosition);
-        break;
-      }
-      case CardType.Right: {
-        let steps = 0;
-        for (let i = 1; i <= diceThrow; i++) {
-          // Check if there is a wall => y is the row, x is the col
-          if (playerPosition[0] + i <= maze.paths[0].length - 1) {
-            if (
-              maze.paths[playerPosition[1]][playerPosition[0]].right ||
-              maze.paths[playerPosition[1]][playerPosition[0] + i].left
-            ) {
-              break;
-            }
-            steps++;
-          } else {
-            break;
-          }
-        }
-        boardRef.current?.moveRight(steps, playerPosition);
-        break;
-      }
-      case CardType.Attack: {
-        boardRef.current?.attack();
-        break;
-      }
-      case CardType.Shield: {
-        boardRef.current?.shield();
-        break;
-      }
-      case CardType.Heal: {
-        boardRef.current?.heal();
-        break;
-      }
-    }
-
-    // Use the card and update the hand
-    hand.current = hand.current.filter((_, i) => i != index);
-    refs = refs.filter((_, i) => i != index);
-  };
-
-  // When a card is used, remove the card from the hand
-  const onCardUsed = (index: number) => {
-    // Use the card on the board
-    playCard(hand.current[index].cardConfig.cardType, mainMaze.current, index);
-  };
-
+  // Animation
   // Movement of the board on the mouse movements
   useFrame((state, delta) => {
     boardRef.current!.boardMeshRef().position.z = THREE.MathUtils.lerp(
@@ -361,17 +228,179 @@ const Scene = () => {
     );
   });
 
+  // Game functions
+  // Play a card
+  const onCardUsed = (actionType: CardType, index: number) => {
+    // Position of the player (x is 1st and y is 2nd)
+    const playerPosition = findPlayer();
+
+    // TODO : Show dice result
+    const diceThrow = Math.floor(Math.random() * 4 + 1);
+
+    console.log(playerPosition);
+    console.log(maze.current.paths);
+    console.log(diceThrow);
+
+    switch (actionType) {
+      // TODO : CHECK FOR TREASURE INTERACTION, ENNEMY, EXIT
+      case CardType.Forward: {
+        let steps = 0;
+        for (let i = 0; i < diceThrow; i++) {
+          // End of the maze
+          if (playerPosition[1] - i <= 0) {
+            break;
+          }
+          // Wall
+          if (
+            maze.current.paths[playerPosition[1] - i][playerPosition[0]].top ||
+            maze.current.paths[playerPosition[1] - i - 1][playerPosition[0]]
+              .bottom
+          ) {
+            break;
+          }
+          // Ennemy
+          if (
+            maze.current.paths[playerPosition[1] - i - 1][playerPosition[0]]
+              .ennemy
+          ) {
+            break;
+          }
+          // Otherwise, count possible steps
+          steps++;
+        }
+        boardRef.current?.moveForward(steps, playerPosition);
+        break;
+      }
+      case CardType.Backward: {
+        let steps = 0;
+        for (let i = 0; i < diceThrow; i++) {
+          // End of the maze
+          if (playerPosition[1] + i >= maze.current.paths.length - 1) {
+            break;
+          }
+          // Wall
+          if (
+            maze.current.paths[playerPosition[1] + i][playerPosition[0]]
+              .bottom ||
+            maze.current.paths[playerPosition[1] + i + 1][playerPosition[0]].top
+          ) {
+            break;
+          }
+          // Ennemy
+          if (
+            maze.current.paths[playerPosition[1] + i + 1][playerPosition[0]]
+              .ennemy
+          ) {
+            break;
+          }
+          // Otherwise, count possible steps
+          steps++;
+        }
+        boardRef.current?.moveBackward(steps, playerPosition);
+        break;
+      }
+      case CardType.Left: {
+        let steps = 0;
+        for (let i = 0; i < diceThrow; i++) {
+          // End of the maze
+          if (playerPosition[0] - i <= 0) {
+            break;
+          }
+          // Wall
+          if (
+            maze.current.paths[playerPosition[1]][playerPosition[0] - i].left ||
+            maze.current.paths[playerPosition[1]][playerPosition[0] - i - 1]
+              .right
+          ) {
+            break;
+          }
+          // Ennemy
+          if (
+            maze.current.paths[playerPosition[1]][playerPosition[0] - i - 1]
+              .ennemy
+          ) {
+            break;
+          }
+          // Otherwise, count possible steps
+          steps++;
+        }
+        boardRef.current?.moveLeft(steps, playerPosition);
+        break;
+      }
+      case CardType.Right: {
+        let steps = 0;
+        for (let i = 0; i < diceThrow; i++) {
+          // End of the maze
+          if (playerPosition[0] + i >= maze.current.paths[0].length - 1) {
+            break;
+          }
+          // Wall
+          if (
+            maze.current.paths[playerPosition[1]][playerPosition[0] + i]
+              .right ||
+            maze.current.paths[playerPosition[1]][playerPosition[0] + i + 1]
+              .left
+          ) {
+            break;
+          }
+          // Ennemy
+          if (
+            maze.current.paths[playerPosition[1]][playerPosition[0] + i + 1]
+              .ennemy
+          ) {
+            break;
+          }
+          // Otherwise, count possible steps
+          steps++;
+        }
+
+        boardRef.current?.moveRight(steps, playerPosition);
+        break;
+      }
+      case CardType.Attack: {
+        boardRef.current?.attack();
+        break;
+      }
+    }
+
+    // Use the card and update the hand
+    hand.current = hand.current.filter((_, i) => i != index);
+  };
+
+  // Change the position of the player in the maze and update the maze
+  const playerMovement = (mazeB: Maze, newPos: number[]): void => {
+    mazeB.paths.map((row) => {
+      row.map((cell) => {
+        if (cell.player) {
+          cell.player = false;
+        }
+      });
+    });
+
+    // y is the row, y is the col
+    mazeB.paths[newPos[1]][newPos[0]].player = true;
+
+    maze.current = mazeB;
+  };
+
+  const playerAttack = (): void => {};
+
+  const playerShield = (): void => {};
+
+  const playerHeal = (): void => {};
+
   return (
     <>
       <Board
-        maze={mainMaze.current}
+        ref={boardRef}
+        mutex={mutex}
+        maze={maze.current}
         playerMovement={playerMovement}
         playerAttack={playerAttack}
         playerShield={playerShield}
         playerHeal={playerHeal}
-        ref={boardRef}
       />
-      <Hand handInfos={hand.current} onCardUsed={onCardUsed} handRefs={refs} />
+      <Hand mutex={mutex} handInfos={hand.current} onCardUsed={onCardUsed} />
     </>
   );
 };

@@ -1,3 +1,4 @@
+import { Mutex } from "async-mutex";
 import { Mesh } from "three";
 
 // Board Config
@@ -25,11 +26,12 @@ export interface Maze {
 
 // Board props given to the board
 export interface BoardProps {  
+  mutex: Mutex;
   maze: Maze;
   playerMovement: (maze: Maze, newPos: number[]) => void;
-  playerAttack: (maze: Maze) => void;
-  playerShield: (maze: Maze) => void;
-  playerHeal: (maze: Maze) => void;
+  playerAttack: () => void;
+  playerShield: () => void;
+  playerHeal: () => void;
 }
 
 // Ref handle for the board animation
@@ -40,6 +42,4 @@ export type BoardAnimationHandle = {
   moveLeft: (steps: number, playerPosition: number[]) => void;
   moveRight: (steps: number, playerPosition: number[]) => void;
   attack: () => void;
-  shield: () => void;
-  heal: () => void;
 };

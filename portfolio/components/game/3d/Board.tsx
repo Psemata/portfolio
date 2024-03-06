@@ -37,13 +37,8 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
       },
       attack() {
         console.log("a");
-      },
-      shield() {
-        console.log("s");
-      },
-      heal() {
-        console.log("h");
-      },
+        attack();
+      }
     }));
 
     // GSAP
@@ -69,103 +64,126 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
     // ANIMATIONS
     // Move forward animation
     const mf = contextSafe((steps: number, playerPosition: number[]) => {
-      const timelineMF = gsap.timeline();
+      if (steps == 0) {
+        props.mutex.release();
+      } else {
+        const timelineMF = gsap.timeline();
+        for (let i = 0; i < steps; i++) {
+          timelineMF.to(playerRef.current?.position!, {
+            z: PLAYER_POS_Y - CELL_HEIGHT,
+            onComplete: () => {
+              if (i < steps - 1) {
+                timelineMF.pause();
+                setTimeout(() => timelineMF.play(), 500);
+              } else {
+                // y is the row, x is the col => x is 1st and y is 2nd
+                props.playerMovement(props.maze, [
+                  playerPosition[0],
+                  playerPosition[1] - steps,
+                ]);
+                props.mutex.release();
+              }
+            },
+          });
+          PLAYER_POS_Y -= CELL_HEIGHT;
+        }
 
-      for (let i = 0; i < steps; i++) {
-        timelineMF.to(playerRef.current?.position!, {
-          z: PLAYER_POS_Y - CELL_HEIGHT,
-          onComplete: () => {
-            if (i < steps - 1) {
-              timelineMF.pause();
-              setTimeout(() => timelineMF.play(), 500);
-            } else {
-              // y is the row, x is the col => x is 1st and y is 2nd
-              props.playerMovement(props.maze, [
-                playerPosition[0],
-                playerPosition[1] - steps,
-              ]);
-            }
-          },
-        });
-        PLAYER_POS_Y -= CELL_HEIGHT;
+        timelineMF.play();
       }
-
-      timelineMF.play();
     });
     // Move backward animation
     const mb = contextSafe((steps: number, playerPosition: number[]) => {
-      const timelineMB = gsap.timeline();
+      if (steps == 0) {
+        props.mutex.release();
+      } else {
+        const timelineMB = gsap.timeline();
 
-      for (let i = 0; i < steps; i++) {
-        timelineMB.to(playerRef.current?.position!, {
-          z: PLAYER_POS_Y + CELL_HEIGHT,
-          onComplete: () => {
-            if (i < steps - 1) {
-              timelineMB.pause();
-              setTimeout(() => timelineMB.play(), 500);
-            } else {
-              // y is the row, x is the col => x is 1st and y is 2nd
-              props.playerMovement(props.maze, [
-                playerPosition[0],
-                playerPosition[1] + steps,
-              ]);
-            }
-          },
-        });
-        PLAYER_POS_Y += CELL_HEIGHT;
+        for (let i = 0; i < steps; i++) {
+          timelineMB.to(playerRef.current?.position!, {
+            z: PLAYER_POS_Y + CELL_HEIGHT,
+            onComplete: () => {
+              if (i < steps - 1) {
+                timelineMB.pause();
+                setTimeout(() => timelineMB.play(), 500);
+              } else {
+                // y is the row, x is the col => x is 1st and y is 2nd
+                props.playerMovement(props.maze, [
+                  playerPosition[0],
+                  playerPosition[1] + steps,
+                ]);
+                props.mutex.release();
+              }
+            },
+          });
+          PLAYER_POS_Y += CELL_HEIGHT;
+        }
+
+        timelineMB.play();
       }
-
-      timelineMB.play();
     });
     // Move leftward animation
     const ml = contextSafe((steps: number, playerPosition: number[]) => {
-      const timelineML = gsap.timeline();
+      if (steps == 0) {
+        props.mutex.release();
+      } else {
+        const timelineML = gsap.timeline();
 
-      for (let i = 0; i < steps; i++) {
-        timelineML.to(playerRef.current?.position!, {
-          x: PLAYER_POS_X - CELL_WIDTH,
-          onComplete: () => {
-            if (i < steps - 1) {
-              timelineML.pause();
-              setTimeout(() => timelineML.play(), 500);
-            } else {
-              // y is the row, x is the col => x is 1st and y is 2nd
-              props.playerMovement(props.maze, [
-                playerPosition[0] - steps,
-                playerPosition[1],
-              ]);
-            }
-          },
-        });
-        PLAYER_POS_X -= CELL_WIDTH;
+        for (let i = 0; i < steps; i++) {
+          timelineML.to(playerRef.current?.position!, {
+            x: PLAYER_POS_X - CELL_WIDTH,
+            onComplete: () => {
+              if (i < steps - 1) {
+                timelineML.pause();
+                setTimeout(() => timelineML.play(), 500);
+              } else {
+                // y is the row, x is the col => x is 1st and y is 2nd
+                props.playerMovement(props.maze, [
+                  playerPosition[0] - steps,
+                  playerPosition[1],
+                ]);
+                props.mutex.release();
+              }
+            },
+          });
+          PLAYER_POS_X -= CELL_WIDTH;
+        }
+
+        timelineML.play();
       }
-
-      timelineML.play();
     });
     // Move rightward animation
     const mr = contextSafe((steps: number, playerPosition: number[]) => {
-      const timelineMR = gsap.timeline();
+      if (steps == 0) {
+        props.mutex.release();
+      } else {
+        const timelineMR = gsap.timeline();
 
-      for (let i = 0; i < steps; i++) {
-        timelineMR.to(playerRef.current?.position!, {
-          x: PLAYER_POS_X + CELL_WIDTH,
-          onComplete: () => {
-            if (i < steps - 1) {
-              timelineMR.pause();
-              setTimeout(() => timelineMR.play(), 500);
-            } else {
-              // y is the row, x is the col => x is 1st and y is 2nd
-              props.playerMovement(props.maze, [
-                playerPosition[0] + steps,
-                playerPosition[1],
-              ]);
-            }
-          },
-        });
-        PLAYER_POS_X += CELL_WIDTH;
+        for (let i = 0; i < steps; i++) {
+          timelineMR.to(playerRef.current?.position!, {
+            x: PLAYER_POS_X + CELL_WIDTH,
+            onComplete: () => {
+              if (i < steps - 1) {
+                timelineMR.pause();
+                setTimeout(() => timelineMR.play(), 500);
+              } else {
+                // y is the row, x is the col => x is 1st and y is 2nd
+                props.playerMovement(props.maze, [
+                  playerPosition[0] + steps,
+                  playerPosition[1],
+                ]);
+                props.mutex.release();
+              }
+            },
+          });
+          PLAYER_POS_X += CELL_WIDTH;
+        }
+
+        timelineMR.play();
       }
+    });
 
-      timelineMR.play();
+    const attack = contextSafe(() => {
+      props.mutex.release();
     });
 
     return (

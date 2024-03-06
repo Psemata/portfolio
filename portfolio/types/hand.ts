@@ -1,5 +1,6 @@
+import { Mutex } from "async-mutex";
 import { Mesh } from "three";
-import { CARD_BASE, CARD_CONFIG } from "@/config/cardconfig";
+import { CARD_BASE, CARD_CONFIG, CardType } from "@/config/cardconfig";
 
 // Hand Config
 // All hand and cards types for the Hand and Card components
@@ -32,9 +33,9 @@ export interface CardVisibility {
 
 // Hand props given to the hand
 export interface HandProp {
+  mutex: Mutex;
   handInfos: CardInfo[];
-  handRefs: React.RefObject<Mesh>[];
-  onCardUsed: (index: number) => void;
+  onCardUsed: (actionType: CardType, index: number) => void;
 }
 
 // Interface for the positions of the cards depending of their numbers
