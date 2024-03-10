@@ -28,9 +28,8 @@ export interface Maze {
 export interface BoardProps {
   mutex: Mutex;
   maze: Maze;
-  playerMovement: (maze: Maze, newPos: number[]) => void;
+  playerMovement: (maze: Maze, newPos: number[], treasure: boolean) => void;
   playerAttack: () => void;
-  playerTreasure: (mazeB: Maze, treasuePos: number[]) => void;
   playerExit: () => void;
 }
 
@@ -61,5 +60,5 @@ export type BoardAnimationHandle = {
     treasureFlags: number[][],
     exitFlag: boolean
   ) => void;
-  attack: () => void;
+  attack: (side: number) => void;
 };

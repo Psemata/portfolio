@@ -38,9 +38,9 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
       moveRight(steps, playerPosition, treasureFlags, exitFlag) {
         mr(steps, playerPosition, treasureFlags, exitFlag);
       },
-      attack() {
+      attack(side) {
         console.log("a");
-        attack();
+        attack(side);
       },
     }));
 
@@ -50,6 +50,7 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
     // Text management
     const [text, setText] = useState("");
     const currentAnim = useRef<gsap.core.Timeline>();
+    const alreadyShown = useRef<number[]>([]);
 
     // Component refs
     const meshRef = useRef<Mesh>(null);
@@ -93,18 +94,24 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 // Check if the pawn is interacting with a treasure
                 if (treasureFlags.length > 0 && index < treasureFlags.length) {
                   const [treasureY, treasureX] = treasureFlags[index];
-                  const currentY = playerPosition[1] - i - 1;
-                  const currentX = playerPosition[0];
+                  const currentY = playerPosition[0] - i - 1;
+                  const currentX = playerPosition[1];
 
                   if (currentY === treasureY && currentX === treasureX) {
                     currentAnim.current?.pause();
                     treasure = true;
-                    props.playerMovement(props.maze, [currentX, currentY]);
-                    props.playerTreasure(props.maze, [currentY, currentX]);
+                    props.playerMovement(
+                      props.maze,
+                      [currentY, currentX],
+                      true
+                    );
+                    let randIndexQuote = Math.floor(Math.random() * Informations.length);
+                    alreadyShown.current.push(randIndexQuote);
+                    while (alreadyShown.current.includes(alreadyShown.current.push(randIndexQuote))) {
+                      randIndexQuote = Math.floor(Math.random() * Informations.length);
+                    }
                     setText(
-                      Informations[
-                        Math.floor(Math.random() * Informations.length)
-                      ]
+                      Informations[randIndexQuote]
                     );
                     index++;
                   }
@@ -113,18 +120,19 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 // At the end of the animation
                 if (i === steps - 1) {
                   // Move the pawn and release the mutex
-                  props.playerMovement(props.maze, [
-                    playerPosition[0],
-                    playerPosition[1] - steps,
-                  ]);
+                  props.playerMovement(
+                    props.maze,
+                    [playerPosition[0] - steps, playerPosition[1]],
+                    false
+                  );
                   props.mutex.release();
                 }
 
                 // Check if this is the exit
                 if (
                   i === steps - 1 &&
-                  playerPosition[1] - i - 1 === 0 &&
-                  playerPosition[0] === 0 &&
+                  playerPosition[0] - i - 1 === 0 &&
+                  playerPosition[1] === 0 &&
                   exitFlag
                 ) {
                   console.log("exit of the maze");
@@ -154,7 +162,7 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
       ) => {
         let index = 0;
 
-        if (steps == 0) {
+        if (steps === 0) {
           props.mutex.release();
         } else {
           const timelineMB = gsap.timeline();
@@ -168,14 +176,17 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 // Check if the pawn is interacting with a treasure
                 if (treasureFlags.length > 0 && index < treasureFlags.length) {
                   const [treasureY, treasureX] = treasureFlags[index];
-                  const currentY = playerPosition[1] + i + 1;
-                  const currentX = playerPosition[0];
+                  const currentY = playerPosition[0] + i + 1;
+                  const currentX = playerPosition[1];
 
                   if (currentY === treasureY && currentX === treasureX) {
                     currentAnim.current?.pause();
                     treasure = true;
-                    props.playerMovement(props.maze, [currentX, currentY]);
-                    props.playerTreasure(props.maze, [currentY, currentX]);
+                    props.playerMovement(
+                      props.maze,
+                      [currentY, currentX],
+                      true
+                    );
                     setText(
                       Informations[
                         Math.floor(Math.random() * Informations.length)
@@ -188,18 +199,19 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 // At the end of the animation
                 if (i === steps - 1) {
                   // Move the pawn and release the mutex
-                  props.playerMovement(props.maze, [
-                    playerPosition[0],
-                    playerPosition[1] + steps,
-                  ]);
+                  props.playerMovement(
+                    props.maze,
+                    [playerPosition[0] + steps, playerPosition[1]],
+                    false
+                  );
                   props.mutex.release();
                 }
 
                 // Check if this is the exit
                 if (
                   i === steps - 1 &&
-                  playerPosition[1] + i + 1 === 0 &&
-                  playerPosition[0] === 0 &&
+                  playerPosition[0] + i + 1 === 0 &&
+                  playerPosition[1] === 0 &&
                   exitFlag
                 ) {
                   console.log("exit of the maze");
@@ -244,14 +256,17 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 // Check if the pawn is interacting with a treasure
                 if (treasureFlags.length > 0 && index < treasureFlags.length) {
                   const [treasureY, treasureX] = treasureFlags[index];
-                  const currentY = playerPosition[1];
-                  const currentX = playerPosition[0] - i - 1;
+                  const currentY = playerPosition[0];
+                  const currentX = playerPosition[1] - i - 1;
 
                   if (currentY === treasureY && currentX === treasureX) {
                     currentAnim.current?.pause();
                     treasure = true;
-                    props.playerMovement(props.maze, [currentX, currentY]);
-                    props.playerTreasure(props.maze, [currentY, currentX]);
+                    props.playerMovement(
+                      props.maze,
+                      [currentY, currentX],
+                      true
+                    );
                     setText(
                       Informations[
                         Math.floor(Math.random() * Informations.length)
@@ -264,18 +279,19 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 // At the end of the animation
                 if (i >= steps - 1) {
                   // Move the pawn and release the mutex
-                  props.playerMovement(props.maze, [
-                    playerPosition[0] - steps,
-                    playerPosition[1],
-                  ]);
+                  props.playerMovement(
+                    props.maze,
+                    [playerPosition[0], playerPosition[1] - steps],
+                    false
+                  );
                   props.mutex.release();
                 }
 
                 // Check if this is the exit
                 if (
                   i === steps - 1 &&
-                  playerPosition[1] === 0 &&
-                  playerPosition[0] - i - 1 === 0 &&
+                  playerPosition[0] === 0 &&
+                  playerPosition[1] - i - 1 === 0 &&
                   exitFlag
                 ) {
                   console.log("exit of the maze");
@@ -291,7 +307,6 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
             });
             PLAYER_POS_X -= CELL_WIDTH;
           }
-
           currentAnim.current?.play();
         }
       }
@@ -320,14 +335,17 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 // Check if the pawn is interacting with a treasure
                 if (treasureFlags.length > 0 && index < treasureFlags.length) {
                   const [treasureY, treasureX] = treasureFlags[index];
-                  const currentY = playerPosition[1];
-                  const currentX = playerPosition[0] + i + 1;
+                  const currentY = playerPosition[0];
+                  const currentX = playerPosition[1] + i + 1;
 
                   if (currentY === treasureY && currentX === treasureX) {
                     currentAnim.current?.pause();
                     treasure = true;
-                    props.playerMovement(props.maze, [currentX, currentY]);
-                    props.playerTreasure(props.maze, [currentY, currentX]);
+                    props.playerMovement(
+                      props.maze,
+                      [currentY, currentX],
+                      true
+                    );
                     setText(
                       Informations[
                         Math.floor(Math.random() * Informations.length)
@@ -340,18 +358,19 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 // At the end of the animation
                 if (i === steps - 1) {
                   // Move the pawn and release the mutex
-                  props.playerMovement(props.maze, [
-                    playerPosition[0] + steps,
-                    playerPosition[1],
-                  ]);
+                  props.playerMovement(
+                    props.maze,
+                    [playerPosition[0], playerPosition[1] + steps],
+                    false
+                  );
                   props.mutex.release();
                 }
 
                 // Check if this is the exit
                 if (
                   i === steps - 1 &&
-                  playerPosition[1] === 0 &&
-                  playerPosition[0] + i + 1 === 0 &&
+                  playerPosition[0] === 0 &&
+                  playerPosition[1] + i + 1 === 0 &&
                   exitFlag
                 ) {
                   console.log("exit of the maze");
@@ -374,15 +393,14 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
     );
 
     // Attack the ennemy
-    const attack = contextSafe(() => {
+    const attack = contextSafe((side: number) => {
       props.mutex.release();
     });
 
     // Close the information text
-    const closeText = () => {
-      currentAnim.current?.play();
+    const closeText = contextSafe(() => {
       setText("");
-    };
+    });
 
     return (
       <>

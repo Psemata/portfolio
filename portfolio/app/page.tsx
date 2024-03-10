@@ -172,7 +172,7 @@ const Scene = () => {
     maze.current.paths.map((row) => {
       row.map((cell) => {
         if (cell.player) {
-          playerPos = [cell.x, cell.y];
+          playerPos = [cell.y, cell.x];
         }
       });
     });
@@ -204,7 +204,7 @@ const Scene = () => {
   // Game functions
   // Play a card
   const onCardUsed = (actionType: CardType, index: number) => {
-    // Position of the player (x is 1st and y is 2nd)
+    // Position of the player (y is 1st and x is 2nd)
     const playerPosition = findPlayer();
 
     // Dice thrown to get a card number
@@ -219,43 +219,44 @@ const Scene = () => {
     let exitFlag = false;
 
     switch (actionType) {
-      // TODO : CHECK FOR EXIT
       case CardType.Forward: {
         for (let i = 0; i < diceThrow; i++) {
-          // Treasure
-          if (playerPosition[1] - i - 1 >= 0) {
-            if (
-              maze.current.paths[playerPosition[1] - i - 1][playerPosition[0]]
-                .treasure
-            ) {
-              treasureFlags.push([
-                playerPosition[1] - i - 1,
-                playerPosition[0],
-              ]);
-            }
-          }
           // Exit of the maze
-          if (playerPosition[1] - i - 1 == 0 && playerPosition[0] == 0) {
+          if (playerPosition[0] - i - 1 == 0 && playerPosition[1] == 0) {
             exitFlag = true;
           }
           // Border of the maze
-          if (playerPosition[1] - i <= 0) {
+          if (playerPosition[0] - i <= 0) {
             break;
           }
           // Wall
           if (
-            maze.current.paths[playerPosition[1] - i][playerPosition[0]].top ||
-            maze.current.paths[playerPosition[1] - i - 1][playerPosition[0]]
+            maze.current.paths[playerPosition[0] - i][playerPosition[1]].top ||
+            maze.current.paths[playerPosition[0] - i - 1][playerPosition[1]]
               .bottom
           ) {
             break;
           }
           // Ennemy
           if (
-            maze.current.paths[playerPosition[1] - i - 1][playerPosition[0]]
+            maze.current.paths[playerPosition[0] - i - 1][playerPosition[1]]
               .ennemy
           ) {
             break;
+          }
+          // Treasure
+          if (playerPosition[0] - i - 1 >= 0) {
+            if (
+              maze.current.paths[playerPosition[0] - i - 1][playerPosition[1]]
+                .treasure
+            ) {
+              treasureFlags.push([
+                playerPosition[0] - i - 1,
+                playerPosition[1],
+              ]);
+              steps++;
+              break;
+            }
           }
           // Otherwise, count possible steps
           steps++;
@@ -271,40 +272,42 @@ const Scene = () => {
       }
       case CardType.Backward: {
         for (let i = 0; i < diceThrow; i++) {
-          // Treasure
-          if (playerPosition[1] + i + 1 < maze.current.paths.length) {
-            if (
-              maze.current.paths[playerPosition[1] + i + 1][playerPosition[0]]
-                .treasure
-            ) {
-              treasureFlags.push([
-                playerPosition[1] + i + 1,
-                playerPosition[0],
-              ]);
-            }
-          }
           // Exit of the maze
-          if (playerPosition[1] + i + 1 == 0 && playerPosition[0] == 0) {
+          if (playerPosition[0] + i + 1 == 0 && playerPosition[1] == 0) {
             exitFlag = true;
           }
           // Border of the maze
-          if (playerPosition[1] + i >= maze.current.paths.length - 1) {
+          if (playerPosition[0] + i >= maze.current.paths.length - 1) {
             break;
           }
           // Wall
           if (
-            maze.current.paths[playerPosition[1] + i][playerPosition[0]]
+            maze.current.paths[playerPosition[0] + i][playerPosition[1]]
               .bottom ||
-            maze.current.paths[playerPosition[1] + i + 1][playerPosition[0]].top
+            maze.current.paths[playerPosition[0] + i + 1][playerPosition[1]].top
           ) {
             break;
           }
           // Ennemy
           if (
-            maze.current.paths[playerPosition[1] + i + 1][playerPosition[0]]
+            maze.current.paths[playerPosition[0] + i + 1][playerPosition[1]]
               .ennemy
           ) {
             break;
+          }
+          // Treasure
+          if (playerPosition[0] + i + 1 < maze.current.paths.length) {
+            if (
+              maze.current.paths[playerPosition[0] + i + 1][playerPosition[1]]
+                .treasure
+            ) {
+              treasureFlags.push([
+                playerPosition[0] + i + 1,
+                playerPosition[1],
+              ]);
+              steps++;
+              break;
+            }
           }
           // Otherwise, count possible steps
           steps++;
@@ -319,40 +322,42 @@ const Scene = () => {
       }
       case CardType.Left: {
         for (let i = 0; i < diceThrow; i++) {
-          // Treasure
-          if (playerPosition[0] - i - 1 >= 0) {
-            if (
-              maze.current.paths[playerPosition[1]][playerPosition[0] - i - 1]
-                .treasure
-            ) {
-              treasureFlags.push([
-                playerPosition[1],
-                playerPosition[0] - i - 1,
-              ]);
-            }
-          }
           // Exit of the maze
-          if (playerPosition[1] == 0 && playerPosition[0] - i - 1 == 0) {
+          if (playerPosition[0] == 0 && playerPosition[1] - i - 1 == 0) {
             exitFlag = true;
           }
           // Border of the maze
-          if (playerPosition[0] - i <= 0) {
+          if (playerPosition[1] - i <= 0) {
             break;
           }
           // Wall
           if (
-            maze.current.paths[playerPosition[1]][playerPosition[0] - i].left ||
-            maze.current.paths[playerPosition[1]][playerPosition[0] - i - 1]
+            maze.current.paths[playerPosition[0]][playerPosition[1] - i].left ||
+            maze.current.paths[playerPosition[0]][playerPosition[1] - i - 1]
               .right
           ) {
             break;
           }
           // Ennemy
           if (
-            maze.current.paths[playerPosition[1]][playerPosition[0] - i - 1]
+            maze.current.paths[playerPosition[0]][playerPosition[1] - i - 1]
               .ennemy
           ) {
             break;
+          }
+          // Treasure
+          if (playerPosition[1] - i - 1 >= 0) {
+            if (
+              maze.current.paths[playerPosition[0]][playerPosition[1] - i - 1]
+                .treasure
+            ) {
+              treasureFlags.push([
+                playerPosition[0],
+                playerPosition[1] - i - 1,
+              ]);
+              steps++;
+              break;
+            }
           }
           // Otherwise, count possible steps
           steps++;
@@ -367,41 +372,43 @@ const Scene = () => {
       }
       case CardType.Right: {
         for (let i = 0; i < diceThrow; i++) {
-          // Treasure
-          if (playerPosition[0] + i + 1 < maze.current.paths[0].length) {
-            if (
-              maze.current.paths[playerPosition[1]][playerPosition[0] + i + 1]
-                .treasure
-            ) {
-              treasureFlags.push([
-                playerPosition[1],
-                playerPosition[0] + i + 1,
-              ]);
-            }
-          }
           // Exit of the maze
-          if (playerPosition[1] == 0 && playerPosition[0] + i + 1 == 0) {
+          if (playerPosition[0] == 0 && playerPosition[1] + i + 1 == 0) {
             exitFlag = true;
           }
           // Border of the maze
-          if (playerPosition[0] + i >= maze.current.paths[0].length - 1) {
+          if (playerPosition[1] + i >= maze.current.paths[0].length - 1) {
             break;
           }
           // Wall
           if (
-            maze.current.paths[playerPosition[1]][playerPosition[0] + i]
+            maze.current.paths[playerPosition[0]][playerPosition[1] + i]
               .right ||
-            maze.current.paths[playerPosition[1]][playerPosition[0] + i + 1]
+            maze.current.paths[playerPosition[0]][playerPosition[1] + i + 1]
               .left
           ) {
             break;
           }
           // Ennemy
           if (
-            maze.current.paths[playerPosition[1]][playerPosition[0] + i + 1]
+            maze.current.paths[playerPosition[0]][playerPosition[1] + i + 1]
               .ennemy
           ) {
             break;
+          }
+          // Treasure
+          if (playerPosition[1] + i + 1 < maze.current.paths[0].length) {
+            if (
+              maze.current.paths[playerPosition[0]][playerPosition[1] + i + 1]
+                .treasure
+            ) {
+              treasureFlags.push([
+                playerPosition[0],
+                playerPosition[1] + i + 1,
+              ]);
+              steps++;
+              break;
+            }
           }
           // Otherwise, count possible steps
           steps++;
@@ -416,14 +423,69 @@ const Scene = () => {
         break;
       }
       case CardType.Attack: {
-        boardRef.current?.attack();
+        // Side value
+        let side = -1;
+
+        // Check if there is an enemy around the player - clockwise, an enemy at a time
+        if (
+          playerPosition[0] - 1 >= 0 &&
+          !maze.current.paths[playerPosition[0]][playerPosition[1]].top &&
+          !maze.current.paths[playerPosition[0] - 1][playerPosition[1]]
+            .bottom &&
+          maze.current.paths[playerPosition[0] - 1][playerPosition[1]].ennemy
+        ) {
+          // Top
+          console.log("top");
+          side = 0;
+        } else if (playerPosition[1] + 1 < maze.current.paths[0].length) {
+          console.log("not end right");
+          if (
+            !maze.current.paths[playerPosition[0]][playerPosition[1]].right &&
+            !maze.current.paths[playerPosition[0]][playerPosition[1] + 1]
+              .left &&
+            maze.current.paths[playerPosition[0]][playerPosition[1] + 1].ennemy
+          ) {
+            // Right
+            console.log("right");
+            side = 1;
+          }
+        } else if (playerPosition[0] + 1 < maze.current.paths.length) {
+          console.log("not end bottom");
+          if (
+            !maze.current.paths[playerPosition[0]][playerPosition[1]].bottom &&
+            !maze.current.paths[playerPosition[0] + 1][playerPosition[1]].top &&
+            maze.current.paths[playerPosition[0] + 1][playerPosition[1]].ennemy
+          ) {
+            // Bottom
+            console.log("bottom");
+            side = 2;
+          }
+        } else if (playerPosition[1] - 1 >= 0) {
+          console.log("not end left");
+          if (
+            !maze.current.paths[playerPosition[0]][playerPosition[1]].left &&
+            !maze.current.paths[playerPosition[0]][playerPosition[1] - 1]
+              .right &&
+            maze.current.paths[playerPosition[0]][playerPosition[1] - 1].ennemy
+          ) {
+            // Left
+            console.log("left");
+            side = 3;
+          }
+        }
+
+        boardRef.current?.attack(side);
         break;
       }
     }
   };
 
   // Change the position of the player in the maze and update the maze
-  const playerMovement = (mazeB: Maze, newPos: number[]): void => {
+  const playerMovement = (
+    mazeB: Maze,
+    newPos: number[],
+    treasure: boolean
+  ): void => {
     mazeB.paths.map((row) => {
       row.map((cell) => {
         if (cell.player) {
@@ -433,22 +495,22 @@ const Scene = () => {
     });
 
     // y is the row, y is the col
-    mazeB.paths[newPos[1]][newPos[0]].player = true;
+    mazeB.paths[newPos[0]][newPos[1]].player = true;
+
+    if (treasure) {
+      mazeB.paths[newPos[0]][newPos[1]].treasure = false;
+    }
 
     maze.current = mazeB;
+
+    console.log(maze.current);
   };
 
   const playerAttack = (): void => {};
 
-  const playerTreasure = (mazeB: Maze, treasuePos: number[]): void => {
-    mazeB.paths[treasuePos[0]][treasuePos[1]].treasure = false;
-
-    maze.current = mazeB;
-  };
-
   const playerExit = () => {
     router.push("/portfolio#myself");
-  }
+  };
 
   return (
     <>
@@ -458,7 +520,6 @@ const Scene = () => {
         maze={maze.current}
         playerMovement={playerMovement}
         playerAttack={playerAttack}
-        playerTreasure={playerTreasure}
         playerExit={playerExit}
       />
       <Hand mutex={mutex} onCardUsed={onCardUsed} />

@@ -19,7 +19,7 @@ export const CARD_CONFIG = [
   {
     cardType: CardType.Attack,
     frontTexture: "red",
-    text: "You attack your ennemy with 1d4 damage.",
+    text: "You attack the nearest enemy.",
   },
   {
     cardType: CardType.Forward,
