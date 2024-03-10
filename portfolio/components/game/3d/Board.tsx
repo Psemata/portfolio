@@ -105,14 +105,19 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                       [currentY, currentX],
                       true
                     );
-                    let randIndexQuote = Math.floor(Math.random() * Informations.length);
-                    alreadyShown.current.push(randIndexQuote);
-                    while (alreadyShown.current.includes(alreadyShown.current.push(randIndexQuote))) {
-                      randIndexQuote = Math.floor(Math.random() * Informations.length);
-                    }
-                    setText(
-                      Informations[randIndexQuote]
+
+                    // Get an info which have never been displayed
+                    let randIndexQuote = Math.floor(
+                      Math.random() * Informations.length
                     );
+                    while (alreadyShown.current.includes(randIndexQuote)) {
+                      randIndexQuote = Math.floor(
+                        Math.random() * Informations.length
+                      );
+                    }
+                    alreadyShown.current.push(randIndexQuote);
+
+                    setText(Informations[randIndexQuote]);
                     index++;
                   }
                 }
@@ -187,11 +192,19 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                       [currentY, currentX],
                       true
                     );
-                    setText(
-                      Informations[
-                        Math.floor(Math.random() * Informations.length)
-                      ]
+
+                    // Get an info which have never been displayed
+                    let randIndexQuote = Math.floor(
+                      Math.random() * Informations.length
                     );
+                    while (alreadyShown.current.includes(randIndexQuote)) {
+                      randIndexQuote = Math.floor(
+                        Math.random() * Informations.length
+                      );
+                    }
+                    alreadyShown.current.push(randIndexQuote);
+
+                    setText(Informations[randIndexQuote]);
                     index++;
                   }
                 }
@@ -267,11 +280,19 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                       [currentY, currentX],
                       true
                     );
-                    setText(
-                      Informations[
-                        Math.floor(Math.random() * Informations.length)
-                      ]
+
+                    // Get an info which have never been displayed
+                    let randIndexQuote = Math.floor(
+                      Math.random() * Informations.length
                     );
+                    while (alreadyShown.current.includes(randIndexQuote)) {
+                      randIndexQuote = Math.floor(
+                        Math.random() * Informations.length
+                      );
+                    }
+                    alreadyShown.current.push(randIndexQuote);
+
+                    setText(Informations[randIndexQuote]);
                     index++;
                   }
                 }
@@ -346,11 +367,19 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                       [currentY, currentX],
                       true
                     );
-                    setText(
-                      Informations[
-                        Math.floor(Math.random() * Informations.length)
-                      ]
+
+                    // Get an info which have never been displayed
+                    let randIndexQuote = Math.floor(
+                      Math.random() * Informations.length
                     );
+                    while (alreadyShown.current.includes(randIndexQuote)) {
+                      randIndexQuote = Math.floor(
+                        Math.random() * Informations.length
+                      );
+                    }
+                    alreadyShown.current.push(randIndexQuote);
+
+                    setText(Informations[randIndexQuote]);
                     index++;
                   }
                 }
@@ -394,6 +423,49 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
 
     // Attack the ennemy
     const attack = contextSafe((side: number) => {
+      const timeLineAttack = gsap.timeline();
+      switch (side) {
+        // Top
+        case 0:
+          timeLineAttack.to(playerRef.current?.position!, {
+            z: PLAYER_POS_Y - CELL_HEIGHT / 2,
+            duration: 0.15,
+            yoyo: true,
+            repeat: 1,
+            onComplete: () => {},
+          });
+          break;
+        // Right
+        case 1:
+          timeLineAttack.to(playerRef.current?.position!, {
+            x: PLAYER_POS_X + CELL_WIDTH / 2,
+            duration: 0.15,
+            yoyo: true,
+            repeat: 1,
+            onComplete: () => {},
+          });
+          break;
+        // Bottom
+        case 2:
+          timeLineAttack.to(playerRef.current?.position!, {
+            z: PLAYER_POS_Y + CELL_HEIGHT / 2,
+            duration: 0.15,
+            yoyo: true,
+            repeat: 1,
+            onComplete: () => {},
+          });
+          break;
+        // Left
+        case 3:
+          timeLineAttack.to(playerRef.current?.position!, {
+            x: PLAYER_POS_X - CELL_WIDTH / 2,
+            duration: 0.15,
+            yoyo: true,
+            repeat: 1,
+            onComplete: () => {},
+          });
+          break;
+      }
       props.mutex.release();
     });
 

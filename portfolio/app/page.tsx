@@ -435,43 +435,34 @@ const Scene = () => {
           maze.current.paths[playerPosition[0] - 1][playerPosition[1]].ennemy
         ) {
           // Top
-          console.log("top");
           side = 0;
-        } else if (playerPosition[1] + 1 < maze.current.paths[0].length) {
-          console.log("not end right");
-          if (
-            !maze.current.paths[playerPosition[0]][playerPosition[1]].right &&
-            !maze.current.paths[playerPosition[0]][playerPosition[1] + 1]
-              .left &&
-            maze.current.paths[playerPosition[0]][playerPosition[1] + 1].ennemy
-          ) {
-            // Right
-            console.log("right");
-            side = 1;
-          }
-        } else if (playerPosition[0] + 1 < maze.current.paths.length) {
-          console.log("not end bottom");
-          if (
-            !maze.current.paths[playerPosition[0]][playerPosition[1]].bottom &&
-            !maze.current.paths[playerPosition[0] + 1][playerPosition[1]].top &&
-            maze.current.paths[playerPosition[0] + 1][playerPosition[1]].ennemy
-          ) {
-            // Bottom
-            console.log("bottom");
-            side = 2;
-          }
-        } else if (playerPosition[1] - 1 >= 0) {
-          console.log("not end left");
-          if (
-            !maze.current.paths[playerPosition[0]][playerPosition[1]].left &&
-            !maze.current.paths[playerPosition[0]][playerPosition[1] - 1]
-              .right &&
-            maze.current.paths[playerPosition[0]][playerPosition[1] - 1].ennemy
-          ) {
-            // Left
-            console.log("left");
-            side = 3;
-          }
+        }
+        if (
+          playerPosition[1] + 1 < maze.current.paths[0].length &&
+          !maze.current.paths[playerPosition[0]][playerPosition[1]].right &&
+          !maze.current.paths[playerPosition[0]][playerPosition[1] + 1].left &&
+          maze.current.paths[playerPosition[0]][playerPosition[1] + 1].ennemy
+        ) {
+          // Right
+          side = 1;
+        }
+        if (
+          playerPosition[0] + 1 < maze.current.paths.length &&
+          !maze.current.paths[playerPosition[0]][playerPosition[1]].bottom &&
+          !maze.current.paths[playerPosition[0] + 1][playerPosition[1]].top &&
+          maze.current.paths[playerPosition[0] + 1][playerPosition[1]].ennemy
+        ) {
+          // Bottom
+          side = 2;
+        }
+        if (
+          playerPosition[1] - 1 >= 0 &&
+          !maze.current.paths[playerPosition[0]][playerPosition[1]].left &&
+          !maze.current.paths[playerPosition[0]][playerPosition[1] - 1].right &&
+          maze.current.paths[playerPosition[0]][playerPosition[1] - 1].ennemy
+        ) {
+          // Left
+          side = 3;
         }
 
         boardRef.current?.attack(side);
