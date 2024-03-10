@@ -11,9 +11,9 @@ const Card = React.forwardRef<Mesh, CardProp>((props, ref) => (
     scale={0.4}
     position={props.position}
     rotation={props.rotation}
-    onPointerEnter={(e) => props.hoverIn(props.index)}
-    onPointerLeave={(e) => props.hoverOut(props.index)}
-    onClick={(e) => props.clickOn(props.index)}
+    onPointerEnter={(e) => props.hoverIn(props.index, e)}
+    onPointerLeave={(e) => props.hoverOut(props.index, e)}
+    onClick={(e) => props.clickOn(props.index, e)}
   >
     <boxGeometry args={[0.4, 0.6, 0.001]} />
     <meshStandardMaterial color={props.cardConfig.frontTexture} />

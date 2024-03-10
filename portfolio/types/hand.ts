@@ -1,6 +1,6 @@
 import { Mutex } from "async-mutex";
-import { Mesh } from "three";
 import { CARD_BASE, CARD_CONFIG, CardType } from "@/config/cardconfig";
+import { ThreeEvent } from "@react-three/fiber";
 
 // Hand Config
 // All hand and cards types for the Hand and Card components
@@ -14,9 +14,9 @@ export interface CardProp {
   rotation: [number, number, number];
   cardBase: CardBase;
   cardConfig: CardConfig;
-  hoverIn: (index: number) => void;
-  hoverOut: (index: number) => void;
-  clickOn: (index: number) => void;
+  hoverIn: (index: number, e: ThreeEvent<PointerEvent>) => void;
+  hoverOut: (index: number, e: ThreeEvent<PointerEvent>) => void;
+  clickOn: (index: number, e: ThreeEvent<MouseEvent>) => void;
 }
 
 // Hand

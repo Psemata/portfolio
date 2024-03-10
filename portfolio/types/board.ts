@@ -25,21 +25,41 @@ export interface Maze {
 }
 
 // Board props given to the board
-export interface BoardProps {  
+export interface BoardProps {
   mutex: Mutex;
   maze: Maze;
   playerMovement: (maze: Maze, newPos: number[]) => void;
   playerAttack: () => void;
-  playerShield: () => void;
-  playerHeal: () => void;
+  playerTreasure: (mazeB: Maze, treasuePos: number[]) => void;
+  playerExit: () => void;
 }
 
 // Ref handle for the board animation
 export type BoardAnimationHandle = {
   boardMeshRef: () => Mesh;
-  moveForward: (steps: number, playerPosition: number[]) => void;
-  moveBackward: (steps: number, playerPosition: number[]) => void;
-  moveLeft: (steps: number, playerPosition: number[]) => void;
-  moveRight: (steps: number, playerPosition: number[]) => void;
+  moveForward: (
+    steps: number,
+    playerPosition: number[],
+    treasureFlags: number[][],
+    exitFlag: boolean
+  ) => void;
+  moveBackward: (
+    steps: number,
+    playerPosition: number[],
+    treasureFlags: number[][],
+    exitFlag: boolean
+  ) => void;
+  moveLeft: (
+    steps: number,
+    playerPosition: number[],
+    treasureFlags: number[][],
+    exitFlag: boolean
+  ) => void;
+  moveRight: (
+    steps: number,
+    playerPosition: number[],
+    treasureFlags: number[][],
+    exitFlag: boolean
+  ) => void;
   attack: () => void;
 };

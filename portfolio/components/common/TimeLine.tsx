@@ -6,7 +6,6 @@ import { CSSPlugin } from "gsap/CSSPlugin";
 
 import TimeEvent from "./TimeEvent";
 import { TimeLineInfo } from "@/config/timelineconst";
-import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(CSSPlugin);
 

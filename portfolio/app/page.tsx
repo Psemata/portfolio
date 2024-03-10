@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import React, { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
@@ -10,9 +12,8 @@ import { Mutex } from "async-mutex";
 import { OrbitControls } from "@react-three/drei";
 
 // Custom types
-import { CARD_BASE, CARD_CONFIG, CardType } from "@/config/cardconfig";
+import { CardType } from "@/config/cardconfig";
 import { BoardAnimationHandle, Cell, Maze } from "@/types/board";
-import { CardInfo } from "@/types/hand";
 
 // Custom component - 3D Meshes
 import Board from "@/components/game/3d/Board";
@@ -21,6 +22,9 @@ import Hand from "@/components/game/3d/Hand";
 // This component is used as the Game Controller of the app => all the game logic will depart from here
 
 const Scene = () => {
+  // Router
+  const router = useRouter();
+
   // Mutex
   const [mutex, setMutex] = useState(new Mutex());
 
@@ -203,15 +207,38 @@ const Scene = () => {
     // Position of the player (x is 1st and y is 2nd)
     const playerPosition = findPlayer();
 
-    // TODO : Show dice result
+    // Dice thrown to get a card number
     const diceThrow = Math.floor(Math.random() * 4 + 1);
+    // TODO : Show dice result
+
+    // The real possible steps
+    let steps = 0;
+    // The positions of the encountered treasures
+    let treasureFlags = [];
+    // If the pawn encountered the exit
+    let exitFlag = false;
 
     switch (actionType) {
-      // TODO : CHECK FOR TREASURE INTERACTION, ENNEMY, EXIT
+      // TODO : CHECK FOR EXIT
       case CardType.Forward: {
-        let steps = 0;
         for (let i = 0; i < diceThrow; i++) {
-          // End of the maze
+          // Treasure
+          if (playerPosition[1] - i - 1 >= 0) {
+            if (
+              maze.current.paths[playerPosition[1] - i - 1][playerPosition[0]]
+                .treasure
+            ) {
+              treasureFlags.push([
+                playerPosition[1] - i - 1,
+                playerPosition[0],
+              ]);
+            }
+          }
+          // Exit of the maze
+          if (playerPosition[1] - i - 1 == 0 && playerPosition[0] == 0) {
+            exitFlag = true;
+          }
+          // Border of the maze
           if (playerPosition[1] - i <= 0) {
             break;
           }
@@ -233,13 +260,34 @@ const Scene = () => {
           // Otherwise, count possible steps
           steps++;
         }
-        boardRef.current?.moveForward(steps, playerPosition);
+
+        boardRef.current?.moveForward(
+          steps,
+          playerPosition,
+          treasureFlags,
+          exitFlag
+        );
         break;
       }
       case CardType.Backward: {
-        let steps = 0;
         for (let i = 0; i < diceThrow; i++) {
-          // End of the maze
+          // Treasure
+          if (playerPosition[1] + i + 1 < maze.current.paths.length) {
+            if (
+              maze.current.paths[playerPosition[1] + i + 1][playerPosition[0]]
+                .treasure
+            ) {
+              treasureFlags.push([
+                playerPosition[1] + i + 1,
+                playerPosition[0],
+              ]);
+            }
+          }
+          // Exit of the maze
+          if (playerPosition[1] + i + 1 == 0 && playerPosition[0] == 0) {
+            exitFlag = true;
+          }
+          // Border of the maze
           if (playerPosition[1] + i >= maze.current.paths.length - 1) {
             break;
           }
@@ -261,13 +309,33 @@ const Scene = () => {
           // Otherwise, count possible steps
           steps++;
         }
-        boardRef.current?.moveBackward(steps, playerPosition);
+        boardRef.current?.moveBackward(
+          steps,
+          playerPosition,
+          treasureFlags,
+          exitFlag
+        );
         break;
       }
       case CardType.Left: {
-        let steps = 0;
         for (let i = 0; i < diceThrow; i++) {
-          // End of the maze
+          // Treasure
+          if (playerPosition[0] - i - 1 >= 0) {
+            if (
+              maze.current.paths[playerPosition[1]][playerPosition[0] - i - 1]
+                .treasure
+            ) {
+              treasureFlags.push([
+                playerPosition[1],
+                playerPosition[0] - i - 1,
+              ]);
+            }
+          }
+          // Exit of the maze
+          if (playerPosition[1] == 0 && playerPosition[0] - i - 1 == 0) {
+            exitFlag = true;
+          }
+          // Border of the maze
           if (playerPosition[0] - i <= 0) {
             break;
           }
@@ -289,13 +357,33 @@ const Scene = () => {
           // Otherwise, count possible steps
           steps++;
         }
-        boardRef.current?.moveLeft(steps, playerPosition);
+        boardRef.current?.moveLeft(
+          steps,
+          playerPosition,
+          treasureFlags,
+          exitFlag
+        );
         break;
       }
       case CardType.Right: {
-        let steps = 0;
         for (let i = 0; i < diceThrow; i++) {
-          // End of the maze
+          // Treasure
+          if (playerPosition[0] + i + 1 < maze.current.paths[0].length) {
+            if (
+              maze.current.paths[playerPosition[1]][playerPosition[0] + i + 1]
+                .treasure
+            ) {
+              treasureFlags.push([
+                playerPosition[1],
+                playerPosition[0] + i + 1,
+              ]);
+            }
+          }
+          // Exit of the maze
+          if (playerPosition[1] == 0 && playerPosition[0] + i + 1 == 0) {
+            exitFlag = true;
+          }
+          // Border of the maze
           if (playerPosition[0] + i >= maze.current.paths[0].length - 1) {
             break;
           }
@@ -319,7 +407,12 @@ const Scene = () => {
           steps++;
         }
 
-        boardRef.current?.moveRight(steps, playerPosition);
+        boardRef.current?.moveRight(
+          steps,
+          playerPosition,
+          treasureFlags,
+          exitFlag
+        );
         break;
       }
       case CardType.Attack: {
@@ -347,9 +440,15 @@ const Scene = () => {
 
   const playerAttack = (): void => {};
 
-  const playerShield = (): void => {};
+  const playerTreasure = (mazeB: Maze, treasuePos: number[]): void => {
+    mazeB.paths[treasuePos[0]][treasuePos[1]].treasure = false;
 
-  const playerHeal = (): void => {};
+    maze.current = mazeB;
+  };
+
+  const playerExit = () => {
+    router.push("/portfolio#myself");
+  }
 
   return (
     <>
@@ -359,8 +458,8 @@ const Scene = () => {
         maze={maze.current}
         playerMovement={playerMovement}
         playerAttack={playerAttack}
-        playerShield={playerShield}
-        playerHeal={playerHeal}
+        playerTreasure={playerTreasure}
+        playerExit={playerExit}
       />
       <Hand mutex={mutex} onCardUsed={onCardUsed} />
     </>
