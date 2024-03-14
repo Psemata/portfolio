@@ -23,4 +23,6 @@ const Card = React.forwardRef<Mesh, CardProp>((props, ref) => (
   </mesh>
 ));
 
+Card.displayName = "Card";
+
 export default Card;

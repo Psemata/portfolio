@@ -790,4 +790,6 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
   }
 );
 
+Board.displayName = "Board";
+
 export default Board;

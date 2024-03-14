@@ -1,22 +1,46 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
+import Image from "next/image";
+
 import { PassionProp } from "@/types/passion";
 import { ArrowBigDownDash } from "lucide-react";
+
+import { useScrollPosition } from "@/components/common/UseScrollPosition";
 
 const PassionDown = ({ side, image, title, content }: PassionProp) => {
   // GSAP
   const { contextSafe } = useGSAP();
 
+  // Scroll hook
+  const scrollY = useScrollPosition();
+
   // Animation refs
+  const parentRef = useRef<HTMLDivElement>(null);
   const passionRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const arrowRef = useRef(null);
+
+  useEffect(() => {
+    // Check if the parentRef has been set and is available
+    if (parentRef.current) {
+      // Retrieve the height of the component
+      const componentHeight = parentRef.current.offsetHeight;
+      // Calculate the top position of the component with a threshold of 500 pixels
+      const componentTop = parentRef.current.offsetTop - 400;
+      // Calculate the bottom position of the component
+      const componentBottom = componentTop + componentHeight;
+
+      // Check if the current scroll position is within the range of the component (with threshold)
+      if (scrollY >= componentTop && scrollY <= componentBottom) {
+        openPassion();
+      }
+    }
+  }, [scrollY]);
 
   // When passion is clicked
-  const clickPassion = contextSafe(() => {
+  const openPassion = contextSafe(() => {
     let newHeight = 0;
     let position = 0;
 
@@ -25,16 +49,6 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
     position = newHeight;
 
     const timelinePassion = gsap.timeline();
-    // Moving the arrow
-    timelinePassion.to(
-      arrowRef.current,
-      {
-        y: position,
-        autoAlpha: 0,
-        duration: 0.5,
-      },
-      "<"
-    );
     // Sizing the content
     timelinePassion.to(
       passionRef.current,
@@ -54,20 +68,10 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
     timelinePassion.play();
   });
 
-  // Animate the arrows
-  useGSAP(() => {
-    gsap.to(arrowRef.current, {
-      y: -10,
-      yoyo: true,
-      repeat: -1,
-      repeatDelay: 0.3,
-    });
-  });
-
   return (
     <div
+      ref={parentRef}
       className="w-full relative flex flex-col justify-center items-center"
-      onClick={(e) => clickPassion()}
     >
       {/* Content */}
       <div
@@ -76,9 +80,9 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
       >
         <div
           ref={imageRef}
-          className="w-80 h-52 rounded-xl bg-destructive flex justify-center items-center"
+          className="w-80 h-52 rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
         >
-          Image
+          <Image src={image} width={500} height={500} alt={title}></Image>
         </div>
         <div
           ref={contentRef}
@@ -91,13 +95,6 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
             {content}
           </div>
         </div>
-      </div>
-      {/* Down arrow */}
-      <div className="flex items-center justify-center absolute mt-72">
-        <ArrowBigDownDash
-          ref={arrowRef}
-          className="w-9 h-9 text-destructive opacity-75"
-        />
       </div>
     </div>
   );

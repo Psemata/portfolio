@@ -12,6 +12,8 @@ const Page = () => {
   // TODO : Séparer les titres, sous-titres, texte courant (police, taille, éléments, ...)
   // TODO : Ajouter du remplissage (fioritures, éléments 3d, ...)
 
+  // TODO : Remplir les informations du jeu
+
   return (
     <>
       <main className="bg-primary overflow-x-hidden">
@@ -26,7 +28,7 @@ const Page = () => {
           className="min-h-screen bg-gradient-to-b from-[#C0AE8F] to-primary md:h-[95vh] md:min-h-max md:mb-36"
         >
           <div className="text-xl ml-1 font-medium font-portfolio_satoshi_Bl text-destructive md:ml-3 md:text-5xl">
-            To better understand me, here's my path and where I am in life today
+            To better understand me, here`&apos;`s my path and where I am in life today
           </div>
           <TimeLine></TimeLine>
         </section>

@@ -1,11 +1,8 @@
-import { useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 import { Badge } from "../ui/badge";
 import { BookOpen } from "lucide-react";
 
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { CSSPlugin } from "gsap/CSSPlugin";
 
@@ -72,7 +69,7 @@ const Project = ({
             ))}
           </div>
           {/* Description */}
-          <div className="h-full p-3 font-portfolio_satoshi_R text-lg">
+          <div className="h-full p-3 font-portfolio_satoshi_R text-lg whitespace-pre-line">
             {description}
           </div>
         </div>

@@ -65,7 +65,8 @@ export const ProjectListInfo = [
     icon: "",
     title: "Camelote",
     tags: ["Unity", "C#", "PhP", "PostSQL", "Google Maps SDK", "Game"],
-    description: "",
+    description:
+      "'Camelote' is a game created during my third year at HE-Arc Engineering school, inspired by 'Pokémon Go.' Players explore their surroundings, collect resources from familiar places, and use them to upgrade their castle, aiming to become the most prominent ruler in Camelote.",
     carousel: [],
     content: [
       "Camelote",
@@ -73,7 +74,7 @@ export const ProjectListInfo = [
       "Specifics",
       "The game was developed using Unity along with the Unity UI Toolkit for crafting the user interface. Leveraging the Google Maps SDK, the game environment was meticulously modeled, generating 3D representations of buildings, roads, and public locations to immerse players in their surroundings. To manage game data, a database was utilized, accessible through PHP scripts for seamless integration and efficient storage of player information and progress.",
     ],
-    link: "https://github.com/HE-Arc/purrse",
+    link: "https://github.com/Psemata/camelote",
   },
   // Pixel Dunker
   {
@@ -81,7 +82,7 @@ export const ProjectListInfo = [
     title: "Pixel Dunker",
     tags: ["C#", "Unity", "Animation", "Game"],
     description:
-      "Pixel Dunker, made with the Unity engine, is a dynamic basketball versus game. The player have to win a basketball game using different powers available on the field and the best of theirs wits",
+      "'Pixel Dunker' is a thrilling family game featuring fast-paced basketball showdowns for two players. With numerous traps and abilities, players aim for the highest score to win. The game is accessible via controller or keyboard inputs, offering versatile gameplay options. Whether playing with friends or family, 'Pixel Dunker' guarantees hours of energetic fun and excitement.",
     carousel: [],
     content: [
       "Pixel Dunker",
@@ -96,7 +97,8 @@ export const ProjectListInfo = [
     icon: "",
     title: "Jeu de Dame X",
     tags: [".NET", "C#", "WPF", "Game"],
-    description: "",
+    description:
+      "'Jeu de Dame X' reinvents checkers with strategic twists. Capturing opponent pawns fills a power gauge, unlocking special abilities:\n- At 15%: Make two moves in one turn.\n- At 50%: Transform a pawn into a super pawn for one turn.\n- At 100%: Remove an opponent's pawn freely from the board.",
     carousel: [],
     content: [
       "Jeu de Dame X",
@@ -104,14 +106,15 @@ export const ProjectListInfo = [
       "Specifics",
       "In preparation for developing the game, we meticulously analyzed the rules of traditional checkers, ensuring a thorough understanding of its mechanics. Multiple tests were conducted to evaluate the integration of the special powers and to assess their impact on gameplay, ensuring they wouldn't disrupt the balance of the game. Additionally, extensive research was conducted to determine if similar games already existed in the market, allowing us to identify what would be the best ways to perfect the application. In this group project, my responsibilities encompassed designing the game board, crafting the pawn pieces, and creating the user interface (UI) elements. Furthermore, I took charge of implementing the fundamental gameplay mechanics, including the selection of pawns upon user interaction and enabling their movement upon clicking the board.",
     ],
-    link: "https://github.com/Psemata/pixel-dunker",
+    link: "https://github.com/Psemata/jeu-de-dame-x",
   },
   // PJTG
   {
     icon: "",
     title: "PJTG",
     tags: ["Unity", "C#", "Animation", "Game"],
-    description: "",
+    description:
+      "'PJTG' is a rhythm game where players tap keys to fend off junk food enemies and prevent their character from getting hit. Developed during a GameJam themed 'Always more,' it explores eating disorders. Players must combat the onslaught of unhealthy treats to maintain fitness, with failure resulting in character enlargement until explosion. The game juxtaposes high-paced rhythm gameplay with the narrative of struggling with the need to constantly push oneself further, mirroring the relentless pursuit often associated with eating disorders.",
     carousel: [],
     content: [
       "PJTG",
@@ -119,7 +122,7 @@ export const ProjectListInfo = [
       "Specifics",
       "Our inspiration stemmed from a mini-game featured in the PSP game 'Daxter.' In this mini-game, players combat waves of enemies utilizing a combination of attacks and combos. In this project, my responsibilities centered around crafting the Game Controller and designing the game controls. This involved creating the animations and implementing functionality for the arms to dynamically respond to the keys being touched. Additionally, I developed systems to monitor the player's health status and determine if the game was reaching its conclusion.",
     ],
-    link: "https://github.com/Psemata/pixel-dunker",
+    link: "https://github.com/Tino3210/PJTG",
   },
   // Dwar
   {
@@ -127,7 +130,7 @@ export const ProjectListInfo = [
     title: "Dwar",
     tags: ["Qt", "C++", "Game"],
     description:
-      "Dwar is a tactical RPG where the user have to fight an army of Dwarves controlled by an AI. There a multiple difficulty choices and the player's army is customizable.",
+      "'Dwar' is a tactical RPG reminiscent of 'Fire Emblem,' where players command a team of dwarven warriors in strategic battles against an AI. Each soldier possesses unique abilities, aiding players in achieving victory by defeating the opponent's forces through strategic planning and skillful maneuvering.",
     carousel: [],
     content: [
       "Dwar",
@@ -142,7 +145,8 @@ export const ProjectListInfo = [
     icon: "",
     title: "Piarco Tile",
     tags: [".NET", "Xamarin", "C#", "WPF", "Game"],
-    description: "",
+    description:
+      "'Piarco Tile' is an Android piano rhythm game where players tap on four tiles to match the music's rhythm. It offers various songs and tracks players' accuracy in hitting tiles, adding to the challenge and enjoyment of the game.",
     carousel: [],
     content: [
       "Piarco Tile",
@@ -150,14 +154,15 @@ export const ProjectListInfo = [
       "Specifics",
       "'Piano Tile' is an immensely popular game, and we were inspired to create our own unique version! Drawing inspiration from the diverse array of existing versions and the game 'Osu!', we set out to craft an experience that pays homage to the original while offering our own distinct twist. In this project, my primary job was to design and develop the user interface (UI) for the application. This included ensuring seamless interaction with the phone's touch functionality, optimizing touch responsiveness, and implementing smooth navigation between different interfaces within the application.",
     ],
-    link: "https://github.com/Psemata/dwar",
+    link: "https://github.com/Psemata/piarco-tile",
   },
   // Starc
   {
     icon: "",
     title: "Starc",
     tags: ["Kotlin", "Android", "App"],
-    description: "",
+    description:
+      "'Starc' is a mobile app enabling users to observe stars and constellations above them. Users can navigate the celestial landscape using the gyroscope or their fingers for specific stars.",
     carousel: [],
     content: [
       "Starc",
@@ -165,14 +170,15 @@ export const ProjectListInfo = [
       "Specifics",
       "We drew inspiration from the widely acclaimed software Stellarium and aimed to create our own compact version tailored for pocket-sized devices. In this group project, my role involved creating the visual representations of stars and constellations. Additionally, I was responsible for designing the user interface (UI) and implementing a pop-up system to display the data of clicked stars.",
     ],
-    link: "https://github.com/Psemata/dwar",
+    link: "https://github.com/Psemata/starc",
   },
   // Bio Sensation
   {
     icon: "",
     title: "Bio Sensation",
     tags: ["HTML", "PhP", "CSS", "Javascript", "Spotify"],
-    description: "",
+    description:
+      "'Bio Sensation' is a web app built with HTML, PHP, and CSS, utilizing the Spotify Web API. It provides users with personalized playlists based on their current location, ensuring an immersive musical experience tailored to the ambiance, whether at the beach, in town, or elsewhere.",
     carousel: [],
     content: [
       "Bio Sensation",
@@ -180,14 +186,15 @@ export const ProjectListInfo = [
       "Specifics",
       "Out of curiosity and a desire to explore the Spotify API, we conceived the idea of 'Biomes,' where music is curated based on different environments or settings. And this is how Bio Sensation was born. In this project, my primary responsibility involved designing the user interface (UI) and crafting the overall interface experience.",
     ],
-    link: "https://github.com/Psemata/dwar",
+    link: "https://github.com/Psemata/bio-sensation",
   },
   // Arc Attorney
   {
     icon: "",
     title: "Arc Attorney",
     tags: ["Java", "LibGDX", "Game"],
-    description: "",
+    description:
+      "'Arc Attorney' is a multiplayer game where users connect to a server to collectively solve a pre-established trial. Players assume distinct roles such as defendant, accuser, and judge. Developed with Java and LibGDX for the UI, it offers a seamless and immersive experience.",
     carousel: [],
     content: [
       "Arc Attorney",
@@ -195,7 +202,7 @@ export const ProjectListInfo = [
       "Specifics",
       "We drew inspiration from the 'Ace Attorney' franchise and sought to create a multiplayer experience inspired by its captivating courtroom drama. In this project, my responsibilities included creating the Java server and implementing connection management. Additionally, I was tasked with developing multiple windows and designing the user interface (UI) to ensure smooth navigation and an engaging experience for players.",
     ],
-    link: "https://github.com/Psemata/dwar",
+    link: "https://github.com/Psemata/arc-attorney",
   },
   // Tontube
   {
@@ -203,7 +210,7 @@ export const ProjectListInfo = [
     title: "Tontube",
     tags: ["Spring", "Spring Boot", "Spring Security", "VueJS", "VueRouter"],
     description:
-      "Tontube is a web application that combines a Spring backend with a Vue.js frontend, providing users with a homemade YouTube experience. Users can seamlessly add videos, watch a variety of content, and subscribe to other user accounts.",
+      "'Tontube' is a web app featuring a Spring backend and a Vue.js frontend, offering users a homemade YouTube experience. It allows seamless video addition, diverse content watching, and user account subscriptions.",
     carousel: [],
     content: [
       "Tontube",
@@ -219,7 +226,7 @@ export const ProjectListInfo = [
     title: "Arc-au-cou",
     tags: ["Django", "Django RF API", "VueJS", "NuxtJS", "TailwindCSS", "Game"],
     description:
-      "Every day, a new sudoku is proposed, and you have to solve it as quickly as possible. An overall ranking shows the best players of the day on Arc Au Cou.",
+      "'Arc-Au-Cou' is a web app generating a new Sudoku puzzle daily. Users aim to solve the puzzle quickly, with their completion time recorded on a leaderboard for comparison with other players.",
     carousel: [],
     content: [
       "Arc-Au-Cou",

@@ -1,13 +1,25 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
+import Image from "next/image";
+
 import { PassionProp } from "@/types/passion";
-import { ArrowBigRightDash, ArrowBigLeftDash } from "lucide-react";
+
+import { useScrollPosition } from "@/components/common/UseScrollPosition";
 
 const Passion = ({ side, image, title, content }: PassionProp) => {
   // GSAP
   const { contextSafe } = useGSAP();
+
+  // Scroll hook
+  const scrollY = useScrollPosition();
+
+  // Animation refs
+  const parentRef = useRef<HTMLDivElement>(null);
+  const passionRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Width of the viewport
   const [width, setWidth] = useState(0);
@@ -18,20 +30,30 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
     window.addEventListener("resize", () => {
       setWidth(window.innerWidth);
       if (isOpen) {
-        clickPassion();
+        openPassion();
       }
     });
   });
 
-  // Animation refs
-  const parentRef = useRef<HTMLDivElement>(null);
-  const passionRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const arrowRef = useRef(null);
+  useEffect(() => {
+    // Check if the parentRef has been set and is available
+    if (parentRef.current) {
+      // Retrieve the height of the component
+      const componentHeight = parentRef.current.offsetHeight;
+      // Calculate the top position of the component with a threshold of 500 pixels
+      const componentTop = parentRef.current.offsetTop - 500;
+      // Calculate the bottom position of the component
+      const componentBottom = componentTop + componentHeight;
+
+      // Check if the current scroll position is within the range of the component (with threshold)
+      if (scrollY >= componentTop && scrollY <= componentBottom) {
+        openPassion();
+      }
+    }
+  }, [scrollY]);
 
   // When passion is clicked
-  const clickPassion = contextSafe(() => {
+  const openPassion = contextSafe(() => {
     let parentWidth = 0;
     let position = 0;
     let margin = 15;
@@ -46,16 +68,6 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
     }
 
     const timelinePassion = gsap.timeline();
-    // Moving the arrow
-    timelinePassion.to(
-      arrowRef.current,
-      {
-        x: position,
-        autoAlpha: 0,
-        duration: 0.5,
-      },
-      "<"
-    );
     // Sizing the content
     timelinePassion.to(
       passionRef.current,
@@ -79,40 +91,11 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
     isOpen = true;
   });
 
-  // Animate the arrows
-  useGSAP(() => {
-    if (side) {
-      gsap.to(arrowRef.current, {
-        x: 10,
-        yoyo: true,
-        repeat: -1,
-        repeatDelay: 0.3,
-      });
-    } else {
-      gsap.to(arrowRef.current, {
-        x: -10,
-        yoyo: true,
-        repeat: -1,
-        repeatDelay: 0.3,
-      });
-    }
-  });
-
   return (
     <div
       ref={parentRef}
       className="w-full relative flex flex-row justify-center items-center"
-      onClick={(e) => clickPassion()}
     >
-      {/* Left arrow */}
-      {!side && (
-        <div className="md:flex md:items-center md:justify-center md:absolute md:mr-96">
-          <ArrowBigLeftDash
-            ref={arrowRef}
-            className="w-9 h-9 text-destructive opacity-75 mr-10"
-          />
-        </div>
-      )}
       {/* Content */}
       <div
         ref={passionRef}
@@ -122,9 +105,9 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
           <>
             <div
               ref={imageRef}
-              className="w-80 h-full rounded-xl bg-destructive flex justify-center items-center"
+              className="w-80 h-full rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
             >
-              Image
+              <Image src={image} width={500} height={500} alt={title}></Image>
             </div>
             <div
               ref={contentRef}
@@ -153,22 +136,13 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
             </div>
             <div
               ref={imageRef}
-              className="w-80 h-full rounded-xl bg-destructive flex justify-center items-center"
+              className="w-80 h-full rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
             >
-              Image
+              <Image src={image} width={500} height={500} alt={title}></Image>
             </div>
           </>
         )}
       </div>
-      {/* Right arrow */}
-      {side && (
-        <div className="md:flex md:items-center md:justify-center md:absolute md:ml-96">
-          <ArrowBigRightDash
-            ref={arrowRef}
-            className="w-9 h-9 text-destructive opacity-75 ml-10"
-          />
-        </div>
-      )}
     </div>
   );
 };
