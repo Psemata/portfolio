@@ -4,30 +4,35 @@ export const PassionListInfo = [
     side: true,
     image: null,
     title: "Video Games",
-    content: "I've always loved to play Video Games, the simulation of adventure, exploration and discovery excited me to the upmost. I played them my whole life",
+    content:
+      "I've always loved to play Video Games since I was a child : the simulation of adventure, exploration and discovery excited me unbeliveably. I started with the 'Pokémon' license when I was 5 and to this day I still play them. It has helped me developped my imagination and my love for game art and UI design.",
   },
   {
     side: false,
     image: null,
     title: "Reading",
-    content: "I also enjoy reading a lot, mostly fantasy and SF books. My passion for adventure seems to help my imagination whenever I read theses kinds of texts.",
+    content:
+      "The love for books run in my family, I've read books since I can remember. I've always longed for the fantasies and stories lying dormant in the pages, waiting for me to read them. My favorite type of books are the fantasy or science fiction ones, the same way the games do, they inspire me.",
   },
   {
     side: true,
     image: null,
     title: "Cooking",
-    content: "My grandfather was a wonderful cook and he gave me his passion for it. Since then, I try to cook almost every day and to be better at it.",
+    content:
+      "My grandparents were both skilled cooks and they gave me their love for it. I enjoy toying with spices, trying different dishes or cooking meat with special oils, in summary, I am what can be called a foody !",
   },
   {
     side: false,
     image: null,
     title: "Tabletop RPG",
-    content: "Being with your friends and enjoy a good Dungeons & Dragons session is one of the best hobby ever. You get to live in a imaginary world and enjoy time with your friend",
+    content:
+      "A thrilling adventure lived with your group of friends: this is how you could sum up an evening of tabletop RPG. You need a game master to narrate the story, players to be its actors and a good sense of humor to enjoy it ; the players throw dices and imagine situations and fights to make their way through the prepared scenario. Must I say more ?",
   },
   {
     side: true,
     image: null,
     title: "Drawing",
-    content: "I have picked up on learning to draw to develop my creative spirit. And I've started to like it !",
+    content:
+      "With the objective to improve and develop my creative skills, I tried picking up drawing. Drawing nature, people and ideas of products or designs feels like meditation and I've started to like it !",
   },
 ];

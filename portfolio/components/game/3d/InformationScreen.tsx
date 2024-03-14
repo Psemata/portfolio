@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { ThreeEvent } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
@@ -21,19 +21,21 @@ const InformationScreen = ({ text, closeText }: InformationTextProp) => {
   const { contextSafe } = useGSAP();
 
   useGSAP(() => {
-    // Down arrow ping animation
-    gsap.to(arrowRef.current!.position, {
-      y: 0.01,
-      yoyo: true,
-      duration: 1,
-      repeat: -1,
-    });
-
     // Fade in animation
     if (text != "") {
       gsap.to(informationRef.current?.material!, {
         duration: 2,
-        opacity: 0.6,
+        opacity: 0.4,
+      });
+    }
+
+    if (isNaN(+text)) {
+      // Down arrow ping animation
+      gsap.to(arrowRef.current!.position, {
+        y: 0.01,
+        yoyo: true,
+        duration: 1,
+        repeat: -1,
       });
     }
   });
@@ -57,7 +59,9 @@ const InformationScreen = ({ text, closeText }: InformationTextProp) => {
   // Click on the informations will close the information
   const clickInformation = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    fadeOut();
+    if (isNaN(+text)) {
+      fadeOut();
+    }
   };
 
   return (
@@ -74,11 +78,17 @@ const InformationScreen = ({ text, closeText }: InformationTextProp) => {
       <Text scale={0.018} position={[0, 0, 0.005]} anchorX="center">
         {text}
       </Text>
-      <mesh ref={arrowRef}>
-        <Text scale={0.03} position={[0, -0.1, 0.001]} rotation={[0, 0, -1.58]}>
-          {">"}
-        </Text>
-      </mesh>
+      {isNaN(+text) && (
+        <mesh ref={arrowRef}>
+          <Text
+            scale={0.03}
+            position={[0, -0.1, 0.001]}
+            rotation={[0, 0, -1.58]}
+          >
+            {">"}
+          </Text>
+        </mesh>
+      )}
     </mesh>
   );
 };

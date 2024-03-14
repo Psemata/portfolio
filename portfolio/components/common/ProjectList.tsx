@@ -28,11 +28,13 @@ const ProjectList = () => {
       {ProjectListInfo.map((project, i) => (
         <Project
           key={i}
-          video={project.video!}
-          photo={project.photo!}
+          icon={project.icon}
           title={project.title}
           tags={project.tags}
           description={project.description}
+          carousel={project.carousel}
+          content={project.content}
+          others={project.others}
           link={project.link}
         />
       ))}

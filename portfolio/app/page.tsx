@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import React, { useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 import { Mutex } from "async-mutex";
@@ -27,6 +27,14 @@ const Scene = () => {
 
   // Mutex
   const [mutex, setMutex] = useState(new Mutex());
+
+  // Get the viewport
+  const { viewport } = useThree();
+
+  // Scale function for the board and the hand of cards
+  const boardScale = viewport.width * 0.0801 + 0.2214;
+  const handScale = viewport.width * 0.0162381597 + 0.8421650877;
+  // const handScale = 0.88;
 
   // Maze configs
   // Generate the maze of the board
@@ -209,7 +217,6 @@ const Scene = () => {
 
     // Dice thrown to get a card number
     const diceThrow = Math.floor(Math.random() * 4 + 1);
-    // TODO : Show dice result
 
     // The real possible steps
     let steps = 0;
@@ -465,7 +472,8 @@ const Scene = () => {
           side = 3;
         }
 
-        boardRef.current?.attack(side);
+        // Attack the nearest enemy
+        boardRef.current?.attack(side, playerPosition);
         break;
       }
     }
@@ -493,11 +501,14 @@ const Scene = () => {
     }
 
     maze.current = mazeB;
-
-    console.log(maze.current);
   };
 
-  const playerAttack = (): void => {};
+  // Delete the attacked ene
+  const playerAttack = (mazeB: Maze, enemyPos: number[]): void => {
+    mazeB.paths[enemyPos[0]][enemyPos[1]].ennemy = false;
+
+    maze.current = mazeB;
+  };
 
   const playerExit = () => {
     router.push("/portfolio#myself");
@@ -509,11 +520,12 @@ const Scene = () => {
         ref={boardRef}
         mutex={mutex}
         maze={maze.current}
+        scale={boardScale}
         playerMovement={playerMovement}
         playerAttack={playerAttack}
         playerExit={playerExit}
       />
-      <Hand mutex={mutex} onCardUsed={onCardUsed} />
+      <Hand mutex={mutex} scale={handScale} onCardUsed={onCardUsed} />
     </>
   );
 };

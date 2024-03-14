@@ -38,9 +38,8 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
       moveRight(steps, playerPosition, treasureFlags, exitFlag) {
         mr(steps, playerPosition, treasureFlags, exitFlag);
       },
-      attack(side) {
-        console.log("a");
-        attack(side);
+      attack(side, playerPosition) {
+        attack(side, playerPosition);
       },
     }));
 
@@ -66,8 +65,10 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
     const MARGIN_Y = (BOARD_HEIGHT - MAZE_HEIGHT) / 2;
 
     // Player position
-    let PLAYER_POS_X = 0;
-    let PLAYER_POS_Y = 0;
+    const PLAYER_POS_X = useRef(-(MAZE_WIDTH / 2) + MARGIN_X + 4 * CELL_WIDTH);
+    const PLAYER_POS_Y = useRef(
+      -(MAZE_HEIGHT / 2) + MARGIN_Y + 4 * CELL_HEIGHT
+    );
 
     // ANIMATIONS
     // Move forward animation
@@ -81,79 +82,97 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
         let index = 0;
 
         if (steps == 0) {
-          props.mutex.release();
+          setText("The player cannot move forward");
+          setTimeout(() => {
+            closeText();
+            props.mutex.release();
+          }, 1750);
         } else {
-          const timelineMF = gsap.timeline();
-          currentAnim.current = timelineMF;
-          for (let i = 0; i < steps; i++) {
-            currentAnim.current?.to(playerRef.current?.position!, {
-              z: PLAYER_POS_Y - CELL_HEIGHT,
-              onComplete: () => {
-                // If a treasure is encoutered
-                let treasure = false;
-                // Check if the pawn is interacting with a treasure
-                if (treasureFlags.length > 0 && index < treasureFlags.length) {
-                  const [treasureY, treasureX] = treasureFlags[index];
-                  const currentY = playerPosition[0] - i - 1;
-                  const currentX = playerPosition[1];
+          // Display the number of steps
+          setText(steps.toString());
+          // Set a timeout to wait a bit so the user can see the number of steps
+          setTimeout(() => {
+            closeText();
+            const timelineMF = gsap.timeline();
+            currentAnim.current = timelineMF;
+            for (let i = 0; i < steps; i++) {
+              currentAnim.current?.to(playerRef.current?.position!, {
+                z: PLAYER_POS_Y.current - CELL_HEIGHT,
+                onComplete: () => {
+                  // If a treasure is encoutered
+                  let treasure = false;
+                  // Check if the pawn is interacting with a treasure
+                  if (
+                    treasureFlags.length > 0 &&
+                    index < treasureFlags.length
+                  ) {
+                    const [treasureY, treasureX] = treasureFlags[index];
+                    const currentY = playerPosition[0] - i - 1;
+                    const currentX = playerPosition[1];
 
-                  if (currentY === treasureY && currentX === treasureX) {
-                    currentAnim.current?.pause();
-                    treasure = true;
-                    props.playerMovement(
-                      props.maze,
-                      [currentY, currentX],
-                      true
-                    );
+                    if (currentY === treasureY && currentX === treasureX) {
+                      currentAnim.current?.pause();
+                      treasure = true;
+                      props.playerMovement(
+                        props.maze,
+                        [currentY, currentX],
+                        true
+                      );
 
-                    // Get an info which have never been displayed
-                    let randIndexQuote = Math.floor(
-                      Math.random() * Informations.length
-                    );
-                    while (alreadyShown.current.includes(randIndexQuote)) {
-                      randIndexQuote = Math.floor(
+                      // Get an info which have never been displayed
+                      let randIndexQuote = Math.floor(
                         Math.random() * Informations.length
                       );
+                      while (alreadyShown.current.includes(randIndexQuote)) {
+                        randIndexQuote = Math.floor(
+                          Math.random() * Informations.length
+                        );
+                      }
+                      alreadyShown.current.push(randIndexQuote);
+
+                      setText(Informations[randIndexQuote]);
+                      index++;
                     }
-                    alreadyShown.current.push(randIndexQuote);
-
-                    setText(Informations[randIndexQuote]);
-                    index++;
                   }
-                }
 
-                // At the end of the animation
-                if (i === steps - 1) {
-                  // Move the pawn and release the mutex
-                  props.playerMovement(
-                    props.maze,
-                    [playerPosition[0] - steps, playerPosition[1]],
-                    false
-                  );
-                  props.mutex.release();
-                }
+                  // At the end of the animation
+                  if (i === steps - 1) {
+                    // Move the pawn and release the mutex
+                    props.playerMovement(
+                      props.maze,
+                      [playerPosition[0] - steps, playerPosition[1]],
+                      false
+                    );
+                    props.mutex.release();
+                  }
 
-                // Check if this is the exit
-                if (
-                  i === steps - 1 &&
-                  playerPosition[0] - i - 1 === 0 &&
-                  playerPosition[1] === 0 &&
-                  exitFlag
-                ) {
-                  console.log("exit of the maze");
-                  props.playerExit();
-                }
+                  // Check if this is the exit
+                  if (
+                    i === steps - 1 &&
+                    playerPosition[0] - i - 1 === 0 &&
+                    playerPosition[1] === 0 &&
+                    exitFlag
+                  ) {
+                    setText(
+                      "You've succeeded to escape the maze ! Congratulations !"
+                    );
+                    setTimeout(() => {
+                      props.mutex.release();
+                      props.playerExit();
+                    }, 2000);
+                  }
 
-                // Pause or continue animation based on the step count
-                if (i < steps - 1 && !treasure) {
-                  currentAnim.current?.pause();
-                  setTimeout(() => currentAnim.current?.play(), 500);
-                }
-              },
-            });
-            PLAYER_POS_Y -= CELL_HEIGHT;
-          }
-          currentAnim.current?.play();
+                  // Pause or continue animation based on the step count
+                  if (i < steps - 1 && !treasure) {
+                    currentAnim.current?.pause();
+                    setTimeout(() => currentAnim.current?.play(), 500);
+                  }
+                },
+              });
+              PLAYER_POS_Y.current -= CELL_HEIGHT;
+            }
+            currentAnim.current?.play();
+          }, 1750);
         }
       }
     );
@@ -168,80 +187,98 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
         let index = 0;
 
         if (steps === 0) {
-          props.mutex.release();
+          setText("The player cannot move backward");
+          setTimeout(() => {
+            closeText();
+            props.mutex.release();
+          }, 1750);
         } else {
-          const timelineMB = gsap.timeline();
-          currentAnim.current = timelineMB;
-          for (let i = 0; i < steps; i++) {
-            currentAnim.current?.to(playerRef.current?.position!, {
-              z: PLAYER_POS_Y + CELL_HEIGHT,
-              onComplete: () => {
-                // If a treasure is encoutered
-                let treasure = false;
-                // Check if the pawn is interacting with a treasure
-                if (treasureFlags.length > 0 && index < treasureFlags.length) {
-                  const [treasureY, treasureX] = treasureFlags[index];
-                  const currentY = playerPosition[0] + i + 1;
-                  const currentX = playerPosition[1];
+          // Display the number of steps
+          setText(steps.toString());
+          // Set a timeout to wait a bit so the user can see the number of steps
+          setTimeout(() => {
+            closeText();
+            const timelineMB = gsap.timeline();
+            currentAnim.current = timelineMB;
+            for (let i = 0; i < steps; i++) {
+              currentAnim.current?.to(playerRef.current?.position!, {
+                z: PLAYER_POS_Y.current + CELL_HEIGHT,
+                onComplete: () => {
+                  // If a treasure is encoutered
+                  let treasure = false;
+                  // Check if the pawn is interacting with a treasure
+                  if (
+                    treasureFlags.length > 0 &&
+                    index < treasureFlags.length
+                  ) {
+                    const [treasureY, treasureX] = treasureFlags[index];
+                    const currentY = playerPosition[0] + i + 1;
+                    const currentX = playerPosition[1];
 
-                  if (currentY === treasureY && currentX === treasureX) {
-                    currentAnim.current?.pause();
-                    treasure = true;
-                    props.playerMovement(
-                      props.maze,
-                      [currentY, currentX],
-                      true
-                    );
+                    if (currentY === treasureY && currentX === treasureX) {
+                      currentAnim.current?.pause();
+                      treasure = true;
+                      props.playerMovement(
+                        props.maze,
+                        [currentY, currentX],
+                        true
+                      );
 
-                    // Get an info which have never been displayed
-                    let randIndexQuote = Math.floor(
-                      Math.random() * Informations.length
-                    );
-                    while (alreadyShown.current.includes(randIndexQuote)) {
-                      randIndexQuote = Math.floor(
+                      // Get an info which have never been displayed
+                      let randIndexQuote = Math.floor(
                         Math.random() * Informations.length
                       );
+                      while (alreadyShown.current.includes(randIndexQuote)) {
+                        randIndexQuote = Math.floor(
+                          Math.random() * Informations.length
+                        );
+                      }
+                      alreadyShown.current.push(randIndexQuote);
+
+                      setText(Informations[randIndexQuote]);
+                      index++;
                     }
-                    alreadyShown.current.push(randIndexQuote);
-
-                    setText(Informations[randIndexQuote]);
-                    index++;
                   }
-                }
 
-                // At the end of the animation
-                if (i === steps - 1) {
-                  // Move the pawn and release the mutex
-                  props.playerMovement(
-                    props.maze,
-                    [playerPosition[0] + steps, playerPosition[1]],
-                    false
-                  );
-                  props.mutex.release();
-                }
+                  // At the end of the animation
+                  if (i === steps - 1) {
+                    // Move the pawn and release the mutex
+                    props.playerMovement(
+                      props.maze,
+                      [playerPosition[0] + steps, playerPosition[1]],
+                      false
+                    );
+                    props.mutex.release();
+                  }
 
-                // Check if this is the exit
-                if (
-                  i === steps - 1 &&
-                  playerPosition[0] + i + 1 === 0 &&
-                  playerPosition[1] === 0 &&
-                  exitFlag
-                ) {
-                  console.log("exit of the maze");
-                  props.playerExit();
-                }
+                  // Check if this is the exit
+                  if (
+                    i === steps - 1 &&
+                    playerPosition[0] + i + 1 === 0 &&
+                    playerPosition[1] === 0 &&
+                    exitFlag
+                  ) {
+                    setText(
+                      "You've succeeded to escape the maze ! Congratulations !"
+                    );
+                    setTimeout(() => {
+                      props.mutex.release();
+                      props.playerExit();
+                    }, 2000);
+                  }
 
-                // Pause or continue animation based on the step count
-                if (i < steps - 1 && !treasure) {
-                  currentAnim.current?.pause();
-                  setTimeout(() => currentAnim.current?.play(), 500);
-                }
-              },
-            });
-            PLAYER_POS_Y += CELL_HEIGHT;
-          }
+                  // Pause or continue animation based on the step count
+                  if (i < steps - 1 && !treasure) {
+                    currentAnim.current?.pause();
+                    setTimeout(() => currentAnim.current?.play(), 500);
+                  }
+                },
+              });
+              PLAYER_POS_Y.current += CELL_HEIGHT;
+            }
 
-          currentAnim.current?.play();
+            currentAnim.current?.play();
+          }, 1750);
         }
       }
     );
@@ -256,79 +293,97 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
         let index = 0;
 
         if (steps == 0) {
-          props.mutex.release();
+          setText("The player cannot move left");
+          setTimeout(() => {
+            closeText();
+            props.mutex.release();
+          }, 1750);
         } else {
-          const timelineML = gsap.timeline();
-          currentAnim.current = timelineML;
-          for (let i = 0; i < steps; i++) {
-            currentAnim.current?.to(playerRef.current?.position!, {
-              x: PLAYER_POS_X - CELL_WIDTH,
-              onComplete: () => {
-                // If a treasure is encoutered
-                let treasure = false;
-                // Check if the pawn is interacting with a treasure
-                if (treasureFlags.length > 0 && index < treasureFlags.length) {
-                  const [treasureY, treasureX] = treasureFlags[index];
-                  const currentY = playerPosition[0];
-                  const currentX = playerPosition[1] - i - 1;
+          // Display the number of steps
+          setText(steps.toString());
+          // Set a timeout to wait a bit so the user can see the number of steps
+          setTimeout(() => {
+            closeText();
+            const timelineML = gsap.timeline();
+            currentAnim.current = timelineML;
+            for (let i = 0; i < steps; i++) {
+              currentAnim.current?.to(playerRef.current?.position!, {
+                x: PLAYER_POS_X.current - CELL_WIDTH,
+                onComplete: () => {
+                  // If a treasure is encoutered
+                  let treasure = false;
+                  // Check if the pawn is interacting with a treasure
+                  if (
+                    treasureFlags.length > 0 &&
+                    index < treasureFlags.length
+                  ) {
+                    const [treasureY, treasureX] = treasureFlags[index];
+                    const currentY = playerPosition[0];
+                    const currentX = playerPosition[1] - i - 1;
 
-                  if (currentY === treasureY && currentX === treasureX) {
-                    currentAnim.current?.pause();
-                    treasure = true;
-                    props.playerMovement(
-                      props.maze,
-                      [currentY, currentX],
-                      true
-                    );
+                    if (currentY === treasureY && currentX === treasureX) {
+                      currentAnim.current?.pause();
+                      treasure = true;
+                      props.playerMovement(
+                        props.maze,
+                        [currentY, currentX],
+                        true
+                      );
 
-                    // Get an info which have never been displayed
-                    let randIndexQuote = Math.floor(
-                      Math.random() * Informations.length
-                    );
-                    while (alreadyShown.current.includes(randIndexQuote)) {
-                      randIndexQuote = Math.floor(
+                      // Get an info which have never been displayed
+                      let randIndexQuote = Math.floor(
                         Math.random() * Informations.length
                       );
+                      while (alreadyShown.current.includes(randIndexQuote)) {
+                        randIndexQuote = Math.floor(
+                          Math.random() * Informations.length
+                        );
+                      }
+                      alreadyShown.current.push(randIndexQuote);
+
+                      setText(Informations[randIndexQuote]);
+                      index++;
                     }
-                    alreadyShown.current.push(randIndexQuote);
-
-                    setText(Informations[randIndexQuote]);
-                    index++;
                   }
-                }
 
-                // At the end of the animation
-                if (i >= steps - 1) {
-                  // Move the pawn and release the mutex
-                  props.playerMovement(
-                    props.maze,
-                    [playerPosition[0], playerPosition[1] - steps],
-                    false
-                  );
-                  props.mutex.release();
-                }
+                  // At the end of the animation
+                  if (i >= steps - 1) {
+                    // Move the pawn and release the mutex
+                    props.playerMovement(
+                      props.maze,
+                      [playerPosition[0], playerPosition[1] - steps],
+                      false
+                    );
+                    props.mutex.release();
+                  }
 
-                // Check if this is the exit
-                if (
-                  i === steps - 1 &&
-                  playerPosition[0] === 0 &&
-                  playerPosition[1] - i - 1 === 0 &&
-                  exitFlag
-                ) {
-                  console.log("exit of the maze");
-                  props.playerExit();
-                }
+                  // Check if this is the exit
+                  if (
+                    i === steps - 1 &&
+                    playerPosition[0] === 0 &&
+                    playerPosition[1] - i - 1 === 0 &&
+                    exitFlag
+                  ) {
+                    setText(
+                      "You've succeeded to escape the maze ! Congratulations !"
+                    );
+                    setTimeout(() => {
+                      props.mutex.release();
+                      props.playerExit();
+                    }, 2000);
+                  }
 
-                // Pause or continue animation based on the step count
-                if (i < steps - 1 && !treasure) {
-                  currentAnim.current?.pause();
-                  setTimeout(() => currentAnim.current?.play(), 500);
-                }
-              },
-            });
-            PLAYER_POS_X -= CELL_WIDTH;
-          }
-          currentAnim.current?.play();
+                  // Pause or continue animation based on the step count
+                  if (i < steps - 1 && !treasure) {
+                    currentAnim.current?.pause();
+                    setTimeout(() => currentAnim.current?.play(), 500);
+                  }
+                },
+              });
+              PLAYER_POS_X.current -= CELL_WIDTH;
+            }
+            currentAnim.current?.play();
+          }, 1750);
         }
       }
     );
@@ -343,130 +398,224 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
         let index = 0;
 
         if (steps == 0) {
-          props.mutex.release();
+          setText("The player cannot move right");
+          setTimeout(() => {
+            closeText();
+            props.mutex.release();
+          }, 1750);
         } else {
-          const timelineMR = gsap.timeline();
-          currentAnim.current = timelineMR;
-          for (let i = 0; i < steps; i++) {
-            currentAnim.current?.to(playerRef.current?.position!, {
-              x: PLAYER_POS_X + CELL_WIDTH,
-              onComplete: () => {
-                // If a treasure is encoutered
-                let treasure = false;
-                // Check if the pawn is interacting with a treasure
-                if (treasureFlags.length > 0 && index < treasureFlags.length) {
-                  const [treasureY, treasureX] = treasureFlags[index];
-                  const currentY = playerPosition[0];
-                  const currentX = playerPosition[1] + i + 1;
+          // Display the number of steps
+          setText(steps.toString());
+          // Set a timeout to wait a bit so the user can see the number of steps
+          setTimeout(() => {
+            closeText();
+            const timelineMR = gsap.timeline();
+            currentAnim.current = timelineMR;
+            for (let i = 0; i < steps; i++) {
+              currentAnim.current?.to(playerRef.current?.position!, {
+                x: PLAYER_POS_X.current + CELL_WIDTH,
+                onComplete: () => {
+                  // If a treasure is encoutered
+                  let treasure = false;
+                  // Check if the pawn is interacting with a treasure
+                  if (
+                    treasureFlags.length > 0 &&
+                    index < treasureFlags.length
+                  ) {
+                    const [treasureY, treasureX] = treasureFlags[index];
+                    const currentY = playerPosition[0];
+                    const currentX = playerPosition[1] + i + 1;
 
-                  if (currentY === treasureY && currentX === treasureX) {
-                    currentAnim.current?.pause();
-                    treasure = true;
-                    props.playerMovement(
-                      props.maze,
-                      [currentY, currentX],
-                      true
-                    );
+                    if (currentY === treasureY && currentX === treasureX) {
+                      currentAnim.current?.pause();
+                      treasure = true;
+                      props.playerMovement(
+                        props.maze,
+                        [currentY, currentX],
+                        true
+                      );
 
-                    // Get an info which have never been displayed
-                    let randIndexQuote = Math.floor(
-                      Math.random() * Informations.length
-                    );
-                    while (alreadyShown.current.includes(randIndexQuote)) {
-                      randIndexQuote = Math.floor(
+                      // Get an info which have never been displayed
+                      let randIndexQuote = Math.floor(
                         Math.random() * Informations.length
                       );
+                      while (alreadyShown.current.includes(randIndexQuote)) {
+                        randIndexQuote = Math.floor(
+                          Math.random() * Informations.length
+                        );
+                      }
+                      alreadyShown.current.push(randIndexQuote);
+
+                      setText(Informations[randIndexQuote]);
+                      index++;
                     }
-                    alreadyShown.current.push(randIndexQuote);
-
-                    setText(Informations[randIndexQuote]);
-                    index++;
                   }
-                }
 
-                // At the end of the animation
-                if (i === steps - 1) {
-                  // Move the pawn and release the mutex
-                  props.playerMovement(
-                    props.maze,
-                    [playerPosition[0], playerPosition[1] + steps],
-                    false
-                  );
-                  props.mutex.release();
-                }
+                  // At the end of the animation
+                  if (i === steps - 1) {
+                    // Move the pawn and release the mutex
+                    props.playerMovement(
+                      props.maze,
+                      [playerPosition[0], playerPosition[1] + steps],
+                      false
+                    );
+                    props.mutex.release();
+                  }
 
-                // Check if this is the exit
-                if (
-                  i === steps - 1 &&
-                  playerPosition[0] === 0 &&
-                  playerPosition[1] + i + 1 === 0 &&
-                  exitFlag
-                ) {
-                  console.log("exit of the maze");
-                  props.playerExit();
-                }
+                  // Check if this is the exit
+                  if (
+                    i === steps - 1 &&
+                    playerPosition[0] === 0 &&
+                    playerPosition[1] + i + 1 === 0 &&
+                    exitFlag
+                  ) {
+                    setText(
+                      "You've succeeded to escape the maze ! Congratulations !"
+                    );
+                    setTimeout(() => {
+                      props.mutex.release();
+                      props.playerExit();
+                    }, 2000);
+                  }
 
-                // Pause or continue animation based on the step count
-                if (i < steps - 1 && !treasure) {
-                  currentAnim.current?.pause();
-                  setTimeout(() => currentAnim.current?.play(), 500);
-                }
-              },
-            });
-            PLAYER_POS_X += CELL_WIDTH;
-          }
+                  // Pause or continue animation based on the step count
+                  if (i < steps - 1 && !treasure) {
+                    currentAnim.current?.pause();
+                    setTimeout(() => currentAnim.current?.play(), 500);
+                  }
+                },
+              });
+              PLAYER_POS_X.current += CELL_WIDTH;
+            }
 
-          currentAnim.current?.play();
+            currentAnim.current?.play();
+          }, 1750);
         }
       }
     );
 
     // Attack the ennemy
-    const attack = contextSafe((side: number) => {
+    const attack = contextSafe((side: number, playerPosition: number[]) => {
       const timeLineAttack = gsap.timeline();
+
       switch (side) {
+        // When there are no ennemies
+        case -1:
+          setText("There are no enemies to attack");
+          setTimeout(() => {
+            closeText();
+            props.mutex.release();
+          }, 1750);
+          break;
         // Top
         case 0:
           timeLineAttack.to(playerRef.current?.position!, {
-            z: PLAYER_POS_Y - CELL_HEIGHT / 2,
-            duration: 0.15,
+            z: PLAYER_POS_Y.current - CELL_HEIGHT / 2,
+            duration: 0.18,
             yoyo: true,
             repeat: 1,
-            onComplete: () => {},
+            onComplete: () => {
+              // Get an info which have never been displayed
+              let randIndexQuote = Math.floor(
+                Math.random() * Informations.length
+              );
+              while (alreadyShown.current.includes(randIndexQuote)) {
+                randIndexQuote = Math.floor(
+                  Math.random() * Informations.length
+                );
+              }
+              alreadyShown.current.push(randIndexQuote);
+              // Display text informations
+              setText(Informations[randIndexQuote]);
+
+              const enemyPos = [playerPosition[0] - 1, playerPosition[1]];
+              props.playerAttack(props.maze, enemyPos);
+              props.mutex.release();
+            },
           });
           break;
         // Right
         case 1:
           timeLineAttack.to(playerRef.current?.position!, {
-            x: PLAYER_POS_X + CELL_WIDTH / 2,
-            duration: 0.15,
+            x: PLAYER_POS_X.current + CELL_WIDTH / 2,
+            duration: 0.18,
             yoyo: true,
             repeat: 1,
-            onComplete: () => {},
+            onComplete: () => {
+              // Get an info which have never been displayed
+              let randIndexQuote = Math.floor(
+                Math.random() * Informations.length
+              );
+              while (alreadyShown.current.includes(randIndexQuote)) {
+                randIndexQuote = Math.floor(
+                  Math.random() * Informations.length
+                );
+              }
+              alreadyShown.current.push(randIndexQuote);
+              // Display text informations
+              setText(Informations[randIndexQuote]);
+
+              const enemyPos = [playerPosition[0], playerPosition[1] + 1];
+              props.playerAttack(props.maze, enemyPos);
+              props.mutex.release();
+            },
           });
           break;
         // Bottom
         case 2:
           timeLineAttack.to(playerRef.current?.position!, {
-            z: PLAYER_POS_Y + CELL_HEIGHT / 2,
-            duration: 0.15,
+            z: PLAYER_POS_Y.current + CELL_HEIGHT / 2,
+            duration: 0.18,
             yoyo: true,
             repeat: 1,
-            onComplete: () => {},
+            onComplete: () => {
+              // Get an info which have never been displayed
+              let randIndexQuote = Math.floor(
+                Math.random() * Informations.length
+              );
+              while (alreadyShown.current.includes(randIndexQuote)) {
+                randIndexQuote = Math.floor(
+                  Math.random() * Informations.length
+                );
+              }
+              alreadyShown.current.push(randIndexQuote);
+              // Display text informations
+              setText(Informations[randIndexQuote]);
+
+              const enemyPos = [playerPosition[0] + 1, playerPosition[1]];
+              props.playerAttack(props.maze, enemyPos);
+              props.mutex.release();
+            },
           });
           break;
         // Left
         case 3:
           timeLineAttack.to(playerRef.current?.position!, {
-            x: PLAYER_POS_X - CELL_WIDTH / 2,
-            duration: 0.15,
+            x: PLAYER_POS_X.current - CELL_WIDTH / 2,
+            duration: 0.18,
             yoyo: true,
             repeat: 1,
-            onComplete: () => {},
+            onComplete: () => {
+              // Get an info which have never been displayed
+              let randIndexQuote = Math.floor(
+                Math.random() * Informations.length
+              );
+              while (alreadyShown.current.includes(randIndexQuote)) {
+                randIndexQuote = Math.floor(
+                  Math.random() * Informations.length
+                );
+              }
+              alreadyShown.current.push(randIndexQuote);
+              // Display text informations
+              setText(Informations[randIndexQuote]);
+
+              const enemyPos = [playerPosition[0], playerPosition[1] - 1];
+              props.playerAttack(props.maze, enemyPos);
+              props.mutex.release();
+            },
           });
           break;
       }
-      props.mutex.release();
     });
 
     // Close the information text
@@ -479,10 +628,10 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
         {/* Information screen */}
         {text != "" && <InformationScreen text={text} closeText={closeText} />}
         {/* Meshes */}
-        <mesh ref={meshRef}>
+        <mesh scale={props.scale} ref={meshRef}>
           {/* Table */}
           <mesh>
-            <boxGeometry args={[15, 2, 10]} />
+            <boxGeometry args={[30, 2, 20]} />
             <meshStandardMaterial color={"tan"} />
           </mesh>
           {/* Board */}
@@ -614,13 +763,17 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
 
               // Player
               if (cell.player) {
-                PLAYER_POS_X = CELL_X_POS;
-                PLAYER_POS_Y = CELL_Y_POS;
+                PLAYER_POS_X.current = CELL_X_POS;
+                PLAYER_POS_Y.current = CELL_Y_POS;
                 cells.push(
                   <mesh
                     ref={playerRef}
                     key={`player`}
-                    position={[PLAYER_POS_X, CELL_Z_POS, PLAYER_POS_Y]}
+                    position={[
+                      PLAYER_POS_X.current,
+                      CELL_Z_POS,
+                      PLAYER_POS_Y.current,
+                    ]}
                   >
                     <boxGeometry args={[0.1, 0.1, 0.1]} />
                     <meshStandardMaterial color={"white"} />

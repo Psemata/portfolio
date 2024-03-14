@@ -11,7 +11,6 @@ const Page = () => {
   // TODO : Rapprocher les sections
   // TODO : Séparer les titres, sous-titres, texte courant (police, taille, éléments, ...)
   // TODO : Ajouter du remplissage (fioritures, éléments 3d, ...)
-  // TODO : Not Found
 
   return (
     <>
@@ -35,7 +34,7 @@ const Page = () => {
         {/* My passions */}
         <section id="passions" className="min-h-screen mb-28">
           <div className="text-xl ml-1 mb-20 font-medium font-portfolio_satoshi_Bl text-destructive md:ml-3 md:text-5xl">
-            And this is what I am passionate about
+            I am someone defined by my passions
           </div>
           <PassionList />
         </section>
@@ -43,7 +42,7 @@ const Page = () => {
         {/* My projects */}
         <section id="projects" className="min-h-screen">
           <div className="text-xl mb-12 ml-1 font-medium font-portfolio_satoshi_Bl text-destructive md:ml-3 md:text-5xl md:mb-20">
-            Here are my projects
+            If you are curious about my work
           </div>
           <ProjectList />
         </section>

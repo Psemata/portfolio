@@ -1,9 +1,11 @@
 // Type for the projects
 export interface ProjectProp {
-  photo?: string;
-  video?: string;
+  icon: string;
   title: string;
   tags: string[];
   description: string;
+  carousel: string[];
+  content: string[];
+  others?: string[];
   link: string;
 }

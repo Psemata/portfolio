@@ -11,7 +11,7 @@ import { CardsPositions, UsePos, UseRot } from "@/config/handconst";
 import { CARD_BASE, CARD_CONFIG } from "@/config/cardconfig";
 import { ThreeEvent } from "@react-three/fiber";
 
-const Hand = ({ mutex, onCardUsed }: HandProp) => {
+const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
   // GSAP
   const { contextSafe } = useGSAP();
 
@@ -55,9 +55,8 @@ const Hand = ({ mutex, onCardUsed }: HandProp) => {
 
   // Animation when the card is hovered in by the mouse
   const HoverIn = contextSafe((index: number, e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation();
     if (!isClicked) {
-      e.stopPropagation();
-
       // Move the hovered card
       gsap.to(cardsRefs.current[index]?.position!, {
         x: CardsPositions[cardQuantityIndex].HoverPos[index][0],
@@ -87,9 +86,8 @@ const Hand = ({ mutex, onCardUsed }: HandProp) => {
 
   // Animation when the card is hovered out by the mouse
   const HoverOut = contextSafe((index: number, e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation();
     if (!isClicked) {
-      e.stopPropagation();
-
       // Move the hovered card to its base position
       gsap.to(cardsRefs.current[index]?.position!, {
         x: CardsPositions[cardQuantityIndex].BasePos[index][0],
@@ -119,10 +117,9 @@ const Hand = ({ mutex, onCardUsed }: HandProp) => {
 
   // Animation and use of the card when the card is clicked
   const ClickOn = contextSafe((index: number, e: ThreeEvent<MouseEvent>) => {
+    e.stopPropagation();
     mutex.acquire().then(() => {
       if (!isClicked) {
-        e.stopPropagation();
-
         setIsClicked(true);
 
         let nextPos = cardQuantityIndex - 1;
@@ -159,15 +156,16 @@ const Hand = ({ mutex, onCardUsed }: HandProp) => {
           y: UseRot[1],
           z: UseRot[2],
           onComplete: () => {
-            // TODO : Shader animation
             // Play the card
             onCardUsed(hand[index].cardConfig.cardType, index);
 
-            // Use the card and update the hand
-            setHand(hand.filter((_, i) => i != index));
-
             // Update the cards references
-            cardsRefs.current = cardsRefs.current?.filter((_, i) => i != index);
+            cardsRefs.current = cardsRefs.current?.filter(
+              (_, i) => i !== index
+            );
+
+            // Use the card and update the hand
+            setHand(hand.filter((_, i) => i !== index));
 
             // Allow the possibility to click again
             setIsClicked(false);
@@ -184,7 +182,7 @@ const Hand = ({ mutex, onCardUsed }: HandProp) => {
   });
 
   return (
-    <>
+    <mesh scale={scale}>
       {hand.map((card, index) => (
         <Card
           ref={(cardElem) => (cardsRefs.current[index] = cardElem!)}
@@ -199,7 +197,7 @@ const Hand = ({ mutex, onCardUsed }: HandProp) => {
           clickOn={ClickOn}
         />
       ))}
-    </>
+    </mesh>
   );
 };
 

@@ -28,6 +28,7 @@ export interface CardInfo {
 // Hand props given to the hand
 export interface HandProp {
   mutex: Mutex;
+  scale: number;
   onCardUsed: (actionType: CardType, index: number) => void;
 }
 

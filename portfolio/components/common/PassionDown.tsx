@@ -21,7 +21,7 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
     let position = 0;
 
     // The height the element will get when it is clicked
-    newHeight = 375;
+    newHeight = 450;
     position = newHeight;
 
     const timelinePassion = gsap.timeline();

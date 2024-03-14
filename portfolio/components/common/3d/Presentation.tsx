@@ -34,7 +34,7 @@ const PresentationText = () => {
         font={font}
       >
         Hi ! My name is {viewport.width < 3 ? "\n" : ""}Bruno Alexandre Da Cruz
-        Costa.{"\n"}I&apos;m a game/web fullstack/desktop developer{" "}
+        Costa.{"\n"}I&apos;m a game, fullstack & desktop developer{" "}
         {viewport.width < 3 ? "\n" : ""}based{" "}
         {viewport.width < 9 && viewport.width > 3 ? "\n" : ""}in Switzerland.
       </Text>

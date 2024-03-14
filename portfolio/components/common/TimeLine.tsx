@@ -78,7 +78,7 @@ const TimeLine = () => {
       >
         {pathText}
       </div>
-      <div className="w-full h-full absolute left-10 flex flex-col justify-evenly gap-y-10 z-50 md:gap-y-0 md:top-1/2 md:left-0 md:flex-row">
+      <div className="w-full h-full absolute left-10 flex flex-col justify-evenly gap-y-10 z-[40] md:gap-y-0 md:top-1/2 md:left-0 md:flex-row">
         {TimeLineInfo.map((timeEvent) => {
           return (
             <TimeEvent
