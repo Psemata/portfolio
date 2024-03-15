@@ -17,7 +17,7 @@ const TimeLine = () => {
   const textRef = useRef(null);
 
   // States for the current path step
-  const [pathText, setPathText] = useState<React.JSX.Element[]>([]);
+  const [pathText, setPathText] = useState<string>("");
   const [current, setCurrent] = useState(-1);
   // const [topPositionClass, setTopPositionClass] = useState<string>("top-[-9%]");
 
@@ -36,30 +36,12 @@ const TimeLine = () => {
         y: -10,
         onComplete: () => {
           // Format the text
-          setPathText(
-            newPathText
-              .split(".")
-              .filter((sentence) => sentence != "")
-              .map((sentence, i) => (
-                <div className="w-4/5 my-2" key={i}>
-                  {sentence}.
-                </div>
-              ))
-          );
+          setPathText(newPathText);
         },
       });
     } else {
       // Format the text
-      setPathText(
-        newPathText
-          .split(".")
-          .filter((sentence) => sentence != "")
-          .map((sentence, i) => (
-            <div className="w-4/5 my-2" key={i}>
-              {sentence}.
-            </div>
-          ))
-      );
+      setPathText(newPathText);
     }
 
     textTL.to(textRef.current, {
@@ -70,11 +52,10 @@ const TimeLine = () => {
   });
 
   return (
-    <div className="w-full h-[100vh] my-28 relative flex flex-row md:justify-center md:items-center md:flex-col md:h-[50vh]">
-      {/* mb et mt en auto => Voir pour pt changer ça plus tard */}
+    <div className="w-full h-[100vh] my-12 relative flex flex-row md:justify-center md:items-center md:flex-col md:h-[30rem] md:my-0">
       <div
         ref={textRef}
-        className="w-[54%] mt-auto mb-auto mr-2 ml-auto py-5 relative flex flex-col justify-center items-center bg-destructive rounded-xl shadow-2xl text-white text-sm invisible opacity-0 md:top-0 md:justify-center md:items-center md:mb-40 md:ml-0 md:mr-0 md:py-10 md:w-[50%] md:text-base"
+        className="w-[54%] my-auto mr-2 ml-auto p-5 relative flex flex-col justify-center items-center bg-destructive rounded-xl shadow-2xl text-white text-sm invisible opacity-0 whitespace-pre-line md:top-0 md:justify-center md:items-center md:mx-0 md:p-10 md:mb-24 md:mt-16 md:w-[50%] md:text-base"
       >
         {pathText}
       </div>
@@ -94,7 +75,7 @@ const TimeLine = () => {
         <div className="w-full h-full absolute flex flex-col md:flex-row">
           <div className="absolute z-10 top-0 w-1 h-20 bg-gradient-to-b from-[#C0AE8F] to-transparent md:left-0 md:top-1/2 md:w-14 md:h-1.5 md:bg-gradient-to-r md:to-transparent md:from-secondary" />
           <div className="absolute z-0 top-0 bg-destructive w-1 h-full md:top-1/2 md:w-full md:h-1 md:flex-grow" />
-          <div className="absolute z-10 top-[92%] w-1 h-20 bg-gradient-to-b from-transparent to-primary md:right-0 md:top-1/2 md:w-14 md:h-1.5 md:bg-gradient-to-l md:to-transparent md:from-secondary" />
+          <div className="absolute z-10 bottom-0 w-1 h-20 bg-gradient-to-b from-transparent to-primary md:right-0 md:top-1/2 md:w-14 md:h-1.5 md:bg-gradient-to-l md:to-transparent md:from-secondary" />
         </div>
       </div>
     </div>

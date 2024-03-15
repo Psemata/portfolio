@@ -54,10 +54,9 @@ const config = {
         },
       },
       fontFamily: {
-        portfolio: ["Monaco", "Menlo", "Consolas", "Courier New", "monospace"],
-        portfolio_satoshi_M: ["SatoshiM"],
-        portfolio_satoshi_Bl: ["SatoshiBl"],
-        portfolio_satoshi_R: ["SatoshiR"],
+        portfolioTitle: ["Kanit"],
+        portfolioSubtitle: ["Overpass"],
+        portfolioText: ["Palanquin"],
       },
       borderRadius: {
         lg: "var(--radius)",

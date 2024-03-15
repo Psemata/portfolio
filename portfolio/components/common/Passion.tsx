@@ -23,7 +23,7 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
 
   // Width of the viewport
   const [width, setWidth] = useState(0);
-  let isOpen = false;
+  const [isOpen, setIsOpen] = useState(false);
 
   // Listen to the viewport changes and reanimate the element if it is opened
   useLayoutEffect(() => {
@@ -47,7 +47,9 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
 
       // Check if the current scroll position is within the range of the component (with threshold)
       if (scrollY >= componentTop && scrollY <= componentBottom) {
-        openPassion();
+        if (!isOpen) {
+          openPassion();
+        }
       }
     }
   }, [scrollY]);
@@ -88,7 +90,7 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
     });
 
     timelinePassion.play();
-    isOpen = true;
+    setIsOpen(true);
   });
 
   return (
@@ -99,7 +101,7 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
       {/* Content */}
       <div
         ref={passionRef}
-        className="w-80 h-52 p-0.5 flex flex-row justify-center items-center rounded-2xl bg-accent border-4 border-accent shadow-inner"
+        className="w-80 h-56 p-0.5 flex flex-row justify-center items-center rounded-2xl bg-accent border-4 border-accent shadow-inner"
       >
         {!side ? (
           <>
@@ -107,16 +109,16 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={imageRef}
               className="w-80 h-full rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
             >
-              <Image src={image} width={500} height={500} alt={title}></Image>
+              <Image priority={true} src={image} width={500} height={500} alt={title}></Image>
             </div>
             <div
               ref={contentRef}
               className="invisible hidden justify-start text-left ml-8 mr-3"
             >
-              <div className="text-destructive text-lg font-portfolio_satoshi_Bl">
+              <div className="text-destructive text-lg font-portfolioSubtitle">
                 {title}
               </div>
-              <div className="text-secondary font-portfolio_satoshi_M">
+              <div className="text-secondary font-portfolioText text-sm md:text-base">
                 {content}
               </div>
             </div>
@@ -127,10 +129,10 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={contentRef}
               className="invisible hidden justify-end text-right mr-8 ml-3"
             >
-              <div className="text-destructive text-lg font-portfolio_satoshi_Bl">
+              <div className="text-destructive text-lg font-portfolioSubtitle">
                 {title}
               </div>
-              <div className="text-secondary font-portfolio_satoshi_M">
+              <div className="text-secondary font-portfolioText text-sm md:text-base">
                 {content}
               </div>
             </div>
@@ -138,7 +140,7 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={imageRef}
               className="w-80 h-full rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
             >
-              <Image src={image} width={500} height={500} alt={title}></Image>
+              <Image priority={true} src={image} width={500} height={500} alt={title}></Image>
             </div>
           </>
         )}

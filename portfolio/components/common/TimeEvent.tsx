@@ -122,7 +122,7 @@ const TimeEvent = ({
         <div className="flex absolute w-20 ml-32 md:top-1/2 md:ml-0 md:mt-8 md:w-28">
           <div
             ref={titleRef}
-            className="w-full font-portfolio_satoshi_M justify-center items-center text-left text-sm md:text-center md:text-base lg:text-lg"
+            className="w-full font-portfolioTitle justify-center items-center text-left text-sm md:text-center md:text-base lg:text-lg"
           >
             {title}
           </div>

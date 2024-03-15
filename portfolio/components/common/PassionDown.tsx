@@ -82,18 +82,22 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
           ref={imageRef}
           className="w-80 h-52 rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
         >
-          <Image src={image} width={500} height={500} alt={title}></Image>
+          <Image
+            priority={true}
+            src={image}
+            width={500}
+            height={500}
+            alt={title}
+          ></Image>
         </div>
         <div
           ref={contentRef}
           className="invisible hidden justify-start text-left m-3"
         >
-          <div className="text-destructive text-lg font-portfolio_satoshi_Bl">
+          <div className="text-destructive text-lg font-portfolioSubtitle">
             {title}
           </div>
-          <div className="text-secondary font-portfolio_satoshi_M">
-            {content}
-          </div>
+          <div className="text-secondary font-portfolioText">{content}</div>
         </div>
       </div>
     </div>

@@ -12,12 +12,12 @@ const PresentationText = () => {
   // Function calculated to put to 0.2 at 1920, and at 0.1 with an iphone pro max
   const scale = viewport.width * 0.012 + 0.07;
   // Font of the text
-  let font = "/fonts/Satoshi-Medium.ttf";
+  let font = "/fonts/Kanit/Kanit-Medium.ttf";
   // Positions of the text
   let positionFirst: THREE.Vector3 = new THREE.Vector3(-1.3, 1, 1);
   // Change the font of the text to make it more visible
   if (viewport.width < 8) {
-    font = "/fonts/Satoshi-Bold.ttf";
+    font = "/fonts/Kanit/Kanit-Bold.ttf";
     if (viewport.width < 3) {
       positionFirst = new THREE.Vector3(-1.1, 1, 1);
     }

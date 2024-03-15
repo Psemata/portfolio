@@ -26,7 +26,7 @@ export const PassionListInfo = [
     image: "/images/passions/rpg.jpg",
     title: "Tabletop RPG",
     content:
-      "A thrilling adventure lived with your group of friends: this is how you could sum up an evening of tabletop RPG. You need a game master to narrate the story, players to be its actors and a good sense of humor to enjoy it ; the players throw dices and imagine situations and fights to make their way through the prepared scenario. Must I say more ?",
+      "A thrilling adventure with your group of friends: this is how you could sum up tabletop RPG. A game master to narrate the story, players to be its actors and a good sense of humor to enjoy it ; players throw dices and imagine situations and fights to make their way through the scenario. Must I say more ?",
   },
   {
     side: true,

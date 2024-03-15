@@ -2,56 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* Satoshi fonts */
+/* Kanit font */
 @font-face {
-  font-family: "SatoshiBl";
-  src: url("../public/fonts/Satoshi-Black.ttf") format("truetype");
+  font-family: "Kanit";
+  src: url("../public/fonts/Kanit/Kanit-Medium.ttf") format("truetype");
 }
 
+/* Overpass */
 @font-face {
-  font-family: "SatoshiBlI";
-  src: url("../public/fonts/Satoshi-BlackItalic.ttf") format("truetype");
+  font-family: "Overpass";
+  src: url("../public/fonts/Overpass/Overpass-Regular.ttf") format("truetype");
 }
 
+/* Palanquin */
 @font-face {
-  font-family: "SatoshiB";
-  src: url("../public/fonts/Satoshi-Bold.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "SatoshiBI";
-  src: url("../public/fonts/Satoshi-BoldItalic.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "SatoshiI";
-  src: url("../public/fonts/Satoshi-Italic.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "SatoshiL";
-  src: url("../public/fonts/Satoshi-Light.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "SatoshiLI";
-  src: url("../public/fonts/Satoshi-LightItalic.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "SatoshiM";
-  src: url("../public/fonts/Satoshi-Medium.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "SatoshiMI";
-  src: url("../public/fonts/Satoshi-MediumItalic.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "SatoshiR";
-  src: url("../public/fonts/Satoshi-Regular.ttf") format("truetype");
+  font-family: "Palanquin";
+  src: url("../public/fonts/Palanquin/Palanquin-Light.ttf") format("truetype");
 }
 
 @layer base {
@@ -140,16 +106,16 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #FFF2D8;
+  background: #fff2d8;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #EAD7BB;
+  background: #ead7bb;
   border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #BCA37F;
+  background: #bca37f;
 }

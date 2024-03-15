@@ -42,20 +42,20 @@ const Project = ({
           </div>
         ) : (
           <div className="aspect-w-1 aspect-h-1">
-            <Image
+            {/* <Image
               className="object-cover"
               src="/profile.png"
               width={500}
               height={500}
               alt="Picture of the author"
-            />
+            /> */}
           </div>
         )}
       </div>
       <div className="w-full p-3 flex flex-col md:flex-row md:ml-10 md:p-0">
         <div className="w-full flex flex-col">
           {/* Title */}
-          <div className="font-portfolio_satoshi_Bl text-xl">{title}</div>
+          <div className="font-portfolioSubtitle text-xl">{title}</div>
           {/* Badges */}
           <div className="flex flex-wrap mt-2 gap-x-1 md:w-full">
             {tags.map((tag, i) => (
@@ -69,7 +69,7 @@ const Project = ({
             ))}
           </div>
           {/* Description */}
-          <div className="h-full p-3 font-portfolio_satoshi_R text-lg whitespace-pre-line">
+          <div className="h-full p-3 font-portfolioText text-lg whitespace-pre-line">
             {description}
           </div>
         </div>
