@@ -1,3 +1,5 @@
+import { Url } from "next/dist/shared/lib/router/router";
+
 // Type for the projects
 export interface ProjectProp {
   icon: string;
@@ -7,5 +9,5 @@ export interface ProjectProp {
   carousel: string[];
   content: string[];
   others?: string[];
-  link: string;
+  link: Url;
 }

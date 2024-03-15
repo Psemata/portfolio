@@ -8,6 +8,7 @@ import { CSSPlugin } from "gsap/CSSPlugin";
 
 import { ProjectProp } from "@/types/project";
 import { cn } from "@/lib/utils";
+import { UseProjectModal } from "../modal/UseProjectModal";
 
 gsap.registerPlugin(CSSPlugin);
 
@@ -21,10 +22,8 @@ const Project = ({
   others,
   link,
 }: ProjectProp) => {
-  // Open the project modal
-  const openProject = () => {
-    console.log("sup");
-  };
+  // The modal for the project
+  const projectModal = UseProjectModal();
 
   return (
     <div className="w-full flex flex-col gap-y-4 border-destructive border-t-2 pt-3 md:flex-row md:gap-x-2">
@@ -76,7 +75,18 @@ const Project = ({
         {/* Button */}
         <div className="w-full h-full flex justify-center items-center mt-8 md:w-56 md:mt-0">
           <BookOpen
-            onClick={openProject}
+            onClick={() =>
+              projectModal.onOpen({
+                icon,
+                title,
+                tags,
+                description,
+                carousel,
+                content,
+                others,
+                link
+              })
+            }
             className="w-14 h-14 p-3 text-destructive cursor-pointer hover:text-primary hover:bg-destructive hover:shadow-inner"
           />
         </div>

@@ -72,7 +72,16 @@ const Navbar = () => {
                     href="https://github.com/Psemata"
                     className="hover:underline"
                   >
-                    Bruno Alexandre Da Cruz Costa
+                    Bruno Alexandre Da Cruz Costa                  
+                  </Link>
+                  <div>
+                    3D from                    
+                  </div>
+                  <Link
+                    href="https://sketchfab.com/"
+                    className="hover:underline"
+                  >
+                    Sketchfab
                   </Link>
                 </SheetFooter>
               </SheetContent>

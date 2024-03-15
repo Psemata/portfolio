@@ -97,7 +97,7 @@ const CardPhoto = () => {
 
       {/* Ground for shadows and into a shading */}
       <mesh position={[0, -1, 0]}>
-        <boxGeometry args={[70, 0.0001, 70]} />
+        <boxGeometry args={[100, 0.0001, 100]} />
         <meshStandardMaterial color={0xbca380} />
       </mesh>
     </>
