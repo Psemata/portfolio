@@ -91,7 +91,7 @@ const Page = () => {
         {/* My passions */}
         <section id="passions" className="min-h-screen mb-28">
           <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle text-destructive md:text-5xl">
-            <Flame className="w-14 h-14 mb-28 mt-10 pb-2 border-b-4 rounded-b-sm border-destructive" />
+            <Flame className="w-14 h-14 my-40 pb-2 border-b-4 rounded-b-sm border-destructive" />
           </div>
           <PassionList />
         </section>
@@ -99,7 +99,7 @@ const Page = () => {
         {/* My projects */}
         <section id="projects" className="min-h-screen">
           <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle text-destructive md:text-5xl">
-            <Archive className="w-14 h-14 mb-28 pb-2 border-b-4 rounded-b-sm border-destructive" />
+            <Archive className="w-14 h-14 mt-20 mb-40 pb-2 border-b-4 rounded-b-sm border-destructive" />
           </div>
           <ProjectList />
         </section>

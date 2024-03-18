@@ -2,7 +2,8 @@
 export interface TimeEventProp {
   order: number;
   title: string;
+  subtitle: string;
   content: string;
   current: number;
-  changePathText: (newPathText: string, order: number) => void;
+  changePathText: (newPathSubtitle: string, newPathText: string, order: number) => void;
 }

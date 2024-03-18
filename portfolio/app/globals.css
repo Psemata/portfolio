@@ -107,6 +107,7 @@
 /* Track */
 ::-webkit-scrollbar-track {
   background: #fff2d8;
+  border-radius: 5px;
 }
 
 /* Handle */

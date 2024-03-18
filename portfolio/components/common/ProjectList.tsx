@@ -24,7 +24,7 @@ const ProjectList = () => {
   });
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center gap-y-6 px-10">
+    <div className="w-full h-full flex flex-col justify-center items-center gap-y-6 px-10 md:px-40">
       {ProjectListInfo.map((project, i) => (
         <Project
           key={i}

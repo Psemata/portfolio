@@ -94,10 +94,10 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
           ref={contentRef}
           className="invisible hidden justify-start text-left m-3"
         >
-          <div className="text-destructive text-lg font-portfolioSubtitle">
+          <div className="text-destructive text-lg font-portfolioSubtitle font-bold">
             {title}
           </div>
-          <div className="text-secondary font-portfolioText">{content}</div>
+          <div className="text-secondary font-portfolioText font-semibold">{content}</div>
         </div>
       </div>
     </div>

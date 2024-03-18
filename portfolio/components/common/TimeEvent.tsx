@@ -13,6 +13,7 @@ gsap.registerPlugin(CSSPlugin);
 const TimeEvent = ({
   order,
   title,
+  subtitle,
   content,
   current,
   changePathText,
@@ -87,11 +88,10 @@ const TimeEvent = ({
     timelineBP.play();
   });
 
-  
   const clickOnBubble = () => {
     bumpClick();
     if (current != order) {
-      changePathText(content, order);
+      changePathText(subtitle, content, order);
     }
   };
 

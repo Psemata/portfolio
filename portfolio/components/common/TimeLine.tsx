@@ -18,47 +18,54 @@ const TimeLine = () => {
 
   // States for the current path step
   const [pathText, setPathText] = useState<string>("");
+  const [subtitleText, setSubtitleText] = useState<string>("");
   const [current, setCurrent] = useState(-1);
   // const [topPositionClass, setTopPositionClass] = useState<string>("top-[-9%]");
 
   // Animation of the text
-  const changePathText = contextSafe((newPathText: string, order: number) => {
-    // Animation timeline
-    const textTL = gsap.timeline();
+  const changePathText = contextSafe(
+    (newPathSubtitle: string, newPathText: string, order: number) => {
+      // Animation timeline
+      const textTL = gsap.timeline();
 
-    // Set the current text
-    setCurrent(order);
+      // Set the current text
+      setCurrent(order);
 
-    // If the current text is not the first one, then animate the text to go away before the new one is set
-    if (current != -1) {
+      // If the current text is not the first one, then animate the text to go away before the new one is set
+      if (current != -1) {
+        textTL.to(textRef.current, {
+          autoAlpha: 0,
+          y: -10,
+          onComplete: () => {
+            // Format the text
+            setSubtitleText(newPathSubtitle);
+            setPathText(newPathText);
+          },
+        });
+      } else {
+        // Format the text
+        setSubtitleText(newPathSubtitle);
+        setPathText(newPathText);
+      }
+
       textTL.to(textRef.current, {
-        autoAlpha: 0,
-        y: -10,
-        onComplete: () => {
-          // Format the text
-          setPathText(newPathText);
-        },
+        autoAlpha: 1,
+        y: 10,
       });
-    } else {
-      // Format the text
-      setPathText(newPathText);
+      textTL.play();
     }
-
-    textTL.to(textRef.current, {
-      autoAlpha: 1,
-      y: 10,
-    });
-    textTL.play();
-  });
+  );
 
   return (
     <div className="w-full h-[100vh] mb-20 relative flex flex-row md:justify-center md:items-center md:flex-col md:h-[30rem] md:my-0">
       <div
         ref={textRef}
-        className="w-[54%] my-auto mr-2 ml-auto p-5 relative flex flex-col justify-center items-center text-destructive text-sm invisible opacity-0 whitespace-pre-line md:top-0 md:justify-center md:items-center md:mx-0 md:p-10 md:mb-24 md:mt-16 md:w-[50%] md:text-base"
-        // className="w-[54%] my-auto mr-2 ml-auto p-5 relative flex flex-col justify-center items-center bg-destructive rounded-xl shadow-2xl text-white text-sm invisible opacity-0 whitespace-pre-line md:top-0 md:justify-center md:items-center md:mx-0 md:p-10 md:mb-24 md:mt-16 md:w-[50%] md:text-base"
+        className="w-[54%] my-auto mr-2 ml-auto py-5 pr-5 pl-1 relative flex flex-col justify-center items-center text-destructive text-sm invisible opacity-0 whitespace-pre-line md:top-0 md:justify-center md:items-center md:mx-0 md:p-10 md:mb-24 md:mt-16 md:w-[60%] md:text-lg"
       >
-        {pathText}
+        <div className="w-full text-left font-portfolioSubtitle text-lg font-bold mb-3 md:text-xl">
+          {subtitleText}
+        </div>
+        <div className="w-full">{pathText}</div>
       </div>
       <div className="w-full h-full absolute left-10 flex flex-col justify-evenly gap-y-10 z-[40] md:gap-y-0 md:top-1/2 md:left-0 md:flex-row">
         {TimeLineInfo.map((timeEvent) => {
@@ -67,6 +74,7 @@ const TimeLine = () => {
               key={timeEvent.order}
               order={timeEvent.order}
               title={timeEvent.title}
+              subtitle={timeEvent.subtitle}
               content={timeEvent.content}
               current={current}
               changePathText={changePathText}

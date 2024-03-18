@@ -62,7 +62,7 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
 
     // If the parent exists, then get the width and animate the growth of the element
     if (parentRef.current) {
-      parentWidth = parentRef.current.offsetWidth / 1.2;
+      parentWidth = parentRef.current.offsetWidth / 1.4;
       position = parentWidth / 2;
       if (!side) {
         position = position * -1;
@@ -101,7 +101,7 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
       {/* Content */}
       <div
         ref={passionRef}
-        className="w-80 h-56 p-0.5 flex flex-row justify-center items-center rounded-2xl bg-accent border-4 border-accent shadow-inner"
+        className="w-80 h-[19rem] p-0.5 flex flex-row justify-center items-center rounded-2xl bg-accent border-4 border-accent shadow-inner"
       >
         {!side ? (
           <>
@@ -115,10 +115,10 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={contentRef}
               className="invisible hidden justify-start text-left ml-8 mr-3"
             >
-              <div className="text-destructive text-lg font-portfolioSubtitle">
+              <div className="text-destructive text-lg font-bold font-portfolioSubtitle">
                 {title}
               </div>
-              <div className="text-secondary font-portfolioText text-sm md:text-base">
+              <div className="text-secondary font-portfolioText text-base font-semibold">
                 {content}
               </div>
             </div>
@@ -129,10 +129,10 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={contentRef}
               className="invisible hidden justify-end text-right mr-8 ml-3"
             >
-              <div className="text-destructive text-lg font-portfolioSubtitle">
+              <div className="text-destructive text-lg font-bold font-portfolioSubtitle">
                 {title}
               </div>
-              <div className="text-secondary font-portfolioText text-sm md:text-base">
+              <div className="text-secondary font-portfolioText text-base font-semibold">
                 {content}
               </div>
             </div>
