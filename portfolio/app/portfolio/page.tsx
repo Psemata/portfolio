@@ -57,7 +57,7 @@ const Page = () => {
         chevronsDisappear();
       }
     }
-  }, [scrollY]);
+  }, [scrollY, chevronsDisappear]);
 
   return (
     <>

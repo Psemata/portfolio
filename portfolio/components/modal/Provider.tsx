@@ -19,7 +19,7 @@ export const ProjectsModalProvider = () => {
 
   return (
     <>
-      <ProjectModal initProject={projectModal.project} />
+      <ProjectModal initProject={projectModal.project!} />
     </>
   );
 };

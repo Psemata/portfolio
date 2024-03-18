@@ -22,23 +22,6 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
   const imageRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Check if the parentRef has been set and is available
-    if (parentRef.current) {
-      // Retrieve the height of the component
-      const componentHeight = parentRef.current.offsetHeight;
-      // Calculate the top position of the component with a threshold of 500 pixels
-      const componentTop = parentRef.current.offsetTop - 400;
-      // Calculate the bottom position of the component
-      const componentBottom = componentTop + componentHeight;
-
-      // Check if the current scroll position is within the range of the component (with threshold)
-      if (scrollY >= componentTop && scrollY <= componentBottom) {
-        openPassion();
-      }
-    }
-  }, [scrollY]);
-
   // When passion is clicked
   const openPassion = contextSafe(() => {
     let newHeight = 0;
@@ -67,6 +50,23 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
     });
     timelinePassion.play();
   });
+
+  useEffect(() => {
+    // Check if the parentRef has been set and is available
+    if (parentRef.current) {
+      // Retrieve the height of the component
+      const componentHeight = parentRef.current.offsetHeight;
+      // Calculate the top position of the component with a threshold of 500 pixels
+      const componentTop = parentRef.current.offsetTop - 400;
+      // Calculate the bottom position of the component
+      const componentBottom = componentTop + componentHeight;
+
+      // Check if the current scroll position is within the range of the component (with threshold)
+      if (scrollY >= componentTop && scrollY <= componentBottom) {
+        openPassion();
+      }
+    }
+  }, [scrollY, openPassion]);
 
   return (
     <div
@@ -97,7 +97,9 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
           <div className="text-destructive text-lg font-portfolioSubtitle font-bold">
             {title}
           </div>
-          <div className="text-secondary font-portfolioText font-semibold">{content}</div>
+          <div className="text-secondary font-portfolioText font-semibold">
+            {content}
+          </div>
         </div>
       </div>
     </div>

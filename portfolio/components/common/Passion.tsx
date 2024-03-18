@@ -25,35 +25,6 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
   const [width, setWidth] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Listen to the viewport changes and reanimate the element if it is opened
-  useLayoutEffect(() => {
-    window.addEventListener("resize", () => {
-      setWidth(window.innerWidth);
-      if (isOpen) {
-        openPassion();
-      }
-    });
-  });
-
-  useEffect(() => {
-    // Check if the parentRef has been set and is available
-    if (parentRef.current) {
-      // Retrieve the height of the component
-      const componentHeight = parentRef.current.offsetHeight;
-      // Calculate the top position of the component with a threshold of 500 pixels
-      const componentTop = parentRef.current.offsetTop - 500;
-      // Calculate the bottom position of the component
-      const componentBottom = componentTop + componentHeight;
-
-      // Check if the current scroll position is within the range of the component (with threshold)
-      if (scrollY >= componentTop && scrollY <= componentBottom) {
-        if (!isOpen) {
-          openPassion();
-        }
-      }
-    }
-  }, [scrollY]);
-
   // When passion is clicked
   const openPassion = contextSafe(() => {
     let parentWidth = 0;
@@ -93,6 +64,35 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
     setIsOpen(true);
   });
 
+  // Listen to the viewport changes and reanimate the element if it is opened
+  useLayoutEffect(() => {
+    window.addEventListener("resize", () => {
+      setWidth(window.innerWidth);
+      if (isOpen) {
+        openPassion();
+      }
+    });
+  });
+
+  useEffect(() => {
+    // Check if the parentRef has been set and is available
+    if (parentRef.current) {
+      // Retrieve the height of the component
+      const componentHeight = parentRef.current.offsetHeight;
+      // Calculate the top position of the component with a threshold of 500 pixels
+      const componentTop = parentRef.current.offsetTop - 500;
+      // Calculate the bottom position of the component
+      const componentBottom = componentTop + componentHeight;
+
+      // Check if the current scroll position is within the range of the component (with threshold)
+      if (scrollY >= componentTop && scrollY <= componentBottom) {
+        if (!isOpen) {
+          openPassion();
+        }
+      }
+    }
+  }, [scrollY, openPassion]);
+
   return (
     <div
       ref={parentRef}
@@ -109,7 +109,13 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={imageRef}
               className="w-80 h-full rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
             >
-              <Image priority={true} src={image} width={500} height={500} alt={title}></Image>
+              <Image
+                priority={true}
+                src={image}
+                width={500}
+                height={500}
+                alt={title}
+              ></Image>
             </div>
             <div
               ref={contentRef}
@@ -140,7 +146,13 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={imageRef}
               className="w-80 h-full rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
             >
-              <Image priority={true} src={image} width={500} height={500} alt={title}></Image>
+              <Image
+                priority={true}
+                src={image}
+                width={500}
+                height={500}
+                alt={title}
+              ></Image>
             </div>
           </>
         )}
