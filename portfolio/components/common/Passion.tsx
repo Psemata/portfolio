@@ -91,7 +91,7 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
         }
       }
     }
-  }, [scrollY, openPassion]);
+  }, [scrollY, openPassion, isOpen]);
 
   return (
     <div
