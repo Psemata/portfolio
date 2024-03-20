@@ -61,7 +61,7 @@ const Page = () => {
 
   return (
     <>
-      <main className="bg-primary overflow-x-hidden">
+      <main className="bg-background overflow-x-hidden">
         {/* My presentation */}
         <section
           ref={firstSectionRef}
@@ -72,7 +72,7 @@ const Page = () => {
           <div className="absolute top-3/4 w-full flex justify-center items-center">
             <ChevronsDown
               ref={chevronsRef}
-              className="w-12 h-12 text-destructive"
+              className="w-12 h-12 text-secondary"
             />
           </div>
         </section>
@@ -80,26 +80,27 @@ const Page = () => {
         {/* My path */}
         <section
           id="path"
-          className="min-h-screen bg-gradient-to-b from-[#C0AE8F] to-primary md:h-[45rem] md:min-h-max"
+          // className="min-h-screen bg-gradient-to-b from-[#C0AE8F] to-background md:h-[45rem] md:min-h-max"
+          className="min-h-screen md:h-[45rem] md:min-h-max"
         >
-          <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle text-destructive md:text-5xl">
-            <Route className="w-14 h-14 pb-2 mb-20 border-b-4 rounded-b-sm border-destructive md:mb-10" />
+          <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle md:text-5xl">
+            <Route className="w-14 h-14 pb-2 mb-20 border-b-4 rounded-b-sm md:mb-10" />
           </div>
           <TimeLine></TimeLine>
         </section>
 
         {/* My passions */}
         <section id="passions" className="min-h-screen mb-28">
-          <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle text-destructive md:text-5xl">
-            <Flame className="w-14 h-14 my-40 pb-2 border-b-4 rounded-b-sm border-destructive" />
+          <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle md:text-5xl">
+            <Flame className="w-14 h-14 my-40 pb-2 border-b-4 rounded-b-sm" />
           </div>
           <PassionList />
         </section>
 
         {/* My projects */}
         <section id="projects" className="min-h-screen">
-          <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle text-destructive md:text-5xl">
-            <Archive className="w-14 h-14 mt-20 mb-40 pb-2 border-b-4 rounded-b-sm border-destructive" />
+          <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle md:text-5xl">
+            <Archive className="w-14 h-14 mt-20 mb-40 pb-2 border-b-4 rounded-b-sm" />
           </div>
           <ProjectList />
         </section>

@@ -18,6 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface ProjectModalProps {
   initProject: ProjectProp;
@@ -53,7 +54,10 @@ const ProjectModal = ({ initProject }: ProjectModalProps) => {
             <Carousel className="w-[75%]">
               <CarouselContent>
                 {project?.carousel.map((carou, index) => (
-                  <CarouselItem key={index} className="w-full aspect-video">
+                  <CarouselItem
+                    key={index}
+                    className="flex justify-center items-center w-full aspect-video"
+                  >
                     {carou.includes("http") ? (
                       <iframe
                         className="w-full h-full rounded-md"
@@ -62,7 +66,14 @@ const ProjectModal = ({ initProject }: ProjectModalProps) => {
                         title="Embedded Video"
                       />
                     ) : (
-                      <div>yo</div>
+                      // <Image
+                      //   src={carou}
+                      //   width={1000}
+                      //   height={1000}
+                      //   alt={initProject?.title}
+                      //   className="aspect-auto"
+                      // />
+                      <img src={carou}></img>
                     )}
                   </CarouselItem>
                 ))}
@@ -95,20 +106,23 @@ const ProjectModal = ({ initProject }: ProjectModalProps) => {
         )}
         {project?.others &&
           project?.others.map((link, index) => (
-            <div
-              className="px-6 font-portfolioText text-xs text-left text-destructive underline md:text-base"
-              key={index}
-            >
-              {link}
+            <div className="px-6" key={index}>
+              <Link
+                href={link}
+                className="font-portfolioText text-xs text-left underline md:text-base"
+                target="_blank"
+              >
+                {link}
+              </Link>
             </div>
           ))}
 
         <DialogFooter className="w-full flex flex-row justify-center items-center sm:justify-center">
           {project?.link && (
             <Link
-              className="text-destructive mt-5"
-              href={project?.link!}
+              className="mt-5"
               target="_blank"
+              href={project?.link!}
             >
               <ExternalLink className="hover:text-accent" />
             </Link>

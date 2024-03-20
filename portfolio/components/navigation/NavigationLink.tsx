@@ -35,7 +35,7 @@ const NavigationLink = ({
       <Link
         href={href}
         className={cn(
-          "flex flex-row items-center hover:text-destructive",
+          "flex flex-row items-center hover:text-accent",
           pathname == href || hash == href.split("#")[1] ? "font-semibold" : ""
         )}
       >

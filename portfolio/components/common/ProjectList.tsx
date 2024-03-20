@@ -38,9 +38,9 @@ const ProjectList = () => {
           link={project.link}
         />
       ))}
-      <div className="flex flex-col justify-center items-center h-32 mb-5 text-xl text-destructive font-portfolioSubtitle gap-y-3">
+      <div className="flex flex-col justify-center items-center h-32 mb-5 text-xl font-portfolioSubtitle gap-y-3">
         There are more on my github
-        <ArrowBigDown ref={arrowRef} className="h-8 w-8 text-destructive" />
+        <ArrowBigDown ref={arrowRef} className="h-8 w-8" />
       </div>
     </div>
   );

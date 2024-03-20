@@ -98,24 +98,24 @@ const TimeEvent = ({
   return (
     <div
       className={cn(
-        "flex justify-start items-start ml-0.5 text-destructive md:justify-center md:items-center md:w-60 md:mt-1 md:ml-0 md:top-1/2"
+        "flex justify-start items-start ml-0.5 md:justify-center md:items-center md:w-60 md:mt-1 md:ml-0 md:top-1/2"
       )}
     >
       <div className="flex justify-center items-center relative">
         <div className="flex justify-center items-center group">
           <Circle
             className={cn(
-              "absolute fill-destructive group-hover:fill-[#97805F] group-hover:text-[#97805F]",
+              "absolute group-hover:fill-foreground group-hover:text-foreground",
               timeBubbleClass(),
-              current == order && "fill-[#97805F] text-[#97805F]"
+              current == order && "fill-foreground text-foreground"
             )}
           />
           <Circle
             onClick={(e) => clickOnBubble()}
             className={cn(
-              "absolute z-50 fill-destructive group-hover:fill-[#97805F] group-hover:text-[#97805F]",
+              "absolute z-50 group-hover:fill-foreground group-hover:text-foreground",
               circleClass(),
-              current == order && "fill-[#97805F] text-[#97805F]"
+              current == order && "fill-foreground text-foreground"
             )}
           />
         </div>

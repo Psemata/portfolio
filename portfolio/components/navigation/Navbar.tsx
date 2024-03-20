@@ -43,14 +43,14 @@ const Navbar = () => {
           <div className="h-20 pt-4 ml-auto mr-0">
             <Sheet>
               <SheetTrigger asChild>
-                <MenuIcon className="pointer-events-auto bg-secondary hover:bg-accent text-accent hover:text-primary w-10 h-10 p-1 rounded-lg" />
+                <MenuIcon className="pointer-events-auto bg-secondary hover:bg-accent hover:text-primary w-10 h-10 p-1 rounded-lg" />
               </SheetTrigger>
-              <SheetContent className="flex flex-col h-full bg-primary text-accent">
-                <SheetHeader className="flex items-center justify-center sm:text-center text-destructive">
+              <SheetContent className="flex flex-col h-full">
+                <SheetHeader className="flex items-center justify-center sm:text-center">
                   <SheetTitle>
                     <Dices className="w-14 h-14" />
                   </SheetTitle>
-                  <SheetDescription className="flex flex-col italic text-destructive">
+                  <SheetDescription className="flex flex-col italic">
                     <span>“Alea jacta est”</span>
                     <span>Julius Caesar</span>
                   </SheetDescription>
@@ -66,17 +66,15 @@ const Navbar = () => {
                     />
                   ))}
                 </div>
-                <SheetFooter className="flex flex-col sm:flex-col items-center justify-center text-center text-sm text-accent animate-pulse">
+                <SheetFooter className="flex flex-col sm:flex-col items-center justify-center text-center text-sm animate-pulse">
                   <div>Designed & built by</div>
                   <Link
                     href="https://github.com/Psemata"
                     className="hover:underline"
                   >
-                    Bruno Alexandre Da Cruz Costa                  
+                    Bruno Alexandre Da Cruz Costa
                   </Link>
-                  <div>
-                    3D from                    
-                  </div>
+                  <div>3D from</div>
                   <Link
                     href="https://sketchfab.com/"
                     className="hover:underline"

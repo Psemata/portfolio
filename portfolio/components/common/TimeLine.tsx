@@ -60,7 +60,7 @@ const TimeLine = () => {
     <div className="w-full h-[100vh] mb-20 relative flex flex-row md:justify-center md:items-center md:flex-col md:h-[30rem] md:my-0">
       <div
         ref={textRef}
-        className="w-[54%] my-auto mr-2 ml-auto py-5 pr-5 pl-1 relative flex flex-col justify-center items-center text-destructive text-sm invisible opacity-0 whitespace-pre-line md:top-0 md:justify-center md:items-center md:mx-0 md:p-10 md:mb-24 md:mt-16 md:w-[60%] md:text-lg"
+        className="w-[54%] my-auto mr-2 ml-auto py-5 pr-5 pl-1 relative flex flex-col justify-center items-center text-sm invisible opacity-0 whitespace-pre-line md:top-0 md:justify-center md:items-center md:mx-0 md:p-10 md:mb-24 md:mt-16 md:w-[60%] md:text-lg"
       >
         <div className="w-full text-left font-portfolioSubtitle text-lg font-bold mb-3 md:text-xl">
           {subtitleText}
@@ -82,9 +82,9 @@ const TimeLine = () => {
           );
         })}
         <div className="w-full h-full absolute flex flex-col md:flex-row">
-          <div className="absolute z-10 top-0 w-1 h-20 bg-gradient-to-b from-[#C0AE8F] to-transparent md:left-0 md:top-1/2 md:w-14 md:h-1.5 md:bg-gradient-to-r md:to-transparent md:from-secondary" />
-          <div className="absolute z-0 top-0 bg-destructive w-1 h-full md:top-1/2 md:w-full md:h-1 md:flex-grow" />
-          <div className="absolute z-10 bottom-0 w-1 h-20 bg-gradient-to-b from-transparent to-primary md:right-0 md:top-1/2 md:w-14 md:h-1.5 md:bg-gradient-to-l md:to-transparent md:from-secondary" />
+          <div className="absolute z-10 top-0 w-1 h-20 bg-gradient-to-b from-[#C0AE8F] to-transparent md:left-0 md:top-1/2 md:w-14 md:h-1.5 md:bg-gradient-to-r md:to-transparent md:from-background" />
+          <div className="absolute z-0 top-0 bg-foreground w-1 h-full md:top-1/2 md:w-full md:h-1 md:flex-grow" />
+          <div className="absolute z-10 bottom-0 w-1 h-20 bg-gradient-to-b from-transparent to-primary md:right-0 md:top-1/2 md:w-14 md:h-1.5 md:bg-gradient-to-l md:to-transparent md:from-background" />
         </div>
       </div>
     </div>

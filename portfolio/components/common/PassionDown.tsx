@@ -76,11 +76,11 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
       {/* Content */}
       <div
         ref={passionRef}
-        className="w-[20.8rem] h-52 p-0.5 flex flex-col justify-center items-center rounded-2xl bg-accent border-4 border-accent shadow-inner"
+        className="w-[20.8rem] h-52 p-0.5 flex flex-col justify-center items-center rounded-2xl bg-secondary border-4 border-secondary shadow-inner"
       >
         <div
           ref={imageRef}
-          className="w-80 h-52 rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
+          className="w-80 h-52 rounded-xl flex justify-center items-center overflow-hidden"
         >
           <Image
             priority={true}
@@ -94,10 +94,10 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
           ref={contentRef}
           className="invisible hidden justify-start text-left m-3"
         >
-          <div className="text-destructive text-lg font-portfolioSubtitle font-bold">
+          <div className="text-lg font-portfolioSubtitle font-bold">
             {title}
           </div>
-          <div className="text-secondary font-portfolioText font-semibold">
+          <div className="font-portfolioText font-semibold">
             {content}
           </div>
         </div>

@@ -7,7 +7,7 @@ const NotFound = () => {
       <h1 className="text-5xl font-portfolioTitle">Error 404</h1>
       <h2 className="text-2xl font-portfolioSubtitle">You have lost your path...</h2>
       <p className="text-lg">Want to go back to exploration ?</p>
-      <Link href="/" className={buttonVariants({ variant: "destructive" })}>Back to the game</Link>
+      <Link href="/" className={buttonVariants({ variant: "secondary" })}>Back to the game</Link>
     </div>
   );
 };

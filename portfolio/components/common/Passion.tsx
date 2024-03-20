@@ -101,13 +101,13 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
       {/* Content */}
       <div
         ref={passionRef}
-        className="w-80 h-[19rem] p-0.5 flex flex-row justify-center items-center rounded-2xl bg-accent border-4 border-accent shadow-inner"
+        className="w-80 h-[19rem] p-0.5 flex flex-row justify-center items-center rounded-2xl bg-secondary border-4 border-secondary shadow-inner"
       >
         {!side ? (
           <>
             <div
               ref={imageRef}
-              className="w-80 h-full rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
+              className="w-80 h-full rounded-xl flex justify-center items-center overflow-hidden"
             >
               <Image
                 priority={true}
@@ -121,10 +121,10 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={contentRef}
               className="invisible hidden justify-start text-left ml-8 mr-3"
             >
-              <div className="text-destructive text-lg font-bold font-portfolioSubtitle">
+              <div className="text-lg font-bold font-portfolioSubtitle">
                 {title}
               </div>
-              <div className="text-secondary font-portfolioText text-base font-semibold">
+              <div className="font-portfolioText text-base font-semibold">
                 {content}
               </div>
             </div>
@@ -135,16 +135,16 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={contentRef}
               className="invisible hidden justify-end text-right mr-8 ml-3"
             >
-              <div className="text-destructive text-lg font-bold font-portfolioSubtitle">
+              <div className="text-lg font-bold font-portfolioSubtitle">
                 {title}
               </div>
-              <div className="text-secondary font-portfolioText text-base font-semibold">
+              <div className="font-portfolioText text-base font-semibold">
                 {content}
               </div>
             </div>
             <div
               ref={imageRef}
-              className="w-80 h-full rounded-xl bg-destructive flex justify-center items-center overflow-hidden"
+              className="w-80 h-full rounded-xl flex justify-center items-center overflow-hidden"
             >
               <Image
                 priority={true}

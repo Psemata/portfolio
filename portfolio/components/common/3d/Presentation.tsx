@@ -30,7 +30,7 @@ const PresentationText = () => {
         position={positionFirst}
         scale={scale}
         anchorX="left"
-        color="#113946"
+        color="#F2F2F1"
         font={font}
       >
         Hi ! My name is {viewport.width < 3 ? "\n" : ""}Bruno Alexandre Da Cruz
@@ -96,10 +96,10 @@ const CardPhoto = () => {
       </mesh>
 
       {/* Ground for shadows and into a shading */}
-      <mesh position={[0, -1, 0]}>
+      {/* <mesh position={[0, -1, 0]}>
         <boxGeometry args={[100, 0.0001, 100]} />
         <meshStandardMaterial color={0xbca380} />
-      </mesh>
+      </mesh> */}
     </>
   );
 };
