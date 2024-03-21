@@ -18,7 +18,6 @@ import {
 import { cn } from "@/lib/utils";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 interface ProjectModalProps {
   initProject: ProjectProp;
@@ -102,7 +101,7 @@ const ProjectModal = ({ initProject }: ProjectModalProps) => {
             <div className="px-6" key={index}>
               <Link
                 href={link}
-                className="font-portfolioText text-xs text-left underline md:text-base"
+                className="font-portfolioText hover:text-accent text-xs text-left underline md:text-base"
                 target="_blank"
               >
                 {link}

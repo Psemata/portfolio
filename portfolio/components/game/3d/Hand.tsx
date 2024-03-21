@@ -10,6 +10,11 @@ import { CardInfo, HandProp } from "@/types/hand";
 import { CardsPositions, UsePos, UseRot } from "@/config/handconst";
 import { CARD_BASE, CARD_CONFIG } from "@/config/cardconfig";
 import { ThreeEvent } from "@react-three/fiber";
+import { Html } from "@react-three/drei";
+
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Shuffle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
   // GSAP
@@ -42,16 +47,26 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
     ];
   };
 
+  // How many shuffle is possible
+  const [shuffle, setShuffle] = useState<number>(5);
+
   // Hand of cards and their refs
   const [hand, setHand] = useState(generateRandomHand());
   // Refs on the cards
   const cardsRefs = useRef<Mesh[]>([]);
+  const buttonRef = useRef<HTMLDivElement>(null);
 
   // How many card left
   const cardQuantityIndex = hand.length - 1;
 
   // If a card has been clicked
   const [isClicked, setIsClicked] = useState(false);
+
+  // Shuffle a new hand
+  const shuffleHand = () => {
+    cardsRefs.current = [];
+    setHand(generateRandomHand());
+  };
 
   // Animation when the card is hovered in by the mouse
   const HoverIn = contextSafe((index: number, e: ThreeEvent<PointerEvent>) => {
@@ -172,8 +187,7 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
 
             // When all the cards are used, shuffle new cards
             if (hand.length <= 1) {
-              cardsRefs.current = [];
-              setHand(generateRandomHand());
+              shuffleHand();
             }
           },
         });
@@ -181,8 +195,33 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
     });
   });
 
+  // Click on the button to do a new shuffle
+  const manualShuffle = () => {
+    shuffleHand();
+    setShuffle(shuffle - 1);
+  };
+
   return (
     <mesh scale={scale}>
+      {shuffle > 0 && (
+        <Html className="w-[45vw] h-[45vh] pointer-events-none">
+          <div ref={buttonRef} className="relative top-[75%] right-[75%]">
+            <Button
+              className={cn(
+                "gap-x-3 pointer-events-auto",
+                buttonVariants({
+                  variant: "secondary",
+                  className: "w-32 h-32 font-portfolioTitle text-5xl",
+                })
+              )}
+              onClick={manualShuffle}
+            >
+              {shuffle}
+              <Shuffle className="h-12 w-12" />
+            </Button>
+          </div>
+        </Html>
+      )}
       {hand.map((card, index) => (
         <Card
           ref={(cardElem) => (cardsRefs.current[index] = cardElem!)}

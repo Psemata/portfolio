@@ -539,7 +539,7 @@ const Page = () => {
         shadows={true}
       >
         {/* Used to check if the element are placed correctly */}
-        {/* <OrbitControls /> */}
+        <OrbitControls />
 
         {/* Lights */}
         <ambientLight intensity={0.3} color={0xa3a3a3}></ambientLight>

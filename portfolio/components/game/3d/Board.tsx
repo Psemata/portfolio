@@ -1,8 +1,7 @@
-import { useRouter } from "next/router";
-
 import React, { useImperativeHandle, useRef, useState } from "react";
 
 import { Mesh } from "three";
+
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
