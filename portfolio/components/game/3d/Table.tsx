@@ -1,10 +1,21 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { useGLTF } from "@react-three/drei";
+import { MeshProp } from "@/types/mesh";
 
-export default function Table() {
-  const gltf = useLoader(GLTFLoader, "/meshes/wooden_table.glb");
+const Table = ({ position, rotation, scale }: MeshProp) => {
+  const gltf = useLoader(GLTFLoader, "/meshes/table/table.glb");
 
-  return <primitive object={gltf.scene}></primitive>;
-}
+  return (
+    <group>
+      <primitive
+        object={gltf.scene.clone()}
+        position={position}
+        rotation={rotation}
+        scale={scale}
+      ></primitive>
+    </group>
+  );
+};
+
+export default Table;

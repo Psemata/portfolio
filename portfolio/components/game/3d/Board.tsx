@@ -2,7 +2,6 @@ import React, { useImperativeHandle, useRef, useState } from "react";
 
 import { Mesh } from "three";
 
-
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -18,6 +17,10 @@ import {
   CELL_WALL_HEIGHT,
 } from "@/config/boardconst";
 import InformationScreen from "./InformationScreen";
+import Table from "./Table";
+import GameBoard from "./GameBoard";
+import Player from "./Player";
+import Enemy from "./Enemy";
 
 const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
   (props, ref) => {
@@ -629,15 +632,15 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
         {/* Meshes */}
         <mesh scale={props.scale} ref={meshRef}>
           {/* Table */}
-          <mesh>
-            <boxGeometry args={[30, 2, 20]} />
-            <meshStandardMaterial color={"tan"} />
-          </mesh>
+          <Table position={[0, -2, -6]} rotation={[0, 1.57, 0]} scale={6} />
+          <Table position={[0, -2, 0.3]} rotation={[0, 1.57, 0]} scale={6} />
+          <Table position={[0, -2, 6]} rotation={[0, 1.57, 0]} scale={6} />
           {/* Board */}
-          <mesh position={[0, 1, 0]}>
-            <boxGeometry args={[BOARD_WIDTH, 0.3, BOARD_HEIGHT]} />
-            <meshStandardMaterial color={"brown"} />
-          </mesh>
+          <GameBoard
+            position={[0, 1.05, -2.1]}
+            rotation={[1.57, 0, 0]}
+            scale={3}
+          />
           {/* Maze */}
           {props.maze.paths.map((row, rowIndex) =>
             row.map((cell, cellIndex) => {
@@ -750,13 +753,12 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
               // Ennemies
               if (cell.ennemy) {
                 cells.push(
-                  <mesh
+                  <Enemy
                     key={`ennemy-${cell.x}-${cell.y}`}
                     position={[CELL_X_POS, CELL_Z_POS, CELL_Y_POS]}
-                  >
-                    <coneGeometry args={[0.1, 0.5, 3]} />
-                    <meshStandardMaterial color={"white"} />
-                  </mesh>
+                    rotation={[0, 0, 0]}
+                    scale={7}
+                  ></Enemy>
                 );
               }
 
@@ -765,7 +767,7 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 PLAYER_POS_X.current = CELL_X_POS;
                 PLAYER_POS_Y.current = CELL_Y_POS;
                 cells.push(
-                  <mesh
+                  <Player
                     ref={playerRef}
                     key={`player`}
                     position={[
@@ -773,10 +775,9 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                       CELL_Z_POS,
                       PLAYER_POS_Y.current,
                     ]}
-                  >
-                    <boxGeometry args={[0.1, 0.1, 0.1]} />
-                    <meshStandardMaterial color={"white"} />
-                  </mesh>
+                    rotation={[0, 0, 0]}
+                    scale={0.08}
+                  />
                 );
               }
 
