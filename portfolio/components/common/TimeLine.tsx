@@ -17,8 +17,10 @@ const TimeLine = () => {
   const textRef = useRef(null);
 
   // States for the current path step
-  const [pathText, setPathText] = useState<string>("");
-  const [subtitleText, setSubtitleText] = useState<string>("");
+  const [pathText, setPathText] = useState<string>(TimeLineInfo[0].content);
+  const [subtitleText, setSubtitleText] = useState<string>(
+    TimeLineInfo[0].subtitle
+  );
   const [current, setCurrent] = useState(0);
 
   // Animation of the text
@@ -30,22 +32,15 @@ const TimeLine = () => {
       // Set the current text
       setCurrent(order);
 
-      // If the current text is not the first one, then animate the text to go away before the new one is set
-      if (current != -1) {
-        textTL.to(textRef.current, {
-          autoAlpha: 0,
-          y: -10,
-          onComplete: () => {
-            // Format the text
-            setSubtitleText(newPathSubtitle);
-            setPathText(newPathText);
-          },
-        });
-      } else {
-        // Format the text
-        setSubtitleText(newPathSubtitle);
-        setPathText(newPathText);
-      }
+      textTL.to(textRef.current, {
+        autoAlpha: 0,
+        y: -10,
+        onComplete: () => {
+          // Format the text
+          setSubtitleText(newPathSubtitle);
+          setPathText(newPathText);
+        },
+      });
 
       textTL.to(textRef.current, {
         autoAlpha: 1,
@@ -59,7 +54,7 @@ const TimeLine = () => {
     <div className="w-full h-[100vh] mb-20 relative flex flex-row md:justify-center md:items-center md:flex-col md:h-[30rem] md:my-0">
       <div
         ref={textRef}
-        className="w-[54%] my-auto mr-2 ml-auto py-5 pr-5 pl-1 relative flex flex-col justify-center items-center text-sm invisible opacity-0 whitespace-pre-line md:top-0 md:justify-center md:items-center md:mx-0 md:p-10 md:mb-24 md:mt-16 md:w-[60%] md:text-lg"
+        className="w-[54%] my-auto mr-2 ml-auto py-5 pr-5 pl-1 relative flex flex-col justify-center items-center text-sm whitespace-pre-line md:top-0 md:justify-center md:items-center md:mx-0 md:p-10 md:mb-24 md:mt-16 md:w-[60%] md:text-lg"
       >
         <div className="w-full text-left font-portfolioSubtitle text-accent text-lg font-bold mb-3 md:text-xl">
           {subtitleText}
