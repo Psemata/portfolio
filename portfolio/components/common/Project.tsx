@@ -26,7 +26,7 @@ const Project = ({
   const projectModal = UseProjectModal();
 
   return (
-    <div className="w-full flex flex-col gap-y-4 border-t-2 pt-3 md:flex-row md:gap-x-2">
+    <div className="w-full flex flex-col gap-y-4 border-t-2 border-primary pt-3 md:flex-row md:gap-x-2">
       {/* Icon */}
       <div className={cn("md:w-1/3 md:h-auto", !icon && "hidden")}>
         {/* Is the icon a video, or an image */}
@@ -46,7 +46,7 @@ const Project = ({
               src={icon}
               width={500}
               height={500}
-              alt="Picture of the author"
+              alt="Picture of the project"
             />
           </div>
         )}
@@ -61,7 +61,7 @@ const Project = ({
               <Badge
                 key={i}
                 variant="secondary"
-                className="min-h-fit flex-shrink-0 mb-1"
+                className="min-h-fit flex-shrink-0 mb-1 text-primary"
               >
                 {tag}
               </Badge>
@@ -87,7 +87,7 @@ const Project = ({
                 link
               })
             }
-            className="w-14 h-14 p-3 cursor-pointer hover:bg-secondary hover:shadow-inner"
+            className="w-14 h-14 p-3 cursor-pointer hover:bg-primary hover:text-background hover:shadow-inner"
           />
         </div>
       </div>

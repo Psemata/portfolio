@@ -30,7 +30,7 @@ const PresentationText = () => {
         position={positionFirst}
         scale={scale}
         anchorX="left"
-        color="#F2F2F1"
+        color="#CB8025"
         font={font}
       >
         Hi ! My name is {viewport.width < 3 ? "\n" : ""}Bruno Alexandre Da Cruz

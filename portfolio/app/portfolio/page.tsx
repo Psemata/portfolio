@@ -78,13 +78,9 @@ const Page = () => {
         </section>
 
         {/* My path */}
-        <section
-          id="path"
-          // className="min-h-screen bg-gradient-to-b from-[#C0AE8F] to-background md:h-[45rem] md:min-h-max"
-          className="min-h-screen md:h-[45rem] md:min-h-max"
-        >
+        <section id="path" className="min-h-screen md:h-[45rem] md:min-h-max">
           <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle md:text-5xl">
-            <Route className="w-14 h-14 pb-2 mb-20 border-b-4 rounded-b-sm md:mb-10" />
+            <Route className="w-14 h-14 pb-2 mb-20 border-b-4 rounded-b-sm border-secondary text-primary md:mb-10" />
           </div>
           <TimeLine></TimeLine>
         </section>
@@ -92,7 +88,7 @@ const Page = () => {
         {/* My passions */}
         <section id="passions" className="min-h-screen mb-28">
           <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle md:text-5xl">
-            <Flame className="w-14 h-14 my-40 pb-2 border-b-4 rounded-b-sm" />
+            <Flame className="w-14 h-14 my-40 pb-2 border-b-4 rounded-b-sm border-secondary text-primary" />
           </div>
           <PassionList />
         </section>
@@ -100,13 +96,13 @@ const Page = () => {
         {/* My projects */}
         <section id="projects" className="min-h-screen">
           <div className="flex justify-center items-center text-xl font-medium font-portfolioTitle md:text-5xl">
-            <Archive className="w-14 h-14 mt-20 mb-40 pb-2 border-b-4 rounded-b-sm" />
+            <Archive className="w-14 h-14 mt-20 mb-40 pb-2 border-b-4 rounded-b-sm border-secondary text-primary" />
           </div>
           <ProjectList />
         </section>
 
         {/* My contacts */}
-        <section id="contacts" className="h-72 bg-accent">
+        <section id="contacts" className="h-72 bg-secondary">
           <Contact />
         </section>
       </main>

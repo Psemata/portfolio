@@ -66,13 +66,6 @@ const ProjectModal = ({ initProject }: ProjectModalProps) => {
                         title="Embedded Video"
                       />
                     ) : (
-                      // <Image
-                      //   src={carou}
-                      //   width={1000}
-                      //   height={1000}
-                      //   alt={initProject?.title}
-                      //   className="aspect-auto"
-                      // />
                       <img src={carou}></img>
                     )}
                   </CarouselItem>
@@ -119,11 +112,7 @@ const ProjectModal = ({ initProject }: ProjectModalProps) => {
 
         <DialogFooter className="w-full flex flex-row justify-center items-center sm:justify-center">
           {project?.link && (
-            <Link
-              className="mt-5"
-              target="_blank"
-              href={project?.link!}
-            >
+            <Link className="mt-5" target="_blank" href={project?.link!}>
               <ExternalLink className="hover:text-accent" />
             </Link>
           )}

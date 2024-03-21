@@ -102,17 +102,17 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #ECC78F;
+  background: #F5F1EB;
   border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #CB8025;
+  background: #14100A;
   border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #584A2C;
+  background: #ECC68E;
 }

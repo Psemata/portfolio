@@ -17,8 +17,8 @@ const Contact = () => {
         <div>
           <Link
             className={cn(
-              "md:h-20 md:text-lg shadow-lg ",
-              buttonVariants({ variant: "default" })
+              "shadow-lg border-none md:h-20 md:text-lg",
+              buttonVariants({ variant: "outline" })
             )}
             href="mailto:bruno@dacruzcosta.ch"
           >
@@ -26,15 +26,15 @@ const Contact = () => {
           </Link>
         </div>
         <div className="relative flex flex-col justify-center items-center w-16 h-4 text-center text-xl font-bold">
-          <span className="z-50 bg-accent p-2">or</span>
+          <span className="z-50 bg-secondary p-2">or</span>
           <div className="absolute top-1/2 left-0 w-full h-0.5 bg-foreground z-0"></div>
         </div>
         <div className="flex flex-row gap-4">
           <Link href="https://github.com/Psemata">
-            <Github className="md:h-10 md:w-10 hover:text-secondary" />
+            <Github className="md:h-10 md:w-10 hover:text-background" />
           </Link>
           <Link href="https://www.linkedin.com/in/bruno-alexandre-da-cruz-costa-5547672b0/">
-            <Linkedin className="md:h-10 md:w-10 hover:text-secondary" />
+            <Linkedin className="md:h-10 md:w-10 hover:text-background" />
           </Link>
         </div>
       </div>

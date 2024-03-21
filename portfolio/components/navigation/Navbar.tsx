@@ -43,7 +43,7 @@ const Navbar = () => {
           <div className="h-20 pt-4 ml-auto mr-0">
             <Sheet>
               <SheetTrigger asChild>
-                <MenuIcon className="pointer-events-auto bg-secondary hover:bg-accent hover:text-primary w-10 h-10 p-1 rounded-lg" />
+                <MenuIcon className="pointer-events-auto bg-secondary text-primary hover:bg-primary hover:text-background w-10 h-10 p-1 rounded-lg" />
               </SheetTrigger>
               <SheetContent className="flex flex-col h-full">
                 <SheetHeader className="flex items-center justify-center sm:text-center">

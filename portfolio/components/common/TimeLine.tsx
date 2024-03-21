@@ -62,7 +62,7 @@ const TimeLine = () => {
         ref={textRef}
         className="w-[54%] my-auto mr-2 ml-auto py-5 pr-5 pl-1 relative flex flex-col justify-center items-center text-sm invisible opacity-0 whitespace-pre-line md:top-0 md:justify-center md:items-center md:mx-0 md:p-10 md:mb-24 md:mt-16 md:w-[60%] md:text-lg"
       >
-        <div className="w-full text-left font-portfolioSubtitle text-lg font-bold mb-3 md:text-xl">
+        <div className="w-full text-left font-portfolioSubtitle text-accent text-lg font-bold mb-3 md:text-xl">
           {subtitleText}
         </div>
         <div className="w-full">{pathText}</div>

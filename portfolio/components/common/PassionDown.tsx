@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -21,6 +21,8 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
   const passionRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   // When passion is clicked
   const openPassion = contextSafe(() => {
@@ -48,7 +50,9 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
       flexDirection: "column",
       duration: 1.5,
     });
+
     timelinePassion.play();
+    setIsOpen(true);
   });
 
   useEffect(() => {
@@ -63,10 +67,12 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
 
       // Check if the current scroll position is within the range of the component (with threshold)
       if (scrollY >= componentTop && scrollY <= componentBottom) {
-        openPassion();
+        if (!isOpen) {
+          openPassion();
+        }
       }
     }
-  }, [scrollY, openPassion]);
+  }, [scrollY, openPassion, isOpen]);
 
   return (
     <div
@@ -76,7 +82,7 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
       {/* Content */}
       <div
         ref={passionRef}
-        className="w-[20.8rem] h-52 p-0.5 flex flex-col justify-center items-center rounded-2xl bg-secondary border-4 border-secondary shadow-inner"
+        className="w-[20.8rem] h-52 p-0.5 flex flex-col justify-center items-center rounded-2xl bg-background border-4 border-primary"
       >
         <div
           ref={imageRef}
@@ -94,10 +100,10 @@ const PassionDown = ({ side, image, title, content }: PassionProp) => {
           ref={contentRef}
           className="invisible hidden justify-start text-left m-3"
         >
-          <div className="text-lg font-portfolioSubtitle font-bold">
+          <div className="font-portfolioSubtitle font-semibold text-lg text-accent">
             {title}
           </div>
-          <div className="font-portfolioText font-semibold">
+          <div className="font-portfolioText font-semibold text-base text-primary">
             {content}
           </div>
         </div>

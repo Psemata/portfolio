@@ -101,7 +101,7 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
       {/* Content */}
       <div
         ref={passionRef}
-        className="w-80 h-[19rem] p-0.5 flex flex-row justify-center items-center rounded-2xl bg-secondary border-4 border-secondary shadow-inner"
+        className="w-80 h-[19rem] p-0.5 flex flex-row justify-center items-center rounded-2xl bg-background border-4 border-primary"
       >
         {!side ? (
           <>
@@ -121,10 +121,10 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={contentRef}
               className="invisible hidden justify-start text-left ml-8 mr-3"
             >
-              <div className="text-lg font-bold font-portfolioSubtitle">
+              <div className="font-portfolioSubtitle font-semibold text-lg text-accent">
                 {title}
               </div>
-              <div className="font-portfolioText text-base font-semibold">
+              <div className="font-portfolioText font-semibold text-base text-primary">
                 {content}
               </div>
             </div>
@@ -135,10 +135,10 @@ const Passion = ({ side, image, title, content }: PassionProp) => {
               ref={contentRef}
               className="invisible hidden justify-end text-right mr-8 ml-3"
             >
-              <div className="text-lg font-bold font-portfolioSubtitle">
+              <div className="font-portfolioSubtitle font-semibold text-lg text-accent">
                 {title}
               </div>
-              <div className="font-portfolioText text-base font-semibold">
+              <div className="font-portfolioText font-semibold text-base text-primary">
                 {content}
               </div>
             </div>
