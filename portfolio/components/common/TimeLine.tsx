@@ -19,8 +19,7 @@ const TimeLine = () => {
   // States for the current path step
   const [pathText, setPathText] = useState<string>("");
   const [subtitleText, setSubtitleText] = useState<string>("");
-  const [current, setCurrent] = useState(-1);
-  // const [topPositionClass, setTopPositionClass] = useState<string>("top-[-9%]");
+  const [current, setCurrent] = useState(0);
 
   // Animation of the text
   const changePathText = contextSafe(

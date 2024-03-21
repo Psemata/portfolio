@@ -174,16 +174,16 @@ export const ProjectListInfo = [
   },
   // Bio Sensation
   {
-    icon: "/images/projects/BioSensation/BioSensation1.png",
+    icon: "/images/projects/BioSensation/BioSensation1.PNG",
     title: "Bio Sensation",
     tags: ["HTML", "PhP", "CSS", "Javascript", "Spotify"],
     description:
       "'Bio Sensation' is a web app built with HTML, PHP, and CSS, utilizing the Spotify Web API. It provides users with personalized playlists based on their current location, ensuring an immersive musical experience tailored to the ambiance, whether at the beach, in town, or elsewhere.",
     carousel: [
-      "/images/projects/BioSensation/BioSensation1.png",
-      "/images/projects/BioSensation/BioSensation2.png",
-      "/images/projects/BioSensation/BioSensation3.png",
-      "/images/projects/BioSensation/BioSensation4.png",
+      "/images/projects/BioSensation/BioSensation1.PNG",
+      "/images/projects/BioSensation/BioSensation2.PNG",
+      "/images/projects/BioSensation/BioSensation3.PNG",
+      "/images/projects/BioSensation/BioSensation4.PNG",
       "/images/projects/BioSensation/BioSensation5.png",
       "/images/projects/BioSensation/BioSensation6.png",
       "/images/projects/BioSensation/BioSensation7.png",
@@ -243,12 +243,12 @@ export const ProjectListInfo = [
   },
   // Jeu de Dame X
   {
-    icon: "/images/projects/JeuDeDameX/JeuDeDameX.png",
+    icon: "/images/projects/JeuDeDameX/JeudeDameX.png",
     title: "Jeu de Dame X",
     tags: [".NET", "C#", "WPF", "Game"],
     description:
       "'Jeu de Dame X' reinvents checkers with strategic twists. Capturing opponent pawns fills a power gauge, unlocking special abilities:\n- At 15%: Make two moves in one turn.\n- At 50%: Transform a pawn into a super pawn for one turn.\n- At 100%: Remove an opponent's pawn freely from the board.",
-    carousel: ["/images/projects/JeuDeDameX/JeuDeDameX.png"],
+    carousel: ["/images/projects/JeuDeDameX/JeudeDameX.png"],
     content: [
       "'Jeu de Dame X' is a unique take on the classic game of checkers, introducing special interactions that add a strategic twist. Each time a pawn is captured from your side, your 'power' gauge gradually fills up. Upon reaching certain thresholds, you gain access to special powers that can tip the balance of the game in your favor. These powers, along with their required percentages, include:\n\n- 15%: Grants the ability to make two moves in a single turn.\n\n- 50%: Allows the transformation of a regular pawn into a super pawn for one turn.\n\n- 100%: Enables the player to freely remove an opponent's pawn from the board.",
       "Specifics",
