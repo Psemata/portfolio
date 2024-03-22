@@ -2,14 +2,14 @@
 
 import { useRouter } from "next/navigation";
 
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 import { Mutex } from "async-mutex";
 
 // Used to check if the element are placed correctly
-import { OrbitControls } from "@react-three/drei";
+import { Html, OrbitControls, useProgress } from "@react-three/drei";
 
 // Custom types
 import { CardType } from "@/config/cardconfig";
@@ -18,9 +18,23 @@ import { BoardAnimationHandle, Cell, Maze } from "@/types/board";
 // Custom component - 3D Meshes
 import Board from "@/components/game/3d/Board";
 import Hand from "@/components/game/3d/Hand";
+import { Progress } from "@/components/ui/progress";
+
+function LoadingIndicator() {
+  const { progress } = useProgress();
+  return (
+    <Html
+      className="flex flex-col items-center justify-center px-40 w-[100vw] h-[100vh] bg-secondary gap-y-5"
+      center
+    >
+      <div className="font-portfolioMedieval text-2xl">Loading</div>
+      <div className="font-portfolioSubtitle text-lg">{progress.toFixed(2)} %</div>
+      <Progress value={progress} />
+    </Html>
+  );
+}
 
 // This component is used as the Game Controller of the app => all the game logic will depart from here
-
 const Scene = () => {
   // Router
   const router = useRouter();
@@ -538,38 +552,40 @@ const Page = () => {
         camera={{ fov: 45, near: 0.1, far: 1000, position: [0, 4.8, 3.3] }}
         shadows={true}
       >
-        {/* Lights */}
-        <ambientLight intensity={0.3} color={0xa3a3a3}></ambientLight>
-        <directionalLight
-          intensity={0.8}
-          color={0xffffff}
-          position={[0, 10, 0]}
-          castShadow
-          shadow-mapSize={[1024, 1024]}
-        />
-        <pointLight
-          position={[-4.5, 2, 0]}
-          intensity={9}
-          color={"#c56f28"}
-        ></pointLight>
-        <pointLight
-          position={[4.5, 2, 0]}
-          intensity={9}
-          color={"#c56f28"}
-        ></pointLight>
-        <pointLight
-          position={[0, 2, -3]}
-          intensity={9}
-          color={"#c56f28"}
-        ></pointLight>
-        <pointLight
-          position={[0, 2, 4]}
-          intensity={9}
-          color={"#c56f28"}
-        ></pointLight>
+        <Suspense fallback={<LoadingIndicator />}>
+          {/* Lights */}
+          <ambientLight intensity={0.3} color={0xa3a3a3}></ambientLight>
+          <directionalLight
+            intensity={0.8}
+            color={0xffffff}
+            position={[0, 10, 0]}
+            castShadow
+            shadow-mapSize={[1024, 1024]}
+          />
+          <pointLight
+            position={[-4.5, 2, 0]}
+            intensity={9}
+            color={"#c56f28"}
+          ></pointLight>
+          <pointLight
+            position={[4.5, 2, 0]}
+            intensity={9}
+            color={"#c56f28"}
+          ></pointLight>
+          <pointLight
+            position={[0, 2, -3]}
+            intensity={9}
+            color={"#c56f28"}
+          ></pointLight>
+          <pointLight
+            position={[0, 2, 4]}
+            intensity={9}
+            color={"#c56f28"}
+          ></pointLight>
 
-        {/* Scene and the game */}
-        <Scene />
+          {/* Scene and the game */}
+          <Scene />
+        </Suspense>
       </Canvas>
     </div>
   );
