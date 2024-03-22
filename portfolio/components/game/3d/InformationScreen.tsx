@@ -64,6 +64,9 @@ const InformationScreen = ({ text, closeText }: InformationTextProp) => {
     }
   };
 
+  // Font
+  const font = "/fonts/MedievalSharp/MedievalSharp-Regular.ttf";
+
   return (
     <mesh
       ref={informationRef}
@@ -75,7 +78,7 @@ const InformationScreen = ({ text, closeText }: InformationTextProp) => {
     >
       <boxGeometry args={[10, 10, 0.001]} />
       <meshStandardMaterial color={0x000000} transparent={true} opacity={0} />
-      <Text scale={0.018} position={[0, 0, 0.005]} anchorX="center">
+      <Text scale={0.023} position={[0, 0, 0.005]} font={font} anchorX="center">
         {text}
       </Text>
       {isNaN(+text) && (
@@ -84,6 +87,7 @@ const InformationScreen = ({ text, closeText }: InformationTextProp) => {
             scale={0.03}
             position={[0, -0.1, 0.001]}
             rotation={[0, 0, -1.58]}
+            font={font}
           >
             {">"}
           </Text>

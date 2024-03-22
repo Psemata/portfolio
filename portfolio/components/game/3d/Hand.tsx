@@ -204,20 +204,21 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
   return (
     <mesh scale={scale}>
       {shuffle > 0 && (
-        <Html className="w-[45vw] h-[45vh] pointer-events-none">
-          <div ref={buttonRef} className="relative top-[75%] right-[75%]">
+        <Html className="w-[100vw] h-[100vh] fixed inset-0 flex justify-center items-center pointer-events-none">
+          <div ref={buttonRef} className="absolute -top-[48.5%] -left-[48.5%]">
             <Button
               className={cn(
                 "gap-x-3 pointer-events-auto",
                 buttonVariants({
                   variant: "secondary",
-                  className: "w-32 h-32 font-portfolioTitle text-5xl",
+                  className:
+                    "w-24 h-11 font-portfolioMedieval text-primary text-3xl",
                 })
               )}
               onClick={manualShuffle}
             >
               {shuffle}
-              <Shuffle className="h-12 w-12" />
+              <Shuffle className="h-8 w-8" />
             </Button>
           </div>
         </Html>

@@ -57,6 +57,7 @@ const config = {
         portfolioTitle: ["Kanit"],
         portfolioSubtitle: ["Overpass"],
         portfolioText: ["Palanquin"],
+        portfolioMedieval: ["MedievalSharp"],
       },
       borderRadius: {
         lg: "var(--radius)",

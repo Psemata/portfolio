@@ -5,6 +5,10 @@ import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Mesh } from "three";
 import { Text } from "@react-three/drei";
+import Player from "@/components/game/3d/Player";
+import Torch from "@/components/game/3d/Torch";
+import Chest from "@/components/game/3d/Chest";
+import Enemy from "@/components/game/3d/Enemy";
 
 const PresentationText = () => {
   const { viewport } = useThree();
@@ -72,34 +76,41 @@ const CardPhoto = () => {
     <>
       {/* Myself in a card */}
       <mesh ref={photoCard} position={[cardPositioningX, 1.2, 0]}>
+        <Torch
+          position={[-1.4, 0, -0.1]}
+          rotation={[0, -1.6, 0]}
+          scale={0.045}
+        />
+        <pointLight
+          position={[-1.5, 1.3, -0.1]}
+          intensity={1}
+          color={"#c56f28"}
+        ></pointLight>
         <boxGeometry args={[2.4, 4, 0.001]} />
         <meshStandardMaterial color={"tan"} />
       </mesh>
 
       {/* All the elements from the board game, decorating the exterior of the card */}
       {/* Player */}
-      <mesh position={[playerPositioningX, -0.6, 0.5]} rotation={[0, 0.5, 0]}>
-        <boxGeometry args={[0.5, 0.5, 0.5]} />
-        <meshStandardMaterial color={"white"} />
-      </mesh>
+      <Player
+        position={[playerPositioningX, -0.6, 0.5]}
+        rotation={[0, 0.5, 0]}
+        scale={0.2}
+      />
 
       {/* Treasure */}
-      <mesh position={[treasurePositioningX, -0.6, 0.5]}>
-        <sphereGeometry args={[0.25, 16, 16]} />
-        <meshStandardMaterial color={"white"} />
-      </mesh>
+      <Chest
+        position={[treasurePositioningX, -0.6, 1]}
+        rotation={[0, -0.3, 0]}
+        scale={0.4}
+      />
 
       {/* Ennemy */}
-      <mesh position={[ennemyPositioningX, -0.5, 0.3]}>
-        <coneGeometry args={[0.2, 0.5, 16]} />
-        <meshStandardMaterial color={"white"} />
-      </mesh>
-
-      {/* Ground for shadows and into a shading */}
-      {/* <mesh position={[0, -1, 0]}>
-        <boxGeometry args={[100, 0.0001, 100]} />
-        <meshStandardMaterial color={0xbca380} />
-      </mesh> */}
+      <Enemy
+        position={[ennemyPositioningX, -0.93, 0.1]}
+        rotation={[0, 0, 0]}
+        scale={15}
+      />
     </>
   );
 };

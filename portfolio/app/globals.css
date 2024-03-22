@@ -20,6 +20,12 @@
   src: url("../public/fonts/Palanquin/Palanquin-Light.ttf") format("truetype");
 }
 
+/* Medieval Sharp */
+@font-face {
+  font-family: "MedievalSharp";
+  src: url("../public/fonts/MedievalSharp/MedievalSharp-Regular.ttf") format("truetype");
+}
+
 @layer base {
   :root {
     --background: 36 33% 94%;

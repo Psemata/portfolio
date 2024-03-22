@@ -11,6 +11,7 @@ import {
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -55,17 +56,21 @@ const Navbar = () => {
                     <span>Julius Caesar</span>
                   </SheetDescription>
                 </SheetHeader>
+
                 <div className="flex flex-col flex-grow gap-2 py-4 sm:text-lg">
                   {PORTFOLIO_NAV.map((navigation) => (
-                    <NavigationLink
-                      href={navigation.href}
-                      label={navigation.label}
-                      face={navigation.face}
-                      diceIcon={dicesList[navigation.face]}
-                      key={navigation.face}
-                    />
+                    <SheetClose asChild>
+                      <NavigationLink
+                        href={navigation.href}
+                        label={navigation.label}
+                        face={navigation.face}
+                        diceIcon={dicesList[navigation.face]}
+                        key={navigation.face}
+                      />
+                    </SheetClose>
                   ))}
                 </div>
+
                 <SheetFooter className="flex flex-col sm:flex-col items-center justify-center text-center text-sm animate-pulse">
                   <div>Designed & built by</div>
                   <Link
@@ -75,10 +80,7 @@ const Navbar = () => {
                     Bruno Alexandre Da Cruz Costa
                   </Link>
                   <div>3D from</div>
-                  <Link
-                    href="https://sketchfab.com/"
-                    className="hover:underline"
-                  >
+                  <Link href="/sketchfab" className="hover:underline">
                     Sketchfab
                   </Link>
                 </SheetFooter>

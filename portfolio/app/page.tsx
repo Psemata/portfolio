@@ -550,6 +550,26 @@ const Page = () => {
           castShadow
           shadow-mapSize={[1024, 1024]}
         />
+        <pointLight
+          position={[-4.5, 2, 0]}
+          intensity={9}
+          color={"#c56f28"}
+        ></pointLight>
+        <pointLight
+          position={[4.5, 2, 0]}
+          intensity={9}
+          color={"#c56f28"}
+        ></pointLight>
+        <pointLight
+          position={[0, 2, -3]}
+          intensity={9}
+          color={"#c56f28"}
+        ></pointLight>
+        <pointLight
+          position={[0, 2, 4]}
+          intensity={9}
+          color={"#c56f28"}
+        ></pointLight>
 
         {/* Scene and the game */}
         <Scene />

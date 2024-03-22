@@ -21,6 +21,14 @@ import Table from "./Table";
 import GameBoard from "./GameBoard";
 import Player from "./Player";
 import Enemy from "./Enemy";
+import Chest from "./Chest";
+import Exit from "./Exit";
+import Torch from "./Torch";
+import Bread from "./Bread";
+import Coins from "./Coins";
+import Mug from "./Mug";
+import Parchment from "./Parchment";
+import WallH from "./WallH";
 
 const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
   (props, ref) => {
@@ -641,6 +649,137 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
             rotation={[1.57, 0, 0]}
             scale={3}
           />
+
+          {/* Bread */}
+          <Bread
+            position={[-4.9, 1.8, -2.6]}
+            rotation={[0, 0, 0]}
+            scale={0.3}
+          />
+
+          {/* Coins */}
+          <Coins
+            position={[4, 0.8, -1.5]}
+            rotation={[0, 3.2, 0]}
+            scale={0.01}
+          />
+
+          {/* Mug */}
+          <Mug
+            position={[-1.5, 0.8, -3.5]}
+            rotation={[0, 1.6, 0]}
+            scale={0.65}
+          />
+
+          {/* Parchment */}
+          <Parchment position={[5, 1, 1.4]} rotation={[0, 2.6, 0]} scale={6} />
+          <Parchment
+            position={[4.8, 1, 1.6]}
+            rotation={[0, 2.6, 0]}
+            scale={6}
+          />
+
+          {/* Torches & Light */}
+          {/* Top side */}
+          <Torch
+            position={[-1.5, 1, -1.25]}
+            rotation={[0, 0, 0]}
+            scale={0.009}
+          />
+          <pointLight
+            position={[-1.5, 1.3, -1.25]}
+            intensity={0.11}
+            color={"#c56f28"}
+          ></pointLight>
+          <Torch
+            position={[-0.5, 1, -1.25]}
+            rotation={[0, 0, 0]}
+            scale={0.009}
+          />
+          <pointLight
+            position={[-0.5, 1.3, -1.25]}
+            intensity={0.11}
+            color={"#c56f28"}
+          ></pointLight>
+          <Torch
+            position={[0.5, 1, -1.25]}
+            rotation={[0, 0, 0]}
+            scale={0.009}
+          />
+          <pointLight
+            position={[0.5, 1.3, -1.25]}
+            intensity={0.11}
+            color={"#c56f28"}
+          ></pointLight>
+          <Torch
+            position={[1.5, 1, -1.25]}
+            rotation={[0, 0, 0]}
+            scale={0.009}
+          />
+          <pointLight
+            position={[1.5, 1.3, -1.25]}
+            intensity={0.11}
+            color={"#c56f28"}
+          ></pointLight>
+
+          {/* Bottom side */}
+          <Torch
+            position={[-1.5, 1, 1.25]}
+            rotation={[0, 3.2, 0]}
+            scale={0.009}
+          />
+          <pointLight
+            position={[-1.5, 1.3, 1.25]}
+            intensity={0.11}
+            color={"#c56f28"}
+          ></pointLight>
+          <Torch
+            position={[-0.5, 1, 1.25]}
+            rotation={[0, 3.2, 0]}
+            scale={0.009}
+          />
+          <pointLight
+            position={[-0.5, 1.3, 1.25]}
+            intensity={0.11}
+            color={"#c56f28"}
+          ></pointLight>
+          <Torch
+            position={[0.5, 1, 1.25]}
+            rotation={[0, 3.2, 0]}
+            scale={0.009}
+          />
+          <pointLight
+            position={[0.5, 1.3, 1.25]}
+            intensity={0.11}
+            color={"#c56f28"}
+          ></pointLight>
+          <Torch
+            position={[1.5, 1, 1.25]}
+            rotation={[0, 3.2, 0]}
+            scale={0.009}
+          />
+          <pointLight
+            position={[1.5, 1.3, 1.25]}
+            intensity={0.11}
+            color={"#c56f28"}
+          ></pointLight>
+
+          {/* Left */}
+          <Torch position={[2, 1, 0]} rotation={[0, -1.6, 0]} scale={0.009} />
+          <pointLight
+            position={[2, 1.3, 0]}
+            intensity={0.11}
+            color={"#c56f28"}
+          ></pointLight>
+
+          {/* Right */}
+          <Torch position={[-2, 1, 0]} rotation={[0, 1.6, 0]} scale={0.009} />
+          <pointLight
+            position={[-2, 1.3, 0]}
+            intensity={0.11}
+            color={"#c56f28"}
+          ></pointLight>
+
           {/* Maze */}
           {props.maze.paths.map((row, rowIndex) =>
             row.map((cell, cellIndex) => {
@@ -729,25 +868,23 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
               // Maze exit
               if (cell.exit) {
                 cells.push(
-                  <mesh
+                  <Exit
                     key={`exit`}
-                    position={[CELL_X_POS, CELL_Z_POS, CELL_Y_POS]}
-                  >
-                    <boxGeometry args={[0.2, 0.1, 0.2]} />
-                    <meshStandardMaterial color={"white"} />
-                  </mesh>
+                    position={[CELL_X_POS - 0.185, CELL_Z_POS, CELL_Y_POS]}
+                    rotation={[-0.1, 0.7, 0.1]}
+                    scale={0.25}
+                  />
                 );
               }
               // Treasures
               if (cell.treasure) {
                 cells.push(
-                  <mesh
+                  <Chest
                     key={`treasure-${cell.x}-${cell.y}`}
                     position={[CELL_X_POS, CELL_Z_POS, CELL_Y_POS]}
-                  >
-                    <sphereGeometry args={[0.1, 16, 16]} />
-                    <meshStandardMaterial color={"white"} />
-                  </mesh>
+                    rotation={[0, 0, 0]}
+                    scale={0.25}
+                  />
                 );
               }
               // Ennemies
@@ -755,7 +892,7 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 cells.push(
                   <Enemy
                     key={`ennemy-${cell.x}-${cell.y}`}
-                    position={[CELL_X_POS, CELL_Z_POS, CELL_Y_POS]}
+                    position={[CELL_X_POS, CELL_Z_POS - 0.16, CELL_Y_POS]}
                     rotation={[0, 0, 0]}
                     scale={7}
                   ></Enemy>

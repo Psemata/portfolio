@@ -20,4 +20,6 @@ const Player = React.forwardRef<Mesh, MeshProp>((props, ref) => {
   );
 });
 
+Player.displayName = "Player";
+
 export default memo(Player);
