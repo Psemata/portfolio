@@ -59,13 +59,12 @@ const Navbar = () => {
 
                 <div className="flex flex-col flex-grow gap-2 py-4 sm:text-lg">
                   {PORTFOLIO_NAV.map((navigation) => (
-                    <SheetClose asChild>
+                    <SheetClose key={navigation.face} asChild>
                       <NavigationLink
                         href={navigation.href}
                         label={navigation.label}
                         face={navigation.face}
                         diceIcon={dicesList[navigation.face]}
-                        key={navigation.face}
                       />
                     </SheetClose>
                   ))}

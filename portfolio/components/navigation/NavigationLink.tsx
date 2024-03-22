@@ -11,6 +11,7 @@ const NavigationLink = ({
   label,
   face,
   diceIcon,
+  ...restProps
 }: {
   href: string;
   label: string;
@@ -38,6 +39,7 @@ const NavigationLink = ({
           "flex flex-row items-center hover:text-accent",
           pathname == href || hash == href.split("#")[1] ? "font-semibold" : ""
         )}
+        {...restProps}
       >
         {label}
         {(pathname == href || hash == href.split("#")[1]) && diceIcon}

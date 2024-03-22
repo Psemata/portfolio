@@ -2,5 +2,5 @@
 export interface MeshProp {
     position: number[];
     rotation: number[];
-    scale: number;
+    scale: number[] | number;
   }

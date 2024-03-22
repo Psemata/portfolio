@@ -29,6 +29,7 @@ import Coins from "./Coins";
 import Mug from "./Mug";
 import Parchment from "./Parchment";
 import WallH from "./WallH";
+import WallV from "./WallV";
 
 const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
   (props, ref) => {
@@ -691,33 +692,19 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
             intensity={0.11}
             color={"#c56f28"}
           ></pointLight>
-          <Torch
-            position={[-0.5, 1, -1.25]}
-            rotation={[0, 0, 0]}
-            scale={0.009}
-          />
+          <Torch position={[0, 1, -1.25]} rotation={[0, 0, 0]} scale={0.009} />
           <pointLight
-            position={[-0.5, 1.3, -1.25]}
+            position={[0, 1.3, -1.25]}
             intensity={0.11}
             color={"#c56f28"}
           ></pointLight>
           <Torch
-            position={[0.5, 1, -1.25]}
+            position={[1.7, 1, -1.25]}
             rotation={[0, 0, 0]}
             scale={0.009}
           />
           <pointLight
-            position={[0.5, 1.3, -1.25]}
-            intensity={0.11}
-            color={"#c56f28"}
-          ></pointLight>
-          <Torch
-            position={[1.5, 1, -1.25]}
-            rotation={[0, 0, 0]}
-            scale={0.009}
-          />
-          <pointLight
-            position={[1.5, 1.3, -1.25]}
+            position={[1.7, 1.3, -1.25]}
             intensity={0.11}
             color={"#c56f28"}
           ></pointLight>
@@ -733,33 +720,19 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
             intensity={0.11}
             color={"#c56f28"}
           ></pointLight>
-          <Torch
-            position={[-0.5, 1, 1.25]}
-            rotation={[0, 3.2, 0]}
-            scale={0.009}
-          />
+          <Torch position={[0, 1, 1.25]} rotation={[0, 3.2, 0]} scale={0.009} />
           <pointLight
-            position={[-0.5, 1.3, 1.25]}
+            position={[0, 1.3, 1.25]}
             intensity={0.11}
             color={"#c56f28"}
           ></pointLight>
           <Torch
-            position={[0.5, 1, 1.25]}
+            position={[1.7, 1, 1.25]}
             rotation={[0, 3.2, 0]}
             scale={0.009}
           />
           <pointLight
-            position={[0.5, 1.3, 1.25]}
-            intensity={0.11}
-            color={"#c56f28"}
-          ></pointLight>
-          <Torch
-            position={[1.5, 1, 1.25]}
-            rotation={[0, 3.2, 0]}
-            scale={0.009}
-          />
-          <pointLight
-            position={[1.5, 1.3, 1.25]}
+            position={[1.7, 1.3, 1.25]}
             intensity={0.11}
             color={"#c56f28"}
           ></pointLight>
@@ -795,73 +768,61 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
               // Top Wall
               if (cell.top) {
                 cells.push(
-                  <mesh
+                  <WallH
                     key={`topWall-${cell.x}-${cell.y}`}
                     position={[
                       CELL_X_POS,
                       CELL_Z_POS,
                       CELL_Y_POS - CELL_HEIGHT / 2,
                     ]}
-                  >
-                    <boxGeometry
-                      args={[CELL_WIDTH + 0.2, CELL_WALL_HEIGHT, 0.1]}
-                    />
-                    <meshStandardMaterial color={"white"} />
-                  </mesh>
+                    rotation={[0, 0, 0]}
+                    scale={[1.38, 0.9, 1]}
+                  />
                 );
               }
               // Right Wall
               if (cell.right) {
                 cells.push(
-                  <mesh
+                  <WallV
                     key={`rightWall-${cell.x}-${cell.y}`}
                     position={[
                       CELL_X_POS + CELL_WIDTH / 2,
-                      CELL_Z_POS,
+                      CELL_Z_POS - 0.0447,
                       CELL_Y_POS,
                     ]}
-                  >
-                    <boxGeometry
-                      args={[0.1, CELL_WALL_HEIGHT, CELL_HEIGHT + 0.2]}
-                    />
-                    <meshStandardMaterial color={"white"} />
-                  </mesh>
+                    rotation={[0, -1.571, 0]}
+                    scale={[1.6, 1.06186, 1.5]}
+                  />
                 );
               }
               // Bottom Wall
               if (cell.bottom) {
                 cells.push(
-                  <mesh
+                  <WallH
                     key={`bottomWall-${cell.x}-${cell.y}`}
                     position={[
                       CELL_X_POS,
                       CELL_Z_POS,
                       CELL_Y_POS + CELL_HEIGHT / 2,
                     ]}
-                  >
-                    <boxGeometry
-                      args={[CELL_WIDTH + 0.2, CELL_WALL_HEIGHT, 0.1]}
-                    />
-                    <meshStandardMaterial color={"white"} />
-                  </mesh>
+                    rotation={[0, 3.147, 0]}
+                    scale={[1.38, 0.9, 1]}
+                  />
                 );
               }
               // Left Wall
               if (cell.left) {
                 cells.push(
-                  <mesh
+                  <WallV
                     key={`leftWall-${cell.x}-${cell.y}`}
                     position={[
                       CELL_X_POS - CELL_WIDTH / 2,
-                      CELL_Z_POS,
+                      CELL_Z_POS - 0.0447,
                       CELL_Y_POS,
                     ]}
-                  >
-                    <boxGeometry
-                      args={[0.1, CELL_WALL_HEIGHT, CELL_HEIGHT + 0.2]}
-                    />
-                    <meshStandardMaterial color={"white"} />
-                  </mesh>
+                    rotation={[0, 1.571, 0]}
+                    scale={[1.6, 1.06186, 1.5]}
+                  />
                 );
               }
 
@@ -870,8 +831,8 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
                 cells.push(
                   <Exit
                     key={`exit`}
-                    position={[CELL_X_POS - 0.185, CELL_Z_POS, CELL_Y_POS]}
-                    rotation={[-0.1, 0.7, 0.1]}
+                    position={[CELL_X_POS - 0.22, CELL_Z_POS, CELL_Y_POS - 0.1]}
+                    rotation={[0, 0.7, 0]}
                     scale={0.25}
                   />
                 );

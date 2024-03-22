@@ -74,21 +74,23 @@ const Project = ({
         </div>
         {/* Button */}
         <div className="w-full h-full flex justify-center items-center mt-8 md:w-56 md:mt-0">
-          <BookOpen
-            onClick={() =>
-              projectModal.onOpen({
-                icon,
-                title,
-                tags,
-                description,
-                carousel,
-                content,
-                others,
-                link
-              })
-            }
-            className="w-14 h-14 p-3 cursor-pointer hover:bg-primary hover:text-background hover:shadow-inner"
-          />
+          <div className="w-14 h-14 flex shadow-2xl bg-foreground text-background justify-center items-center ">
+            <BookOpen
+              onClick={() =>
+                projectModal.onOpen({
+                  icon,
+                  title,
+                  tags,
+                  description,
+                  carousel,
+                  content,
+                  others,
+                  link,
+                })
+              }
+              className="w-14 h-14 p-3 cursor-pointer hover:bg-secondary"
+            />
+          </div>
         </div>
       </div>
     </div>

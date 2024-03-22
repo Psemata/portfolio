@@ -538,9 +538,6 @@ const Page = () => {
         camera={{ fov: 45, near: 0.1, far: 1000, position: [0, 4.8, 3.3] }}
         shadows={true}
       >
-        {/* Used to check if the element are placed correctly */}
-        <OrbitControls />
-
         {/* Lights */}
         <ambientLight intensity={0.3} color={0xa3a3a3}></ambientLight>
         <directionalLight
