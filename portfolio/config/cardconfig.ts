@@ -8,37 +8,26 @@ export enum CardType {
   Right,
 }
 
-// Base of the card
-export const CARD_BASE = {
-  mesh: "",
-  backTexture: "",
-};
-
 // Config of the card type
 export const CARD_CONFIG = [
   {
     cardType: CardType.Attack,
-    frontTexture: "red",
-    text: "You attack the nearest enemy.",
+    frontTexture: "/meshes/card/CardAttack.glb"
   },
   {
     cardType: CardType.Forward,
-    frontTexture: "yellow",
-    text: "You go forward of 1d4 cases",
+    frontTexture: "/meshes/card/CardMoveTop.glb"
   },
   {
     cardType: CardType.Backward,
-    frontTexture: "yellow",
-    text: "You go backward of 1d4 cases",
+    frontTexture: "/meshes/card/CardMoveBottom.glb"
   },
   {
     cardType: CardType.Left,
-    frontTexture: "yellow",
-    text: "You go left of 1d4 cases",
+    frontTexture: "/meshes/card/CardMoveLeft.glb"
   },
   {
     cardType: CardType.Right,
-    frontTexture: "yellow",
-    text: "You go right of 1d4 cases",
+    frontTexture: "/meshes/card/CardMoveRight.glb"
   },
 ];

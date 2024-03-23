@@ -8,7 +8,7 @@ import Card from "./Card";
 import { CardInfo, HandProp } from "@/types/hand";
 
 import { CardsPositions, UsePos, UseRot } from "@/config/handconst";
-import { CARD_BASE, CARD_CONFIG } from "@/config/cardconfig";
+import { CARD_CONFIG } from "@/config/cardconfig";
 import { ThreeEvent } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 
@@ -25,26 +25,19 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
     return Math.floor(Math.random() * 5);
   };
 
-  // Generate a hand and their refs
   const generateRandomHand = (): CardInfo[] => {
-    return [
-      {
-        cardBase: CARD_BASE,
-        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
-      },
-      {
-        cardBase: CARD_BASE,
-        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
-      },
-      {
-        cardBase: CARD_BASE,
-        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
-      },
-      {
-        cardBase: CARD_BASE,
-        cardConfig: CARD_CONFIG[generateRandomCardConfig()],
-      },
-    ];
+    const initialHand: CardInfo[] = [];
+
+    const indices = new Set<number>();
+    while (indices.size < 4) {
+      indices.add(generateRandomCardConfig());
+    }
+
+    indices.forEach((index) => {
+      initialHand.push({ cardConfig: CARD_CONFIG[index] });
+    });
+
+    return initialHand;
   };
 
   // How many shuffle is possible
@@ -145,8 +138,6 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
           z: UsePos[2],
         });
 
-        // TODO : Bug lors de l'utilisation de la première carte => les rotations ne sont pas bien appliquées
-
         // Move the other cards to their next base position
         let count = 0;
 
@@ -228,7 +219,6 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
           ref={(cardElem) => (cardsRefs.current[index] = cardElem!)}
           key={index}
           index={index}
-          cardBase={card.cardBase}
           cardConfig={card.cardConfig}
           position={CardsPositions[cardQuantityIndex].BasePos[index]}
           rotation={CardsPositions[cardQuantityIndex].BaseRot[index]}

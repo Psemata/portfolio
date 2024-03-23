@@ -9,6 +9,7 @@ import Player from "@/components/game/3d/Player";
 import Torch from "@/components/game/3d/Torch";
 import Chest from "@/components/game/3d/Chest";
 import Enemy from "@/components/game/3d/Enemy";
+import Portrait from "./Portrait";
 
 const PresentationText = () => {
   const { viewport } = useThree();
@@ -75,19 +76,18 @@ const CardPhoto = () => {
   return (
     <>
       {/* Myself in a card */}
-      <mesh ref={photoCard} position={[cardPositioningX, 1.2, 0]}>
+      <mesh ref={photoCard} position={[cardPositioningX, 1.3, 0]}>
         <Torch
-          position={[-1.4, 0, -0.1]}
+          position={[-1.9, 0, -0.1]}
           rotation={[0, -1.6, 0]}
           scale={0.045}
         />
         <pointLight
-          position={[-1.5, 1.3, -0.1]}
+          position={[-1.9, 1.3, -0.1]}
           intensity={1}
           color={"#c56f28"}
         ></pointLight>
-        <boxGeometry args={[2.4, 4, 0.001]} />
-        <meshStandardMaterial color={"tan"} />
+        <Portrait position={[0, 0, 0]} rotation={[0, 0, 0]} scale={0.65}></Portrait>
       </mesh>
 
       {/* All the elements from the board game, decorating the exterior of the card */}
@@ -129,7 +129,7 @@ const Presentation = () => {
       {/* Lights */}
       <ambientLight intensity={0.8} color={0xffffff} />
       <directionalLight
-        intensity={0.5}
+        intensity={2}
         color={0xffffff}
         position={[0, 5, 10]}
         castShadow

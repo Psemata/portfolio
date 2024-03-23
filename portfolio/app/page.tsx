@@ -28,7 +28,9 @@ function LoadingIndicator() {
       center
     >
       <div className="font-portfolioMedieval text-2xl">Loading</div>
-      <div className="font-portfolioSubtitle text-lg">{progress.toFixed(2)} %</div>
+      <div className="font-portfolioSubtitle text-lg">
+        {progress.toFixed(2)} %
+      </div>
       <Progress value={progress} />
     </Html>
   );
@@ -552,6 +554,8 @@ const Page = () => {
         camera={{ fov: 45, near: 0.1, far: 1000, position: [0, 4.8, 3.3] }}
         shadows={true}
       >
+        <OrbitControls />
+
         <Suspense fallback={<LoadingIndicator />}>
           {/* Lights */}
           <ambientLight intensity={0.3} color={0xa3a3a3}></ambientLight>
@@ -582,6 +586,14 @@ const Page = () => {
             intensity={9}
             color={"#c56f28"}
           ></pointLight>
+
+          <directionalLight
+            intensity={1.5}
+            color={"#c56f28"}
+            position={[0, 10, 10]}
+            castShadow
+            shadow-mapSize={[1024, 1024]}
+          />
 
           {/* Scene and the game */}
           <Scene />
