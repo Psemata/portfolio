@@ -660,7 +660,7 @@ const Board = React.forwardRef<BoardAnimationHandle, BoardProps>(
 
           {/* Coins */}
           <Coins
-            position={[4, 0.8, -1.5]}
+            position={[4, 0.9, -1.5]}
             rotation={[0, 3.2, 0]}
             scale={0.01}
           />
