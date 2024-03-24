@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-import { ThreeEvent } from "@react-three/fiber";
+import { ThreeEvent, useThree } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import { Mesh } from "three";
 
@@ -40,6 +40,8 @@ const InformationScreen = ({ text, closeText }: InformationTextProp) => {
     }
   });
 
+  const { viewport } = useThree();
+
   // Fade out animation
   const fadeOut = contextSafe(() => {
     gsap.to(informationRef.current?.material!, {
@@ -70,7 +72,6 @@ const InformationScreen = ({ text, closeText }: InformationTextProp) => {
   return (
     <mesh
       ref={informationRef}
-      scale={1}
       position={[0, 4.25, 2.85]}
       rotation={[-1, 0, 0]}
       onPointerOver={(e) => hoverInformation(e)}
@@ -78,7 +79,7 @@ const InformationScreen = ({ text, closeText }: InformationTextProp) => {
     >
       <boxGeometry args={[10, 10, 0.001]} />
       <meshStandardMaterial color={0x000000} transparent={true} opacity={0} />
-      <Text scale={0.023} position={[0, 0, 0.005]} font={font} anchorX="center">
+      <Text scale={0.023} maxWidth={viewport.width * 3} fontSize={viewport.height / 6} position={[0, 0, 0.005]} font={font} textAlign="center" anchorX="center">
         {text}
       </Text>
       {isNaN(+text) && (

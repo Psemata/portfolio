@@ -8,8 +8,10 @@ import * as THREE from "three";
 
 import { Mutex } from "async-mutex";
 
+import { Loader2 } from "lucide-react";
+
 // Used to check if the element are placed correctly
-import { Html, OrbitControls, useProgress } from "@react-three/drei";
+import { Html, useProgress } from "@react-three/drei";
 
 // Custom types
 import { CardType } from "@/config/cardconfig";
@@ -27,11 +29,19 @@ function LoadingIndicator() {
       className="flex flex-col items-center justify-center px-40 w-[100vw] h-[100vh] bg-secondary gap-y-5"
       center
     >
-      <div className="font-portfolioMedieval text-2xl">Loading</div>
-      <div className="font-portfolioSubtitle text-lg">
-        {progress.toFixed(2)} %
-      </div>
-      <Progress value={progress} />
+      {progress < 99 ? (
+        <>
+          <div className="font-portfolioMedieval text-2xl">Loading</div>
+          <div className="font-portfolioSubtitle text-lg">
+            {progress.toFixed(2)} %
+          </div>
+          <Progress value={progress} />
+        </>
+      ) : (
+        <>
+          <Loader2 className="animate-spin" />
+        </>
+      )}
     </Html>
   );
 }

@@ -10,7 +10,7 @@ const Card = React.forwardRef<Mesh, CardProp>((props, ref) => {
   const gltf = useLoader(GLTFLoader, props.cardConfig.frontTexture);
 
   return (
-    <group>
+    <group dispose={null}>
       <primitive
         ref={ref}
         object={gltf.scene.clone()}

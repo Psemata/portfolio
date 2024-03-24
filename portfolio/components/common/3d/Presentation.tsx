@@ -14,17 +14,27 @@ import Portrait from "./Portrait";
 const PresentationText = () => {
   const { viewport } = useThree();
 
-  // Function calculated to put to 0.2 at 1920, and at 0.1 with an iphone pro max
-  const scale = viewport.width * 0.012 + 0.07;
+  console.log(viewport.width);
+
   // Font of the text
   let font = "/fonts/Kanit/Kanit-Medium.ttf";
+
+  // Function calculated to put to 0.2 at 1920, and at 0.1 with an iphone pro max
+  const scale = viewport.width * 0.012 + 0.07;
+  // Function calculated to move the text along specific places
+  const textPositioningX = viewport.width * -0.0869 + 0.1388;
+
   // Positions of the text
-  let positionFirst: THREE.Vector3 = new THREE.Vector3(-1.3, 1, 1);
+  let position: THREE.Vector3 = new THREE.Vector3(textPositioningX, 1, 1);
+  // Max width of the text
+  let width = viewport.width * 1.9;
+
   // Change the font of the text to make it more visible
   if (viewport.width < 8) {
+    width = viewport.width * 3;
     font = "/fonts/Kanit/Kanit-Bold.ttf";
-    if (viewport.width < 3) {
-      positionFirst = new THREE.Vector3(-1.1, 1, 1);
+    if (viewport.width < 5) {
+      width = viewport.width * 4;
     }
   }
 
@@ -32,16 +42,16 @@ const PresentationText = () => {
     <>
       {/* Content of the scene */}
       <Text
-        position={positionFirst}
+        position={position}
         scale={scale}
-        anchorX="left"
-        color="#CB8025"
+        anchorX={"left"}
+        color={"#CB8025"}
         font={font}
+        fontSize={viewport.height / 7}
+        maxWidth={width}
       >
-        Hi ! My name is {viewport.width < 3 ? "\n" : ""}Bruno Alexandre Da Cruz
-        Costa.{"\n"}I&apos;m a game, fullstack & desktop developer{" "}
-        {viewport.width < 3 ? "\n" : ""}based{" "}
-        {viewport.width < 9 && viewport.width > 3 ? "\n" : ""}in Switzerland.
+        Hi ! My name is Bruno Alexandre Da Cruz Costa. I&apos;m a game,
+        fullstack & desktop developer based in Switzerland.
       </Text>
     </>
   );
@@ -52,9 +62,17 @@ const CardPhoto = () => {
 
   // X coordinates function for the Card and the decorations
   const cardPositioningX = viewport.width * -0.2535 - 0.2545;
-  const playerPositioningX = viewport.width * -0.3347 - 0.216;
-  const treasurePositioningX = viewport.width * -0.2231 + 0.856;
-  const ennemyPositioningX = viewport.width * -0.2231 + 1.156;
+
+  const playerPositioningX = viewport.width * -0.21722265321855 - 2.202792862684;
+  const playerPositioningY = viewport.width * -0.077579519 + 0.68471683;
+
+  const treasurePositioningX = viewport.width * -0.1784328937 + 0.1548487197;
+  const treasurePositioningY = viewport.width * -0.0698967434 + 0.5574900707;
+  
+  const ennemyPositioningX = viewport.width * -0.1939487975 + 0.7117920866;
+  const ennemyPositioningY = viewport.width * -0.0744763382 + 0.3033281606;
+
+  const portraitScale = viewport.width * 0.03491 + 0.4219;
 
   // Photo card animation
   const photoCard = useRef<Mesh>(null);
@@ -76,41 +94,51 @@ const CardPhoto = () => {
   return (
     <>
       {/* Myself in a card */}
-      <mesh ref={photoCard} position={[cardPositioningX, 1.3, 0]}>
+      <mesh
+        ref={photoCard}
+        position={[cardPositioningX, 1.3, 0]}
+        scale={portraitScale}
+      >
         <Torch
-          position={[-1.9, 0, -0.1]}
-          rotation={[0, -1.6, 0]}
+          position={[1.85, 0, -0.1]}
+          rotation={[0, 1.6, 0]}
           scale={0.045}
         />
         <pointLight
-          position={[-1.9, 1.3, -0.1]}
+          position={[1.85, 1.3, -0.1]}
           intensity={1}
           color={"#c56f28"}
         ></pointLight>
-        <Portrait position={[0, 0, 0]} rotation={[0, 0, 0]} scale={0.65}></Portrait>
+        <Portrait
+          position={[0, 0, 0]}
+          rotation={[0, 0, 0]}
+          scale={0.65}
+        ></Portrait>
       </mesh>
 
-      {/* All the elements from the board game, decorating the exterior of the card */}
-      {/* Player */}
-      <Player
-        position={[playerPositioningX, -0.6, 0.5]}
-        rotation={[0, 0.5, 0]}
-        scale={0.2}
-      />
+      <mesh scale={portraitScale}>
+        {/* All the elements from the board game, decorating the exterior of the card */}
+        {/* Player */}
+        <Player
+          position={[playerPositioningX, playerPositioningY, 0.5]}
+          rotation={[0, 0.5, 0]}
+          scale={0.2}
+        />
 
-      {/* Treasure */}
-      <Chest
-        position={[treasurePositioningX, -0.6, 1]}
-        rotation={[0, -0.3, 0]}
-        scale={0.4}
-      />
+        {/* Treasure */}
+        <Chest
+          position={[treasurePositioningX, treasurePositioningY, 1]}
+          rotation={[0, -0.3, 0]}
+          scale={0.4}
+        />
 
-      {/* Ennemy */}
-      <Enemy
-        position={[ennemyPositioningX, -0.93, 0.1]}
-        rotation={[0, 0, 0]}
-        scale={15}
-      />
+        {/* Ennemy */}
+        <Enemy
+          position={[ennemyPositioningX, ennemyPositioningY, 0.1]}
+          rotation={[0, 0, 0]}
+          scale={15}
+        />
+      </mesh>
     </>
   );
 };
