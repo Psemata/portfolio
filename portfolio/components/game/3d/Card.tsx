@@ -12,7 +12,7 @@ const Card = React.forwardRef<Mesh, CardProp>((props, ref) => {
     <group dispose={null}>
       <primitive
         ref={ref}
-        object={gltf.scene}
+        object={gltf.scene.clone()}
         position={props.position}
         rotation={props.rotation}
         scale={0.0315}

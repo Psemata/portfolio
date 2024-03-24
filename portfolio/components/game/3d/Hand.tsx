@@ -53,7 +53,7 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
   const cardQuantityIndex = hand.length - 1;
 
   // If a card has been clicked
-  const [isClicked, setIsClicked] = useState(false);
+  const isClicked = useRef<boolean>(false);
 
   // Shuffle a new hand
   const shuffleHand = () => {
@@ -64,7 +64,7 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
   // Animation when the card is hovered in by the mouse
   const HoverIn = contextSafe((index: number, e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
-    if (!isClicked) {
+    if (!isClicked.current) {
       // Move the hovered card
       gsap.to(cardsRefs.current[index]?.position!, {
         x: CardsPositions[cardQuantityIndex].HoverPos[index][0],
@@ -95,7 +95,7 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
   // Animation when the card is hovered out by the mouse
   const HoverOut = contextSafe((index: number, e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
-    if (!isClicked) {
+    if (!isClicked.current) {
       // Move the hovered card to its base position
       gsap.to(cardsRefs.current[index]?.position!, {
         x: CardsPositions[cardQuantityIndex].BasePos[index][0],
@@ -127,8 +127,8 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
   const ClickOn = contextSafe((index: number, e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     mutex.acquire().then(() => {
-      if (!isClicked) {
-        setIsClicked(true);
+      if (!isClicked.current) {
+        isClicked.current = true;
 
         let nextPos = cardQuantityIndex - 1;
 
@@ -174,7 +174,7 @@ const Hand = ({ mutex, scale, onCardUsed }: HandProp) => {
             setHand(hand.filter((_, i) => i !== index));
 
             // Allow the possibility to click again
-            setIsClicked(false);
+            isClicked.current = false;
 
             // When all the cards are used, shuffle new cards
             if (hand.length <= 1) {

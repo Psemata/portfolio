@@ -71,7 +71,7 @@ const InformationScreen = ({ text, closeText }: InformationTextProp) => {
     <mesh
       ref={informationRef}
       scale={1}
-      position={[0, 4.2, 2.8]}
+      position={[0, 4.25, 2.85]}
       rotation={[-1, 0, 0]}
       onPointerOver={(e) => hoverInformation(e)}
       onClick={(e) => clickInformation(e)}
