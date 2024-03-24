@@ -24,7 +24,7 @@ function LoadingIndicator() {
   const { progress } = useProgress();
   return (
     <Html
-      className="flex flex-col items-center justify-center px-40 w-[100vw] h-[100vh] gap-y-5"
+      className="flex flex-col items-center justify-center px-40 w-[100vw] h-[100vh] bg-secondary gap-y-5"
       center
     >
       <div className="font-portfolioMedieval text-2xl">Loading</div>
