@@ -14,8 +14,6 @@ import Portrait from "./Portrait";
 const PresentationText = () => {
   const { viewport } = useThree();
 
-  console.log(viewport.width);
-
   // Font of the text
   let font = "/fonts/Kanit/Kanit-Medium.ttf";
 

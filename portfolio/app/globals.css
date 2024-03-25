@@ -23,7 +23,8 @@
 /* Medieval Sharp */
 @font-face {
   font-family: "MedievalSharp";
-  src: url("../public/fonts/MedievalSharp/MedievalSharp-Regular.ttf") format("truetype");
+  src: url("../public/fonts/MedievalSharp/MedievalSharp-Regular.ttf")
+    format("truetype");
 }
 
 @layer base {
@@ -108,17 +109,17 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #F5F1EB;
+  background: #f5f1eb;
   border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #14100A;
+  background: #14100a;
   border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #ECC68E;
+  background: #ecc68e;
 }

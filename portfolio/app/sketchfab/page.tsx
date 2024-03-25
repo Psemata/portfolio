@@ -9,7 +9,7 @@ const NotFound = () => {
   return (
     <div className="w-full h-[100vh] flex flex-col flex-grow justify-center items-center gap-y-10 bg-background font-portfolioText">
       <h1 className="text-5xl font-portfolioTitle">Sketchfab</h1>
-      <h2 className="text-2xl font-portfolioSubtitle">
+      <h2 className="text-2xl font-portfolioSubtitle text-center">
         The 3D Models of this website have been taken from{" "}
         <Link
           href={"https://sketchfab.com"}
@@ -18,11 +18,11 @@ const NotFound = () => {
           Sketchfab
         </Link>
       </h2>
-      <div className="w-full h-[65%]">
+      <div className="w-full h-[60%]">
         <div className="text-xl font-portfolioSubtitle text-center justify-center items-center mb-10">
           These are the models used
         </div>
-        <div className="w-full h-[65%] flex flex-col gap-y-3 overflow-auto">
+        <div className="w-full h-[80%] flex flex-col gap-y-3 overflow-auto">
           {Sketchfabconst.map((skf) => (
             <Sketchfab
               key={skf.name}

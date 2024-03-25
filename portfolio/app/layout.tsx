@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Portfolio - Bruno Alexandre Da Cruz Costa",
-  description: "Le portfolio de Bruno Alexandre Da Cruz Costa",
+  description: "Bruno Alexandre Da Cruz Costa's Portfolio",
 };
 
 export default function RootLayout({

@@ -30,10 +30,13 @@ const Contact = () => {
           <div className="absolute top-1/2 left-0 w-full h-0.5 bg-foreground z-0"></div>
         </div>
         <div className="flex flex-row gap-4">
-          <Link href="https://github.com/Psemata">
+          <Link href="https://github.com/Psemata" target="_blank">
             <Github className="md:h-10 md:w-10 hover:text-background" />
           </Link>
-          <Link href="https://www.linkedin.com/in/bruno-alexandre-da-cruz-costa-5547672b0/">
+          <Link
+            href="https://www.linkedin.com/in/bruno-alexandre-da-cruz-costa-5547672b0/"
+            target="_blank"
+          >
             <Linkedin className="md:h-10 md:w-10 hover:text-background" />
           </Link>
         </div>

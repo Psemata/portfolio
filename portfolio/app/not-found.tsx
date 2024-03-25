@@ -12,7 +12,10 @@ const NotFound = () => {
       <p className="text-lg">Want to go back to exploration ?</p>
       <Link
         href="/"
-        className={cn("border-none text-lg", buttonVariants({ variant: "default" }))}
+        className={cn(
+          "border-none text-lg",
+          buttonVariants({ variant: "default" })
+        )}
       >
         Back to the game
       </Link>

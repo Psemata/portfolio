@@ -66,4 +66,10 @@ export const Sketchfabconst = [
       "This work is based on 'Wooden Table' (https://sketchfab.com/3d-models/wooden-table-acd1cef307b94803846d624b251a4e63) by shedmon (https://sketchfab.com/shedmon) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
     link: "https://sketchfab.com/3d-models/wooden-table-acd1cef307b94803846d624b251a4e63",
   },
+  {
+    name: "Board :",
+    licence:
+      "This work is based on 'Warn Notice Board' (https://sketchfab.com/3d-models/warn-notice-board-3dc81b6579e346ee8bfc73d5c287d1ec) by cjmitchell (https://sketchfab.com/cjmitchell) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    link: "https://sketchfab.com/3d-models/warn-notice-board-3dc81b6579e346ee8bfc73d5c287d1ec",
+  },
 ];

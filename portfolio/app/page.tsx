@@ -60,7 +60,6 @@ const Scene = () => {
   // Scale function for the board and the hand of cards
   const boardScale = viewport.width * 0.0801 + 0.2214;
   const handScale = viewport.width * 0.0162381597 + 0.8421650877;
-  // const handScale = 0.88;
 
   // Maze configs
   // Generate the maze of the board
